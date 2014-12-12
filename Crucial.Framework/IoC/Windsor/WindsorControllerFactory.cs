@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Castle.Windsor;
-using System.Web.Mvc;
 using Castle.MicroKernel;
-using System.Web;
 using Castle.MicroKernel.Registration;
 using System.Reflection;
 using Castle.Core;
+using System.Web.Mvc;
+using System.Web;
 using System.Web.Routing;
 
 namespace Crucial.Framework.IoC.Windsor
@@ -36,7 +36,7 @@ namespace Crucial.Framework.IoC.Windsor
                             .If(t => t.Name.EndsWith("Controller"))
                             .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                             .ConfigureIf(
-                                c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                                c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                             )
             );
         }
@@ -51,7 +51,7 @@ namespace Crucial.Framework.IoC.Windsor
                             .If(t => t.Name.EndsWith("Controller"))
                             .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                             .ConfigureIf(
-                                c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                                c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                             )
             );
 
@@ -65,7 +65,7 @@ namespace Crucial.Framework.IoC.Windsor
                          .If(t => t.Name.EndsWith("Controller"))
                          .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                          .ConfigureIf(
-                            c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                            c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                          )
                 );
             }
@@ -90,7 +90,7 @@ namespace Crucial.Framework.IoC.Windsor
                             .If(t => t.Name.EndsWith("Controller"))
                             .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                             .ConfigureIf(
-                                c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                                c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                             )
             );
         }
@@ -143,7 +143,7 @@ namespace Crucial.Framework.IoC.Windsor
             }
 
 
-            /*  The Promethean.WS.Utilities.MVC.Windsor.WindsorActionInvoker type that should be invoked (thru' IoC) has bugs and throws
+            /*  The Crucial.WS.Utilities.MVC.Windsor.WindsorActionInvoker type that should be invoked (thru' IoC) has bugs and throws
              *  errors at runtime. This section has been commented out as we are not yet using DI into action filters.
              */
 

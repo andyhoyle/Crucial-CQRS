@@ -1,12 +1,4 @@
-﻿//
-//    class CrucialContextProvider
-// -----------------------------------------------------------------------
-// <copyright file="PlanetContextProvider.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
 
 namespace Crucial.Framework.Data.EntityFramework

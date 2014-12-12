@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Crucial.Framework</RootNamespace>
     <AssemblyName>Crucial.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,16 +33,30 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.3.1.0\lib\net40-client\Castle.Core.dll</HintPath>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Facilities.WcfIntegration">
-      <HintPath>..\packages\Castle.WcfIntegrationFacility.3.1.0\lib\net40\Castle.Facilities.WcfIntegration.dll</HintPath>
+    <Reference Include="Castle.Facilities.WcfIntegration, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.WcfIntegrationFacility.3.3.0\lib\net45\Castle.Facilities.WcfIntegration.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Castle.Windsor.3.1.0\lib\net40\Castle.Windsor.dll</HintPath>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -67,7 +83,31 @@
     <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +116,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\EntityFramework\DatabaseContextProvider.cs" />
+    <Compile Include="DesignPatterns\CQRS\Commands\Command.cs" />
+    <Compile Include="DesignPatterns\CQRS\Commands\ICommand.cs" />
+    <Compile Include="DesignPatterns\CQRS\Commands\ICommandHandler.cs" />
+    <Compile Include="DesignPatterns\CQRS\Domain\AggregateRoot.cs" />
+    <Compile Include="DesignPatterns\CQRS\Domain\BaseMemento.cs" />
+    <Compile Include="DesignPatterns\CQRS\Domain\BasePoco.cs" />
+    <Compile Include="DesignPatterns\CQRS\Domain\IEventProvider.cs" />
+    <Compile Include="DesignPatterns\CQRS\Events\Event.cs" />
+    <Compile Include="DesignPatterns\CQRS\Events\IEvent.cs" />
+    <Compile Include="DesignPatterns\CQRS\Events\IEventHandler.cs" />
+    <Compile Include="DesignPatterns\CQRS\Events\IHandle.cs" />
+    <Compile Include="DesignPatterns\CQRS\Exceptions\AggregateNotFoundException.cs" />
+    <Compile Include="DesignPatterns\CQRS\Exceptions\ConcurrencyException.cs" />
+    <Compile Include="DesignPatterns\CQRS\Exceptions\UnregisteredDomainCommandException.cs" />
+    <Compile Include="DesignPatterns\CQRS\Exceptions\UnregisteredDomainEventException.cs" />
+    <Compile Include="DesignPatterns\CQRS\Messaging\CommandBus.cs" />
+    <Compile Include="DesignPatterns\CQRS\Messaging\EventBus.cs" />
+    <Compile Include="DesignPatterns\CQRS\Messaging\ICommandBus.cs" />
+    <Compile Include="DesignPatterns\CQRS\Messaging\IEventBus.cs" />
+    <Compile Include="DesignPatterns\CQRS\Storage\IEventStorage.cs" />
+    <Compile Include="DesignPatterns\CQRS\Storage\InMemoryEventStorage.cs" />
+    <Compile Include="DesignPatterns\CQRS\Storage\IOriginator.cs" />
+    <Compile Include="DesignPatterns\CQRS\Storage\IRepository.cs" />
+    <Compile Include="DesignPatterns\CQRS\Storage\Repository.cs" />
+    <Compile Include="DesignPatterns\CQRS\Utils\Converter.cs" />
+    <Compile Include="DesignPatterns\CQRS\Utils\ICommandHandlerFactory.cs" />
+    <Compile Include="DesignPatterns\CQRS\Utils\IEventHandlerFactory.cs" />
+    <Compile Include="DesignPatterns\CQRS\Utils\StructureMapCommandHandlerFactory.cs" />
+    <Compile Include="DesignPatterns\CQRS\Utils\StructureMapEventHandlerFactory.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\Mappers\Mapper.cs" />
     <Compile Include="Entities\ProviderEntityBase.cs" />
@@ -104,9 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

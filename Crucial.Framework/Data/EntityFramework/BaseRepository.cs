@@ -80,12 +80,12 @@ namespace Crucial.Framework.Data.EntityFramework
             }
             catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
             {
-                //PrometheanLogger.LogException(ex);
+                //CrucialLogger.LogException(ex);
                 throw new Exception("Update exception, see inner exception for details", ex);
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                //PrometheanLogger.LogException(ex);
+                //CrucialLogger.LogException(ex);
                 throw new Exception("EF Validation failed, see inner exception for details", ex);
             }
 
@@ -102,7 +102,7 @@ namespace Crucial.Framework.Data.EntityFramework
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                //PrometheanLogger.LogException(ex);
+                //CrucialLogger.LogException(ex);
                 throw new Exception("EF Validation failed, see inner exception for details", ex);
             }
 
@@ -119,7 +119,7 @@ namespace Crucial.Framework.Data.EntityFramework
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                //PrometheanLogger.LogException(ex);
+                //CrucialLogger.LogException(ex);
 
                 Context.Entry(entity).State = EntityState.Unchanged;
                 throw new Exception("EF Validation failed, see inner exception for details", ex);

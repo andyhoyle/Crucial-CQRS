@@ -67,7 +67,7 @@ namespace Crucial.Framework.IoC.Windsor
                 .WithService.AllInterfaces()
                 .Configure(c => c.LifeStyle.Is((LifestyleType)lifestyleType))
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                 )
             );
         }
@@ -94,7 +94,7 @@ namespace Crucial.Framework.IoC.Windsor
                 .Configure(
                     c => c.LifeStyle.Is(LifestyleType.Transient)
                 ).ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                 )
             );
         }
@@ -107,7 +107,7 @@ namespace Crucial.Framework.IoC.Windsor
                 .WithService.FromInterface()
                 .Configure(c => c.LifeStyle.Is((LifestyleType)lifestyleType))
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                 )
             );
         }
@@ -215,7 +215,7 @@ namespace Crucial.Framework.IoC.Windsor
                 .WithService.FromInterface()
                 .LifestylePerWcfOperation()
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                 )
             );
         }
@@ -227,7 +227,7 @@ namespace Crucial.Framework.IoC.Windsor
                 .WithService.AllInterfaces()
                 .LifestylePerWcfOperation()
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Promethean.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
                 )
             );
         }
