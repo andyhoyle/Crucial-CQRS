@@ -123,6 +123,26 @@
     <Compile Include="Identity\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questions\CategoryRepository.cs" />
+    <Compile Include="Questions\Entities\AspNetRole.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Entities\AspNetUser.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Entities\AspNetUserClaim.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Entities\AspNetUserLogin.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Entities\Category.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Entities\Questions.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
     <Compile Include="Questions\QuestionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +163,12 @@
       <LastGenOutput>Identity.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Questions\Entities\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="Questions\Entities\EF.Reverse.POCO.ttinclude" />
+    <None Include="Questions\Entities\Questions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Questions.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crucial.Framework\Crucial.Framework.csproj">
