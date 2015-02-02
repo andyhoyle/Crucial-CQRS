@@ -25,5 +25,11 @@ namespace Crucial.Services.Managers
             var category = _categoryMapper.ToProviderEntity(new ServiceEntities.Category { Name = name});
             return _categoryMapper.ToServiceEntity(_categoryRepo.Create(category));
         }
+
+        public IEnumerable<ServiceEntities.Category> GetUserCategories()
+        {
+            var categories = _categoryRepo.FindBy(x => x.Id > -1).ToList();
+            return categories.Select(s => _categoryMapper.ToServiceEntity(s)).ToList();
+        }
     }
 }

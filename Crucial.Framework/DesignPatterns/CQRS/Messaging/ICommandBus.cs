@@ -1,7 +1,7 @@
 ﻿using System;
-using Crucial.DesignPatterns.CQRS.Commands;
+using Crucial.Framework.DesignPatterns.CQRS.Commands;
 
-namespace Crucial.DesignPatterns.CQRS.Messaging
+namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
 {
     public interface ICommandBus
     {

@@ -1,13 +1,13 @@
-﻿using Crucial.DesignPatterns.CQRS.Commands;
+﻿using Crucial.Framework.DesignPatterns.CQRS.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crucial.Qyz
+namespace Crucial.Qyz.Commands
 {
-    internal class UserCategoryCreateCommand : Command
+    public class UserCategoryCreateCommand : Command
     {
         public string Name { get; set; }
 

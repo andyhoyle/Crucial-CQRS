@@ -20,11 +20,10 @@ namespace Crucial.Providers.Identity.Data
 {
     public partial class IdentityDbContext : DbContext, IIdentityDbContext
     {
-        public IDbSet<AspNetRole> AspNetRoles { get; set; } // AspNetRoles
         public IDbSet<AspNetUser> AspNetUsers { get; set; } // AspNetUsers
         public IDbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims
         public IDbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
-        public IDbSet<Category> Categories { get; set; } // Category
+        public IDbSet<AspNetUserRole> AspNetUserRoles { get; set; } // AspNetUserRoles
 
         static IdentityDbContext()
         {
@@ -51,21 +50,19 @@ namespace Crucial.Providers.Identity.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Configurations.Add(new AspNetRoleConfiguration());
             modelBuilder.Configurations.Add(new AspNetUserConfiguration());
             modelBuilder.Configurations.Add(new AspNetUserClaimConfiguration());
             modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration());
-            modelBuilder.Configurations.Add(new CategoryConfiguration());
+            modelBuilder.Configurations.Add(new AspNetUserRoleConfiguration());
         OnModelCreatingPartial(modelBuilder);
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
-            modelBuilder.Configurations.Add(new AspNetRoleConfiguration(schema));
             modelBuilder.Configurations.Add(new AspNetUserConfiguration(schema));
             modelBuilder.Configurations.Add(new AspNetUserClaimConfiguration(schema));
             modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration(schema));
-            modelBuilder.Configurations.Add(new CategoryConfiguration(schema));
+            modelBuilder.Configurations.Add(new AspNetUserRoleConfiguration(schema));
             return modelBuilder;
         }
 

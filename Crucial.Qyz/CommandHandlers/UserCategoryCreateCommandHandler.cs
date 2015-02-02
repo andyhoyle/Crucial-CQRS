@@ -1,5 +1,6 @@
-﻿using Crucial.DesignPatterns.CQRS.Commands;
-using Crucial.DesignPatterns.CQRS.Storage;
+﻿using Crucial.Framework.DesignPatterns.CQRS.Commands;
+using Crucial.Framework.DesignPatterns.CQRS.Storage;
+using Crucial.Qyz.Commands;
 using Crucial.Qyz.Domain;
 using System;
 using System.Collections.Generic;

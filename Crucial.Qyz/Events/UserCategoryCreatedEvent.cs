@@ -1,4 +1,4 @@
-﻿using Crucial.DesignPatterns.CQRS.Events;
+﻿using Crucial.Framework.DesignPatterns.CQRS.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Crucial.Qyz.Events
 {
-    internal class UserCategoryCreatedEvent : Event
+    [Serializable]
+    public class UserCategoryCreatedEvent : Event
     {
         public string Name { get; internal set; }
 

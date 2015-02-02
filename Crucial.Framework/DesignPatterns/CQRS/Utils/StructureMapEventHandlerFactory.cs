@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using StructureMap;
-using Crucial.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
 
-namespace Crucial.DesignPatterns.CQRS.Utils
+namespace Crucial.Framework.DesignPatterns.CQRS.Utils
 {
     public class StructureMapEventHandlerFactory : IEventHandlerFactory
     {

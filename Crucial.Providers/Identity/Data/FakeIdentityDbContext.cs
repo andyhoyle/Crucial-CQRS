@@ -20,19 +20,17 @@ namespace Crucial.Providers.Identity.Data
 {
     public class FakeIdentityDbContext : IIdentityDbContext
     {
-        public IDbSet<AspNetRole> AspNetRoles { get; set; }
         public IDbSet<AspNetUser> AspNetUsers { get; set; }
         public IDbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public IDbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public IDbSet<Category> Categories { get; set; }
+        public IDbSet<AspNetUserRole> AspNetUserRoles { get; set; }
 
         public FakeIdentityDbContext()
         {
-            AspNetRoles = new FakeDbSet<AspNetRole>();
             AspNetUsers = new FakeDbSet<AspNetUser>();
             AspNetUserClaims = new FakeDbSet<AspNetUserClaim>();
             AspNetUserLogins = new FakeDbSet<AspNetUserLogin>();
-            Categories = new FakeDbSet<Category>();
+            AspNetUserRoles = new FakeDbSet<AspNetUserRole>();
         }
 
         public int SaveChanges()

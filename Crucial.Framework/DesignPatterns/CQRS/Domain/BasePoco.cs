@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crucial.DesignPatterns.CQRS.Domain
+namespace Crucial.Framework.DesignPatterns.CQRS.Domain
 {
     public abstract class BasePoco
     {

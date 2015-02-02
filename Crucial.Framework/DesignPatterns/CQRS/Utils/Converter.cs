@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Crucial.DesignPatterns.CQRS.Utils
+namespace Crucial.Framework.DesignPatterns.CQRS.Utils
 {
     public static class Converter
     {

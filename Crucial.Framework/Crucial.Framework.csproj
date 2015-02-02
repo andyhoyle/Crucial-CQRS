@@ -175,6 +175,7 @@
     <Compile Include="Extensions\IQueryable.cs" />
     <Compile Include="Interceptors\PerformanceInterceptor.cs" />
     <Compile Include="IoC\IAutoRegister.cs" />
+    <Compile Include="IoC\StructureMap\ServiceActivator.cs" />
     <Compile Include="IoC\Windsor\Registrar.cs" />
     <Compile Include="IoC\Windsor\Resolver.cs" />
     <Compile Include="IoC\Windsor\WindsorControllerFactory.cs" />

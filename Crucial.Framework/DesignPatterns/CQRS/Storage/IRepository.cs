@@ -1,7 +1,7 @@
 ﻿using System;
-using Crucial.DesignPatterns.CQRS.Domain;
+using Crucial.Framework.DesignPatterns.CQRS.Domain;
 
-namespace Crucial.DesignPatterns.CQRS.Storage
+namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 {
     public interface IRepository<T> where T : AggregateRoot, new()
     {

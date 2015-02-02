@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Crucial.DesignPatterns.CQRS.Commands;
+using Crucial.Framework.DesignPatterns.CQRS.Commands;
 
-namespace Crucial.DesignPatterns.CQRS.Utils
+namespace Crucial.Framework.DesignPatterns.CQRS.Utils
 {
     public interface ICommandHandlerFactory
     {

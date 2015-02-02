@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Crucial.DesignPatterns.CQRS.Exceptions
+namespace Crucial.Framework.DesignPatterns.CQRS.Exceptions
 {
     public class AggregateNotFoundException : Exception
     {

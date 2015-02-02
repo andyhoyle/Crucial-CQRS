@@ -20,11 +20,10 @@ namespace Crucial.Providers.Identity.Data
 {
     public interface IIdentityDbContext : IDisposable
     {
-        IDbSet<AspNetRole> AspNetRoles { get; set; } // AspNetRoles
         IDbSet<AspNetUser> AspNetUsers { get; set; } // AspNetUsers
         IDbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims
         IDbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
-        IDbSet<Category> Categories { get; set; } // Category
+        IDbSet<AspNetUserRole> AspNetUserRoles { get; set; } // AspNetUserRoles
 
         int SaveChanges();
     }

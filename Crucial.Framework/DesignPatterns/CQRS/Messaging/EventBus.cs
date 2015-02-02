@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Crucial.DesignPatterns.CQRS.Events;
-using Crucial.DesignPatterns.CQRS.Messaging;
-using Crucial.DesignPatterns.CQRS.Utils;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Messaging;
+using Crucial.Framework.DesignPatterns.CQRS.Utils;
 
-namespace Crucial.DesignPatterns.CQRS.Messaging
+namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
 {
     public class EventBus:IEventBus
     {

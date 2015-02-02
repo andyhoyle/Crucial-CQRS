@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Crucial.Framework.IoC.StructureMap;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 
 namespace API
 {
@@ -12,6 +14,7 @@ namespace API
             config.EnableCors();
 
             // Web API configuration and services
+            config.Services.Replace(typeof(IHttpControllerActivator), new ServiceActivator(config));
 
             // Web API routes
             config.MapHttpAttributeRoutes();

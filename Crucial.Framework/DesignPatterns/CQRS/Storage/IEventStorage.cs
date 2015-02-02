@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Crucial.DesignPatterns.CQRS.Domain;
-using Crucial.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Domain;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
 
-namespace Crucial.DesignPatterns.CQRS.Storage
+namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 {
     public interface IEventStorage
     {

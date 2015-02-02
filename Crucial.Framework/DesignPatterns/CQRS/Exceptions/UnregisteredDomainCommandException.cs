@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Crucial.DesignPatterns.CQRS.Exceptions
+namespace Crucial.Framework.DesignPatterns.CQRS.Exceptions
 {
     public class UnregisteredDomainCommandException : Exception
     {

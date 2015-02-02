@@ -1,4 +1,4 @@
-﻿using Crucial.DesignPatterns.CQRS.Domain;
+﻿using Crucial.Framework.DesignPatterns.CQRS.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

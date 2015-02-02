@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Crucial.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
 
-namespace Crucial.DesignPatterns.CQRS.Domain
+namespace Crucial.Framework.DesignPatterns.CQRS.Domain
 {
     public interface IEventProvider
     {

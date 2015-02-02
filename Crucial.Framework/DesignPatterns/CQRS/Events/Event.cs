@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crucial.DesignPatterns.CQRS.Events
+namespace Crucial.Framework.DesignPatterns.CQRS.Events
 {
     [Serializable]
     public class Event : IEvent

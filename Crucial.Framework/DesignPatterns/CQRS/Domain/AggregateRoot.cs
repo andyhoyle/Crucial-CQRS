@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Crucial.DesignPatterns.CQRS.Events;
-using Crucial.DesignPatterns.CQRS.Utils;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Utils;
 
-namespace Crucial.DesignPatterns.CQRS.Domain
+namespace Crucial.Framework.DesignPatterns.CQRS.Domain
 {
-    public abstract class AggregateRoot:IEventProvider
+    public class AggregateRoot : IEventProvider
     {
         private readonly List<Event> _changes;
 

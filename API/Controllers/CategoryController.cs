@@ -7,26 +7,35 @@ using System.Web.Http;
 using API.Models;
 using System.Web.Http.Cors;
 using Crucial.Services.Managers.Interfaces;
+using Crucial.Qyz.Commands;
+using API.Mappers;
+using Crucial.Framework.DesignPatterns.CQRS.Messaging;
+//using Crucial.Qyz.Commands;
+//using Crucial.Qyz.Configuration;
 
 namespace Api.Controllers
 {
-    [EnableCors(origins: "http://localhost:8000", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://localhost:8000,http://localhost:6307", headers: "*", methods: "*")]
     public class CategoriesController : ApiController
     {
         private readonly IQuestionManager _questionManager;
         private static List<Category> _categories;
+        private CategoryToCategoryMapper _categoryMapper;
+        private ICommandBus _commandBus;
 
-        public CategoriesController(IQuestionManager questionManager)
+        public CategoriesController(IQuestionManager questionManager, ICommandBus commandBus)
         {
             _questionManager = questionManager;
-            _categories = new List<Category>();
-            _categories.Add(new Category { Id = 1, Name = "General Knowledge" });
-            _categories.Add(new Category { Id = 2, Name = "Music" });
+            _categoryMapper = new CategoryToCategoryMapper();
+            _commandBus = commandBus;
+
         }
 
         // GET: api/User
         public IEnumerable<API.Models.Category> Get()
         {
+            var categories = _questionManager.GetUserCategories();
+            _categories = categories.Select(c => _categoryMapper.ToThirdPartyEntity(c)).ToList();
             return _categories;
         }
 
@@ -39,9 +48,14 @@ namespace Api.Controllers
         // POST: api/User
         public void Post([FromBody]API.Models.Category value)
         {
-            int maxId = _categories.Max(i => i.Id);
-            value.Id = maxId + 1;
-            _categories.Add(value);
+            int maxId = 1;
+            
+            if (_categories != null && _categories.Count > 0)
+            {
+                maxId = _categories.Max(i => i.Id);
+            }
+            
+            _commandBus.Send(new UserCategoryCreateCommand(maxId + 1, value.Name));
         }
 
         // PUT: api/User/5

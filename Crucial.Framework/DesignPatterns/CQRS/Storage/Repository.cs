@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Crucial.DesignPatterns.CQRS.Domain;
-using Crucial.DesignPatterns.CQRS.Exceptions;
-using Crucial.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Domain;
+using Crucial.Framework.DesignPatterns.CQRS.Exceptions;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
 
-namespace Crucial.DesignPatterns.CQRS.Storage
+namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 {
     public class Repository<T> : IRepository<T> where T : AggregateRoot, new()
     {

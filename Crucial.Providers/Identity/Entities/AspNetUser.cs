@@ -29,15 +29,15 @@ namespace Crucial.Providers.Identity.Entities
         public string UserName { get; set; } // UserName
 
         // Reverse navigation
-        public virtual ICollection<AspNetRole> AspNetRoles { get; set; } // Many to many mapping
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims.FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; } // Many to many mapping
+        public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; } // Many to many mapping
 
         public AspNetUser()
         {
             AspNetUserClaims = new List<AspNetUserClaim>();
             AspNetUserLogins = new List<AspNetUserLogin>();
-            AspNetRoles = new List<AspNetRole>();
+            AspNetUserRoles = new List<AspNetUserRole>();
             InitializePartial();
         }
         partial void InitializePartial();

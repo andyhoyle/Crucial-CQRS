@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Crucial.DesignPatterns.CQRS.Commands;
-using Crucial.DesignPatterns.CQRS.Exceptions;
-using Crucial.DesignPatterns.CQRS.Utils;
+using Crucial.Framework.DesignPatterns.CQRS.Commands;
+using Crucial.Framework.DesignPatterns.CQRS.Exceptions;
+using Crucial.Framework.DesignPatterns.CQRS.Utils;
 
-namespace Crucial.DesignPatterns.CQRS.Messaging
+namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
 {
     public class CommandBus:ICommandBus
     {

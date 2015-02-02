@@ -1,9 +1,9 @@
-
+                
 					<paper-shadow>
 						<paper-item ng-repeat="category in categories" label="{{category.Name}}">{{category.Name}}</paper-item>
 					</paper-shadow>
-
+                    
 					<div>
-						<paper-input label="floating label" ng-model="categoryName" floatingLabel></paper-input>
-						<button  ng-click="add(categoryName)">Add</button>
+                        <paper-input label="New Category" ng-model="category.Name" floatinglabel></paper-input>
+						<button  ng-click="add()">Add</button>
 					</div>

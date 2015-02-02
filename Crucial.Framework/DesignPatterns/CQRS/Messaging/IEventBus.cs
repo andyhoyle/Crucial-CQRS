@@ -1,7 +1,7 @@
 ﻿using System;
-using Crucial.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
 
-namespace Crucial.DesignPatterns.CQRS.Messaging
+namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
 {
     public interface IEventBus
     {

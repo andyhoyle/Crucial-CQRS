@@ -11,6 +11,7 @@ namespace API
     {
         protected void Application_Start()
         {
+            Bootstrapper.BootstrapStructureMap();
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

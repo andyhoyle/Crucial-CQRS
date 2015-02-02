@@ -1,6 +1,6 @@
-﻿using Crucial.DesignPatterns.CQRS.Domain;
-using Crucial.DesignPatterns.CQRS.Events;
-using Crucial.DesignPatterns.CQRS.Storage;
+﻿using Crucial.Framework.DesignPatterns.CQRS.Domain;
+using Crucial.Framework.DesignPatterns.CQRS.Events;
+using Crucial.Framework.DesignPatterns.CQRS.Storage;
 using Crucial.Qyz.Domain.Mementos;
 using Crucial.Qyz.Events;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Crucial.Qyz.Domain
 {
-    internal class UserCategory : AggregateRoot,
+    public class UserCategory : AggregateRoot,
        IHandle<UserCategoryCreatedEvent>,
        IOriginator
     {

@@ -67,6 +67,21 @@ namespace Crucial.Framework.Entities.Mappers
         }
     }
 
+    public abstract class ServiceEntityMapper<TServiceEntity, TThirdPartyEntity>
+        where TServiceEntity : Crucial.Framework.BaseEntities.ServiceEntityBase
+        where TThirdPartyEntity : class
+    {
+        public virtual TServiceEntity ToServiceEntity(TThirdPartyEntity source)
+        {
+            return Mapper.Map<TThirdPartyEntity, TServiceEntity>(source);
+        }
+
+        public virtual TThirdPartyEntity ToThirdPartyEntity(TServiceEntity source)
+        {
+            return Mapper.Map<TServiceEntity, TThirdPartyEntity>(source);
+        }
+    }
+
     public static class MapperFactory
     {
         private static readonly IDictionary<Type, object> Mappers = new Dictionary<Type, object>();

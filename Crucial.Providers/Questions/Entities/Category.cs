@@ -18,6 +18,7 @@ namespace Crucial.Providers.Questions.Entities
         public int Id { get; set; } // Id (Primary key)
         public int UserId { get; set; } // UserId
         public string Name { get; set; } // Name
+        public int Version { get; set; } // Version
     }
 
 }

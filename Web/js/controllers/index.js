@@ -5,11 +5,12 @@
     
     .controller('indexCtrl', function($scope, Category) {
         $scope.categories = Category.query();// [{id:1,name:'Cat 1'},{id:2,name:'Cat 2'}];
-        $scope.categoryName = 'Add new category';
-        $scope.add = function(a) {
-        	Category.save({name: a});
-        	$scope.categories.push( {id: 3, name: a });
-        	$scope.categoryName = '';
+        $scope.category = {};
+
+        $scope.add = function () {
+            Category.save($scope.category);
+        	$scope.categories.push($scope.category);
+        	$scope.category = {Name: ''};
         };
     });
 

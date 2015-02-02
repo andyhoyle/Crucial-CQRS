@@ -40,10 +40,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=3.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=3.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -86,11 +102,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\Bootstraper.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mappers\CategoryMapper.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,9 +126,21 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Crucial.EventStore\Crucial.EventStore.csproj">
+      <Project>{2a116045-51b3-45d1-9a26-ccfd700be11a}</Project>
+      <Name>Crucial.EventStore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crucial.Framework\Crucial.Framework.csproj">
       <Project>{06c9c4bd-4005-495b-8cb2-1668573ad789}</Project>
       <Name>Crucial.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Crucial.Providers\Crucial.Providers.csproj">
+      <Project>{e227da17-6cc4-4798-aa30-9121f3d7ddcf}</Project>
+      <Name>Crucial.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Crucial.Qyz\Crucial.Qyz.csproj">
+      <Project>{299a9c4a-5b22-4879-826f-a912b807a57f}</Project>
+      <Name>Crucial.Qyz</Name>
     </ProjectReference>
     <ProjectReference Include="..\Crucial.Services\Crucial.Services.csproj">
       <Project>{2283199c-fe94-4a3c-b764-d2236f4625e9}</Project>
