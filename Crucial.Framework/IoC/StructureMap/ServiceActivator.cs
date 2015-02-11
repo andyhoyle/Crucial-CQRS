@@ -9,7 +9,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 
-namespace Crucial.Framework.IoC.StructureMap
+namespace Crucial.Framework.IoC.StructureMapProvider
 {
     public class ServiceActivator : IHttpControllerActivator
     {
@@ -18,7 +18,7 @@ namespace Crucial.Framework.IoC.StructureMap
         public IHttpController Create(HttpRequestMessage request
             , HttpControllerDescriptor controllerDescriptor, Type controllerType)
         {
-            var controller = ObjectFactory.GetInstance(controllerType) as IHttpController;
+            var controller = DependencyResolver.Container.GetInstance(controllerType) as IHttpController;
             return controller;
         }
     }

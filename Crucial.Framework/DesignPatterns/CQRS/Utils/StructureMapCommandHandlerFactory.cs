@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using StructureMap;
 using Crucial.Framework.DesignPatterns.CQRS.Commands;
 
 namespace Crucial.Framework.DesignPatterns.CQRS.Utils
@@ -14,7 +13,7 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Utils
             var handlers = GetHandlerTypes<T>().ToList();
 
             var cmdHandler = handlers.Select(handler =>
-                (ICommandHandler<T>)ObjectFactory.GetInstance(handler)).FirstOrDefault();
+                (ICommandHandler<T>) Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance(handler)).FirstOrDefault();
 
             return cmdHandler;
         }

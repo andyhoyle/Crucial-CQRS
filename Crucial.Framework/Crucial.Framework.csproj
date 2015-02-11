@@ -158,6 +158,7 @@
     <Compile Include="DesignPatterns\CQRS\Utils\IEventHandlerFactory.cs" />
     <Compile Include="DesignPatterns\CQRS\Utils\StructureMapCommandHandlerFactory.cs" />
     <Compile Include="DesignPatterns\CQRS\Utils\StructureMapEventHandlerFactory.cs" />
+    <Compile Include="Entities\CqrsViewModel.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\Mappers\Mapper.cs" />
     <Compile Include="Entities\ProviderEntityBase.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Extensions\IQueryable.cs" />
     <Compile Include="Interceptors\PerformanceInterceptor.cs" />
     <Compile Include="IoC\IAutoRegister.cs" />
+    <Compile Include="IoC\StructureMap\DependencyResolver.cs" />
     <Compile Include="IoC\StructureMap\ServiceActivator.cs" />
     <Compile Include="IoC\Windsor\Registrar.cs" />
     <Compile Include="IoC\Windsor\Resolver.cs" />

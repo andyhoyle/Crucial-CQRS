@@ -1,4 +1,4 @@
-﻿using Crucial.Framework.IoC.StructureMap;
+﻿using Crucial.Framework.IoC.StructureMapProvider;
 using System;
 using System.Collections.Generic;
 using System.Linq;

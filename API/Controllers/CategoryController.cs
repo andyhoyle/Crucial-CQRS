@@ -10,8 +10,6 @@ using Crucial.Services.Managers.Interfaces;
 using Crucial.Qyz.Commands;
 using API.Mappers;
 using Crucial.Framework.DesignPatterns.CQRS.Messaging;
-//using Crucial.Qyz.Commands;
-//using Crucial.Qyz.Configuration;
 
 namespace Api.Controllers
 {
@@ -19,7 +17,6 @@ namespace Api.Controllers
     public class CategoriesController : ApiController
     {
         private readonly IQuestionManager _questionManager;
-        private static List<Category> _categories;
         private CategoryToCategoryMapper _categoryMapper;
         private ICommandBus _commandBus;
 
@@ -28,31 +25,31 @@ namespace Api.Controllers
             _questionManager = questionManager;
             _categoryMapper = new CategoryToCategoryMapper();
             _commandBus = commandBus;
-
         }
 
         // GET: api/User
         public IEnumerable<API.Models.Category> Get()
         {
             var categories = _questionManager.GetUserCategories();
-            _categories = categories.Select(c => _categoryMapper.ToThirdPartyEntity(c)).ToList();
-            return _categories;
+            return categories.Select(c => _categoryMapper.ToThirdPartyEntity(c)).ToList();
         }
 
         // GET: api/User/5
         public Category Get(int id)
         {
-            return _categories.Where(i => i.Id == id).FirstOrDefault();
+            var category = _questionManager.GetUserCategory(id);
+            return _categoryMapper.ToThirdPartyEntity(category);
         }
 
         // POST: api/User
         public void Post([FromBody]API.Models.Category value)
         {
             int maxId = 1;
-            
-            if (_categories != null && _categories.Count > 0)
+            var categories = Get();
+
+            if (categories != null && categories.Count() > 0)
             {
-                maxId = _categories.Max(i => i.Id);
+                maxId = categories.Max(i => i.Id);
             }
             
             _commandBus.Send(new UserCategoryCreateCommand(maxId + 1, value.Name));
@@ -61,13 +58,13 @@ namespace Api.Controllers
         // PUT: api/User/5
         public void Put(int id, [FromBody]API.Models.Category value)
         {
-            _categories.Where(i => i.Id == id).First().Name = value.Name;
+            _commandBus.Send(new UserCategoryNameChangeCommand(value.Id, value.Name, value.Version));
         }
 
         // DELETE: api/User/5
         public void Delete(int id)
         {
-            _categories.RemoveAll(i => i.Id == id);
+            throw new NotImplementedException();
         }
     }
 }

@@ -7,5 +7,7 @@ namespace Crucial.Services.Managers.Interfaces
         Crucial.Services.ServiceEntities.Category CreateCategory(string name);
 
         IEnumerable<Crucial.Services.ServiceEntities.Category> GetUserCategories();
+
+        ServiceEntities.Category GetUserCategory(int categoryId);
     }
 }

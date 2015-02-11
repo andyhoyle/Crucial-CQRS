@@ -49,12 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\UserCategoryCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserCategoryNameChangeCommandHandler.cs" />
     <Compile Include="Commands\UserCategoryCreateCommand.cs" />
-    <Compile Include="Configuration\ServiceLocator.cs" />
+    <Compile Include="Commands\UserCategoryNameChangeCommand.cs" />
     <Compile Include="Domain\Mementos\UserCategoryMemento.cs" />
     <Compile Include="Domain\UserCategory.cs" />
     <Compile Include="EventHandlers\UserCategoryCreatedEventHandler.cs" />
+    <Compile Include="EventHandlers\UserCategoryNameChangedEventHandler.cs" />
     <Compile Include="Events\UserCategoryCreatedEvent.cs" />
+    <Compile Include="Events\UserCategoryNameChangedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

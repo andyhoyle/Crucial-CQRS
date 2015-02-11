@@ -12,6 +12,10 @@
         	$scope.categories.push($scope.category);
         	$scope.category = {Name: ''};
         };
+
+        $scope.edit = function (category) {
+            $scope.category = category;
+        };
     });
 
 })(window.angular);

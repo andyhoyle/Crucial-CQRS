@@ -72,7 +72,8 @@ namespace Crucial.Framework.Data.EntityFramework
 
         public TKey Create(TEntity entity)
         {
-            TEntity output = Context.Set<TEntity>().Add(entity);
+            var output = Context.Set<TEntity>();
+            TEntity result = output.Add(entity);
 
             try
             {
@@ -89,7 +90,7 @@ namespace Crucial.Framework.Data.EntityFramework
                 throw new Exception("EF Validation failed, see inner exception for details", ex);
             }
 
-            return output as TKey;
+            return result as TKey;
         }
 
         public bool Delete(TKey entity)

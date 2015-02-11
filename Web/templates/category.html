@@ -1,6 +1,6 @@
                 
 					<paper-shadow>
-						<paper-item ng-repeat="category in categories" label="{{category.Name}}">{{category.Name}}</paper-item>
+						<paper-item ng-repeat="category in categories" label="{{category.Name}}">{{category.Name}} <a ng-click="edit(category)">Edit</a></paper-item>
 					</paper-shadow>
                     
 					<div>

@@ -31,5 +31,11 @@ namespace Crucial.Services.Managers
             var categories = _categoryRepo.FindBy(x => x.Id > -1).ToList();
             return categories.Select(s => _categoryMapper.ToServiceEntity(s)).ToList();
         }
+
+        public ServiceEntities.Category GetUserCategory(int categoryId)
+        {
+            var providerEntity = _categoryRepo.FindBy(x => x.Id == categoryId).FirstOrDefault();
+            return _categoryMapper.ToServiceEntity(providerEntity);
+        }
     }
 }
