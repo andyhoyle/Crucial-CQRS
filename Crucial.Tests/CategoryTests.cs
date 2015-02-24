@@ -16,6 +16,8 @@ using Crucial.Providers.EventStore.Entities;
 using Crucial.Qyz.Events;
 using Crucial.EventStore;
 using Crucial.Qyz.Domain;
+using Crucial.Framework.DesignPatterns.CQRS.Storage;
+using Crucial.Qyz.Domain.Mementos;
 
 namespace Crucial.Tests
 {
@@ -143,10 +145,69 @@ namespace Crucial.Tests
             // Assert
             var m = eContext.BaseMementoes.Where(x => x.Id == 1).FirstOrDefault();
             Assert.IsNotNull(m);
-            var memento = DatabaseEventStorage.DeSerialize<Crucial.Framework.DesignPatterns.CQRS.Domain.BaseMemento>(m.Data);
+            var memento = DatabaseEventStorage.DeSerialize<UserCategoryMemento>(m.Data);
             UserCategory c = new UserCategory();
             c.SetMemento(memento);
             Assert.AreEqual("Category Name Changed Three Times", c.Name);
+        }
+
+        [TestMethod]
+        public void UserCategoriesCanBeReadFromHistoryWithoutMementos()
+        {
+            IEventStoreContext eContext = Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IEventStoreContext>();
+            IRepository<UserCategory> ucr = Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IRepository<UserCategory>>();
+
+            eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 1 });
+            eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 2 });
+
+            UserCategoryCreatedEvent e = new UserCategoryCreatedEvent(1, "Category 1");
+            eContext.Events.Add(new Event { Id = 1, AggregateId = 1, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e) });
+
+            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2");
+            eContext.Events.Add(new Event { Id = 2, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e2) });
+
+            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed", 0);
+            eContext.Events.Add(new Event { Id = 3, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e3) });
+
+            var uc1 = ucr.GetById(1);
+            var uc2 = ucr.GetById(2);
+
+            Assert.AreEqual("Category 1", uc1.Name);
+            Assert.AreEqual("Category 2 Renamed", uc2.Name);
+        }
+
+        [TestMethod]
+        public void UserCategoriesCanBeReadFromHistoryWithMementos()
+        {
+            IEventStoreContext eContext = Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IEventStoreContext>();
+            IRepository<UserCategory> ucr = Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IRepository<UserCategory>>();
+
+            eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 2 });
+
+            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2");
+            eContext.Events.Add(new Event { Id = 2, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e2) });
+
+            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Once", 0);
+            eContext.Events.Add(new Event { Id = 3, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e3) });
+
+            UserCategoryNameChangedEvent e4 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Twice", 1);
+            eContext.Events.Add(new Event { Id = 4, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e4) });
+
+            UserCategoryNameChangedEvent e5 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Three Times", 2);
+            eContext.Events.Add(new Event { Id = 5, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e5) });
+
+            UserCategoryNameChangedEvent e6 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Four Times", 3);
+            eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e6) });
+
+            UserCategoryNameChangedEvent e7 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Five Times", 4);
+            eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e7) });
+
+            UserCategoryMemento memento = new UserCategoryMemento(2, "Category 2 Renamed Three Times", 3);
+            eContext.BaseMementoes.Add(new BaseMemento { Id = 2, Version = 3, Data = DatabaseEventStorage.Serialize<UserCategoryMemento>(memento) });
+            
+            var uc2 = ucr.GetById(2);
+
+            Assert.AreEqual("Category 2 Renamed Five Times", uc2.Name);
         }
     }
 }
