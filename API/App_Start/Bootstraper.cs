@@ -20,6 +20,10 @@ namespace API
     {
         public static void BootstrapStructureMap()
         {
+            var questionDbConnString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            var eventStoreDbConnString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            System.Data.Entity.Infrastructure.DbCompiledModel model = null;
+
             DependencyResolver.Register(x =>
             {
                 x.For(typeof(IRepository<>)).Singleton().Use(typeof(Repository<>));
@@ -29,10 +33,12 @@ namespace API
                 x.For<IEventHandlerFactory>().Use<StructureMapEventHandlerFactory>();
                 x.For<ICommandBus>().Use<CommandBus>();
                 x.For<IEventBus>().Use<EventBus>();
-                x.For<IQuestionsDbContext>().Use<QuestionsDbContext>();
-                x.For<IEventStoreContext>().Use<EventStoreContext>();
+                x.For<IQuestionsDbContext>().Use(() => new QuestionsDbContext());
+                x.For<IEventStoreContext>().Use(() => new EventStoreContext());
                 x.For<IQuestionManager>().Use<QuestionManager>();
                 x.For<ICategoryRepository>().Use<CategoryRepository>();
+
+  
 
                 x.Scan(s =>
                 {
