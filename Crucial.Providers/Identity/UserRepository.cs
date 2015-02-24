@@ -9,12 +9,7 @@ using System.Text;
 
 namespace Crucial.Providers.Identity
 {
-    public class UserRepository : BaseRepository<Entities.AspNetUser, Entities.AspNetUser>, Interfaces.IUserRepository
+    public class UserRepository : BaseRepository<IIdentityDbContext, Entities.AspNetUser, Entities.AspNetUser>, Interfaces.IUserRepository
     {
-        public UserRepository(IIdentityContextProvider DbContextProvider)
-            : base(DbContextProvider.DbContext)
-        {
-
-        }
     }
 }

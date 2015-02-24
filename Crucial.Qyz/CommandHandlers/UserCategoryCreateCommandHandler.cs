@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Crucial.Qyz.CommandHandlers
 {
-    internal class UserCategoryCreateCommandHandler : ICommandHandler<UserCategoryCreateCommand>
+    public class UserCategoryCreateCommandHandler : ICommandHandler<UserCategoryCreateCommand>
     {
         private IRepository<UserCategory> _repository;
 

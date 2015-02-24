@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventStore\Context\EventStoreContext.cs" />
     <Compile Include="EventStore\Data\AggregateRootConfiguration.cs">
       <DependentUpon>EventStore.tt</DependentUpon>
     </Compile>

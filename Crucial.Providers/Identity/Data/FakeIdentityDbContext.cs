@@ -18,29 +18,29 @@ using Crucial.Providers.Identity.Entities;
 
 namespace Crucial.Providers.Identity.Data
 {
-    public class FakeIdentityDbContext : IIdentityDbContext
-    {
-        public IDbSet<AspNetUser> AspNetUsers { get; set; }
-        public IDbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public IDbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public IDbSet<AspNetUserRole> AspNetUserRoles { get; set; }
+    //public class FakeIdentityDbContext : IIdentityDbContext
+    //{
+    //    public IDbSet<AspNetUser> AspNetUsers { get; set; }
+    //    public IDbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+    //    public IDbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+    //    public IDbSet<AspNetUserRole> AspNetUserRoles { get; set; }
 
-        public FakeIdentityDbContext()
-        {
-            AspNetUsers = new FakeDbSet<AspNetUser>();
-            AspNetUserClaims = new FakeDbSet<AspNetUserClaim>();
-            AspNetUserLogins = new FakeDbSet<AspNetUserLogin>();
-            AspNetUserRoles = new FakeDbSet<AspNetUserRole>();
-        }
+    //    public FakeIdentityDbContext()
+    //    {
+    //        AspNetUsers = new FakeDbSet<AspNetUser>();
+    //        AspNetUserClaims = new FakeDbSet<AspNetUserClaim>();
+    //        AspNetUserLogins = new FakeDbSet<AspNetUserLogin>();
+    //        AspNetUserRoles = new FakeDbSet<AspNetUserRole>();
+    //    }
 
-        public int SaveChanges()
-        {
-            return 0;
-        }
+    //    public int SaveChanges()
+    //    {
+    //        return 0;
+    //    }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException(); 
-        }
-    }
+    //    public void Dispose()
+    //    {
+    //        throw new NotImplementedException(); 
+    //    }
+    //}
 }

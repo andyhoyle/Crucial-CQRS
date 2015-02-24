@@ -3,7 +3,9 @@ using Crucial.Framework.DesignPatterns.CQRS.Messaging;
 using Crucial.Framework.DesignPatterns.CQRS.Storage;
 using Crucial.Framework.DesignPatterns.CQRS.Utils;
 using Crucial.Framework.IoC.StructureMapProvider;
+using Crucial.Providers.EventStore.Data;
 using Crucial.Providers.Questions;
+using Crucial.Providers.Questions.Data;
 using Crucial.Qyz.Domain;
 using Crucial.Services.Managers;
 using Crucial.Services.Managers.Interfaces;
@@ -14,6 +16,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StructureMap.Graph;
+using StructureMap.Configuration.DSL;
+using Crucial.Framework.DesignPatterns.CQRS.Commands;
+using Crucial.Qyz.CommandHandlers;
+using Crucial.Qyz.Commands;
 
 namespace Crucial.Tests.Bootstrap
 {
@@ -32,11 +39,20 @@ namespace Crucial.Tests.Bootstrap
                 x.For<IQuestionManager>().Use<QuestionManager>();
                 x.For<ICategoryRepository>().Use<CategoryRepository>();
                 x.For<IEventStorage>().Singleton().Use<DatabaseEventStorage>();
+                               
+                x.Scan(s => {
+                    s.AssemblyContainingType<Crucial.Qyz.CommandHandlers.UserCategoryNameChangeCommandHandler>();
+                    s.ConnectImplementationsToTypesClosing(typeof(Crucial.Framework.DesignPatterns.CQRS.Commands.ICommandHandler<>));
+                    s.ConnectImplementationsToTypesClosing(typeof(Crucial.Framework.DesignPatterns.CQRS.Events.IEventHandler<>));
+                });
                 
                 // Mocks
-                x.For<IEventStoreContextProvider>().Use<MockEventStoreContextProvider>();
-                x.For<IQuestionContextProvider>().Use<MockQuestionContextProvider>();
+                x.For<IEventStoreContext>().Singleton().Use<TestEventContext>();
+                x.For<IQuestionsDbContext>().Singleton().Use<TestQuestionContext>();
             });
         }
     }
+
+
+
 }

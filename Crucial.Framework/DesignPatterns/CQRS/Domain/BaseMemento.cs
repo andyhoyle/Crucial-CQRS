@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crucial.Framework.DesignPatterns.CQRS.Domain
 {
+    [Serializable]
     public class BaseMemento
     {
         public int Id { get; set; }

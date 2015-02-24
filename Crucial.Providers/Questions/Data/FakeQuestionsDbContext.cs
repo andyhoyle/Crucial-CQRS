@@ -18,23 +18,23 @@ using Crucial.Providers.Questions.Entities;
 
 namespace Crucial.Providers.Questions.Data
 {
-    public class FakeQuestionsDbContext : IQuestionsDbContext
-    {
-        public IDbSet<Category> Categories { get; set; }
+    //public class FakeQuestionsDbContext : IQuestionsDbContext
+    //{
+    //    public IDbSet<Category> Categories { get; set; }
 
-        public FakeQuestionsDbContext()
-        {
-            Categories = new FakeDbSet<Category>();
-        }
+    //    public FakeQuestionsDbContext()
+    //    {
+    //        Categories = new FakeDbSet<Category>();
+    //    }
 
-        public int SaveChanges()
-        {
-            return 0;
-        }
+    //    public int SaveChanges()
+    //    {
+    //        return 0;
+    //    }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException(); 
-        }
-    }
+    //    public void Dispose()
+    //    {
+    //        throw new NotImplementedException(); 
+    //    }
+    //}
 }

@@ -29,7 +29,7 @@ namespace Crucial.Qyz.Domain
 
         public void ChangeName(string name)
         {
-            ApplyChange(new UserCategoryNameChangedEvent(Id, name));
+            ApplyChange(new UserCategoryNameChangedEvent(Id, name, Version));
         }
 
         public BaseMemento GetMemento()
@@ -45,6 +45,13 @@ namespace Crucial.Qyz.Domain
         }
         
         public void Handle(UserCategoryCreatedEvent e)
+        {
+            Name = e.Name;
+            Version = e.Version;
+            Id = e.AggregateId;
+        }
+
+        public void Handle(UserCategoryNameChangedEvent e)
         {
             Name = e.Name;
             Version = e.Version;

@@ -7,22 +7,36 @@ using System.Data.Entity;
 using System.Linq.Expressions;
 using Crucial.Framework.Extensions;
 using Crucial.Framework.Enums;
+using System.Data.Entity.Validation;
+using System.Data.Entity.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Crucial.Framework.Data.EntityFramework
 {
-    public abstract class BaseRepository<TEntity, TKey> :
+    public interface IDbContext : IDisposable
+    {
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        DbSet Set(Type entityType);
+        IEnumerable<DbEntityValidationResult> GetValidationErrors();
+        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        DbEntityEntry Entry(object entity);
+        int SaveChanges();
+    }
+
+    public abstract class BaseRepository<TContext, TEntity, TKey> :
             Framework.DesignPatterns.Repository.ICreateRepository<TEntity, TKey>,
             Framework.DesignPatterns.Repository.IDeleteRepository<TKey>,
             Framework.DesignPatterns.Repository.IUpdateRepository<TEntity>,
             Framework.DesignPatterns.Repository.IQueryableRepository<TEntity>
+        where TContext : IDbContext
         where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
         where TKey : Crucial.Framework.BaseEntities.ProviderEntityBase
     {
-        protected DbContext Context;
-        
-        public BaseRepository(DbContext context)
+        protected TContext Context;
+
+        public BaseRepository()
         {
-            Context = context;
+            Context = new ContextProvider<TContext>().DbContext;
         }
 
         public virtual IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] include)

@@ -3,17 +3,16 @@
 
 namespace Crucial.Framework.Data.EntityFramework
 {
-    public class ContextProvider<T> : IDatabaseContextProvider where T : DbContext, new()
+    public class ContextProvider<T>
     {
         private readonly T _context;
 
         public ContextProvider()
         {
-            _context = new T();
-            _context.Database.Initialize(false);
+            _context = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<T>();
         }
 
-        public DbContext DbContext
+        public T DbContext
         {
             get { return _context; }
         }

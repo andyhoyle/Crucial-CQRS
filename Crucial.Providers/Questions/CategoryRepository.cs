@@ -10,14 +10,9 @@ using System.Threading.Tasks;
 
 namespace Crucial.Providers.Questions
 {
-    public class QuestionContextProvider : Framework.Data.EntityFramework.ContextProvider<QuestionsDbContext>, IQuestionContextProvider
-    {
-    }
+    
 
-    public interface IQuestionContextProvider : Crucial.Framework.Data.EntityFramework.IDatabaseContextProvider
-    {
-
-    }
+    
 
     public interface ICategoryRepository : IQueryableRepository<Entities.Category>,
                                             IUpdateRepository<Entities.Category>,
@@ -27,12 +22,7 @@ namespace Crucial.Providers.Questions
 
     }
 
-    public class CategoryRepository : BaseRepository<Entities.Category, Entities.Category>, ICategoryRepository
+    public class CategoryRepository : BaseRepository<IQuestionsDbContext, Entities.Category, Entities.Category>, ICategoryRepository
     {
-        public CategoryRepository(IQuestionContextProvider context)
-            : base(context.DbContext)
-        {
-
-        }
     }
 }

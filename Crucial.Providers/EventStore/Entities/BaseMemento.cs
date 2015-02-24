@@ -17,6 +17,7 @@ namespace Crucial.Providers.EventStore.Entities
     {
         public int Id { get; set; } // Id (Primary key)
         public int Version { get; set; } // Version
+        public byte[] Data { get; set; } // Data
     }
 
 }

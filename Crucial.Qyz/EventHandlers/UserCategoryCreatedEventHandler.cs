@@ -23,6 +23,7 @@ namespace Crucial.Qyz.EventHandlers
         {
             Category category = new Category()
             {
+                Id = handle.AggregateId,
                 Name = handle.Name,
                 Version = handle.Version
             };

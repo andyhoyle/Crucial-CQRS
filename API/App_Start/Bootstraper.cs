@@ -12,6 +12,7 @@ using StructureMap;
 using Crucial.EventStore;
 using Crucial.Providers.EventStore.Data;
 using Crucial.Framework.IoC.StructureMapProvider;
+using Crucial.Providers.Questions.Data;
 
 namespace API
 {
@@ -28,10 +29,17 @@ namespace API
                 x.For<IEventHandlerFactory>().Use<StructureMapEventHandlerFactory>();
                 x.For<ICommandBus>().Use<CommandBus>();
                 x.For<IEventBus>().Use<EventBus>();
-                x.For<IQuestionContextProvider>().Use<QuestionContextProvider>();
-                x.For<IEventStoreContextProvider>().Use<EventStoreContextProvider>();
+                x.For<IQuestionsDbContext>().Use<QuestionsDbContext>();
+                x.For<IEventStoreContext>().Use<EventStoreContext>();
                 x.For<IQuestionManager>().Use<QuestionManager>();
                 x.For<ICategoryRepository>().Use<CategoryRepository>();
+
+                x.Scan(s =>
+                {
+                    s.AssemblyContainingType<Crucial.Qyz.CommandHandlers.UserCategoryNameChangeCommandHandler>();
+                    s.ConnectImplementationsToTypesClosing(typeof(Crucial.Framework.DesignPatterns.CQRS.Commands.ICommandHandler<>));
+                    s.ConnectImplementationsToTypesClosing(typeof(Crucial.Framework.DesignPatterns.CQRS.Events.IEventHandler<>));
+                });
             });
         }
     }

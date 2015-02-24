@@ -14,11 +14,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.Identity.Entities;
+using Crucial.Framework.Data.EntityFramework;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
 
 namespace Crucial.Providers.Identity.Data
 {
-    public interface IIdentityDbContext : IDisposable
+    public interface IIdentityDbContext : IDbContext, IDisposable
     {
         IDbSet<AspNetUser> AspNetUsers { get; set; } // AspNetUsers
         IDbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims

@@ -10,27 +10,7 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Utils
     {
         public ICommandHandler<T> GetHandler<T>() where T : Command
         {
-            var handlers = GetHandlerTypes<T>().ToList();
-
-            var cmdHandler = handlers.Select(handler =>
-                (ICommandHandler<T>) Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance(handler)).FirstOrDefault();
-
-            return cmdHandler;
+            return Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<ICommandHandler<T>>();
         }
-
-        private IEnumerable<Type> GetHandlerTypes<T>() where T : Command
-        {
-            var handlers = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(
-                    t => t.GetInterfaces()
-                        .Where(i => i.IsGenericType)
-                        .Any(i => i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) && i.GetGenericArguments().Any(aa => aa == typeof(T)))
-                )
-                .ToList();
-
-            return handlers;
-        }
-
     }
 }

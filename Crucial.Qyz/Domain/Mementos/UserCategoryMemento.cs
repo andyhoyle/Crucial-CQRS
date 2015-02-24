@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Crucial.Qyz.Domain.Mementos
 {
+    [Serializable]
     internal class UserCategoryMemento : BaseMemento
     {
         public string Name { get; set; }

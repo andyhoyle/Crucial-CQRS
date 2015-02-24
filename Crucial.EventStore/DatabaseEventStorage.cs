@@ -13,34 +13,46 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Crucial.Framework.Entities.Mappers;
+using Crucial.Framework.Data.EntityFramework;
+using Crucial.Providers.EventStore.Data;
 
 namespace Crucial.EventStore
 {
-    public class EventStoreContextProvider : Framework.Data.EntityFramework.ContextProvider<Crucial.Providers.EventStore.Data.EventStoreContext>, IEventStoreContextProvider
-    {
-    }
-
-    public interface IEventStoreContextProvider : Crucial.Framework.Data.EntityFramework.IDatabaseContextProvider
-    {
-
-    }
+    
 
     public class EventMapper : ProviderEntityMapper<Providers.EventStore.Entities.Event, Event>
     {
         public override Providers.EventStore.Entities.Event ToProviderEntity(Event source)
         {
             var target = base.ToProviderEntity(source);
-            target.Data = DatabaseEventStorage.SerializeEvent(source);
+            target.Data = DatabaseEventStorage.Serialize<Event>(source);
             return target;
         }
 
         public override Event ToThirdPartyEntity(Providers.EventStore.Entities.Event source)
         {
-            return base.ToThirdPartyEntity(source);
+            var target = DatabaseEventStorage.DeSerialize<Event>(source.Data);
+            return target;
         }
     }
 
     public class MementoMapper : ProviderEntityMapper<Providers.EventStore.Entities.BaseMemento, BaseMemento>
+    {
+        public override Providers.EventStore.Entities.BaseMemento ToProviderEntity(BaseMemento source)
+        {
+            var target = base.ToProviderEntity(source);
+            target.Data = DatabaseEventStorage.Serialize<BaseMemento>(source);
+            return target;
+        }
+
+        public override BaseMemento ToThirdPartyEntity(Providers.EventStore.Entities.BaseMemento source)
+        {
+            var target = DatabaseEventStorage.DeSerialize<BaseMemento>(source.Data);
+            return target;
+        }
+    }
+
+    public class AggregateMapper : ProviderEntityMapper<Providers.EventStore.Entities.AggregateRoot, AggregateRoot>
     {
 
     }
@@ -49,18 +61,20 @@ namespace Crucial.EventStore
     {
         private readonly IEventBus _eventBus;
 
-        private Providers.EventStore.Data.EventStoreContext _eventStoreContext;
+        private Providers.EventStore.Data.IEventStoreContext _eventStoreContext;
 
         private EventMapper _eventMapper;
         private MementoMapper _mementoMapper;
-        private IEventStoreContextProvider _contextProvider;
+        private ContextProvider<IEventStoreContext> _contextProvider;
+        private AggregateMapper _aggregateMapper;
 
-        public DatabaseEventStorage(IEventStoreContextProvider contextProvider, IEventBus eventBus)
+        public DatabaseEventStorage(ContextProvider<IEventStoreContext> contextProvider, IEventBus eventBus)
         {
-            _eventStoreContext = contextProvider.DbContext as Providers.EventStore.Data.EventStoreContext;
+            _eventStoreContext = contextProvider.DbContext;
             _eventBus = eventBus;
             _eventMapper = new EventMapper();
             _mementoMapper = new MementoMapper();
+            _aggregateMapper = new AggregateMapper();
         }
 
         public IEnumerable<Event> GetEvents(int aggregateId)
@@ -88,8 +102,26 @@ namespace Crucial.EventStore
                 }
 
                 @event.Version = version;
+                aggregate.Version = version;
+
+                if (version == 0)
+                {
+                    _eventStoreContext.AggregateRoots.Add(_aggregateMapper.ToProviderEntity(aggregate));
+                }
+                else
+                {
+                    var aggregateRoot = _eventStoreContext.AggregateRoots.Where(x => x.Id == aggregate.Id).FirstOrDefault();
+                    
+                    if (aggregateRoot == null)
+                    {
+                        throw new NullReferenceException();
+                    }
+
+                    aggregateRoot.Version = version;
+                }
+
                 _eventStoreContext.Events.Add(_eventMapper.ToProviderEntity(@event));
-                _eventStoreContext.SaveChangesAsync();
+                _eventStoreContext.SaveChanges();
             }
 
             foreach (var @event in uncommittedChanges)
@@ -99,7 +131,7 @@ namespace Crucial.EventStore
             }
         }
 
-        public static byte[] SerializeEvent(Event e)
+        public static byte[] Serialize<T>(T e)
         {
             var desEvent = Converter.ChangeTo(e, e.GetType());
             byte[] bytes;
@@ -114,6 +146,18 @@ namespace Crucial.EventStore
             return bytes;
         }
 
+        public static T DeSerialize<T>(byte[] data)
+        {
+            T e;
+            var formatter = new BinaryFormatter();
+            using (var ms = new MemoryStream(data))
+            {
+                 e = (T)formatter.Deserialize(ms);
+            }
+
+            return e;
+        }
+
         public T GetMemento<T>(int aggregateId) where T : BaseMemento
         {
             var memento = _eventStoreContext.BaseMementoes.Where(m => m.Id == aggregateId).Select(m => _mementoMapper.ToThirdPartyEntity(m)).LastOrDefault();
@@ -125,7 +169,7 @@ namespace Crucial.EventStore
         public void SaveMemento(Framework.DesignPatterns.CQRS.Domain.BaseMemento memento)
         {
             _eventStoreContext.BaseMementoes.Add(_mementoMapper.ToProviderEntity(memento));
-            _eventStoreContext.SaveChangesAsync();
+            _eventStoreContext.SaveChanges();
 
         }
 
