@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseEventStorage.cs" />
+    <Compile Include="Mappers\AggregateMapper.cs" />
+    <Compile Include="Mappers\EventMapper.cs" />
+    <Compile Include="Mappers\MementoMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

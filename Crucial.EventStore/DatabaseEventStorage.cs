@@ -15,57 +15,16 @@ using System.IO;
 using Crucial.Framework.Entities.Mappers;
 using Crucial.Framework.Data.EntityFramework;
 using Crucial.Providers.EventStore.Data;
+using Crucial.EventStore.Mappers;
 
 namespace Crucial.EventStore
 {
-    
-
-    public class EventMapper : ProviderEntityMapper<Providers.EventStore.Entities.Event, Event>
-    {
-        public override Providers.EventStore.Entities.Event ToProviderEntity(Event source)
-        {
-            var target = base.ToProviderEntity(source);
-            target.Data = DatabaseEventStorage.Serialize<Event>(source);
-            return target;
-        }
-
-        public override Event ToThirdPartyEntity(Providers.EventStore.Entities.Event source)
-        {
-            var target = DatabaseEventStorage.DeSerialize<Event>(source.Data);
-            return target;
-        }
-    }
-
-    public class MementoMapper : ProviderEntityMapper<Providers.EventStore.Entities.BaseMemento, BaseMemento>
-    {
-        public override Providers.EventStore.Entities.BaseMemento ToProviderEntity(BaseMemento source)
-        {
-            var target = base.ToProviderEntity(source);
-            target.Data = DatabaseEventStorage.Serialize<BaseMemento>(source);
-            return target;
-        }
-
-        public override BaseMemento ToThirdPartyEntity(Providers.EventStore.Entities.BaseMemento source)
-        {
-            var target = DatabaseEventStorage.DeSerialize<BaseMemento>(source.Data);
-            return target;
-        }
-    }
-
-    public class AggregateMapper : ProviderEntityMapper<Providers.EventStore.Entities.AggregateRoot, AggregateRoot>
-    {
-
-    }
-
     public class DatabaseEventStorage : IEventStorage
     {
         private readonly IEventBus _eventBus;
-
         private Providers.EventStore.Data.IEventStoreContext _eventStoreContext;
-
         private EventMapper _eventMapper;
         private MementoMapper _mementoMapper;
-        private ContextProvider<IEventStoreContext> _contextProvider;
         private AggregateMapper _aggregateMapper;
 
         public DatabaseEventStorage(ContextProvider<IEventStoreContext> contextProvider, IEventBus eventBus)
@@ -146,6 +105,19 @@ namespace Crucial.EventStore
             return bytes;
         }
 
+        public static dynamic DeSerialize(byte[] data)
+        {
+            var formatter = new BinaryFormatter();
+            dynamic e;
+
+            using (var ms = new MemoryStream(data))
+            {
+                e = formatter.Deserialize(ms);
+            }
+
+            return e;
+        }
+
         public static T DeSerialize<T>(byte[] data)
         {
             T e;
@@ -172,7 +144,5 @@ namespace Crucial.EventStore
             _eventStoreContext.SaveChanges();
 
         }
-
-
     }
 }
