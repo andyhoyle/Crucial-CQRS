@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StructureMap;
 using Crucial.Framework.DesignPatterns.CQRS.Events;
+using System.Collections;
 
 namespace Crucial.Framework.DesignPatterns.CQRS.Utils
 {
@@ -11,6 +12,15 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Utils
         public IEnumerable<IEventHandler<T>> GetHandlers<T>() where T : Event
         {
             return Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetAllInstances<IEventHandler<T>>();
+        }
+
+        public IEnumerable<IEventHandler<T>> GetHandlers<T>(T type) where T : Event
+        {
+            // StructureMap.Pipeline.ExplicitArguments args = new StructureMap.Pipeline.ExplicitArguments();
+            // something here
+            var handlers = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetAllInstances<IEventHandler<T>>();
+            System.Diagnostics.Debug.WriteLine(Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.WhatDoIHave());
+            return handlers;
         }
     }
 }
