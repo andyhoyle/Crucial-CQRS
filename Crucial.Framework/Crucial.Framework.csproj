@@ -157,6 +157,8 @@
     <Compile Include="DesignPatterns\CQRS\Utils\Converter.cs" />
     <Compile Include="DesignPatterns\CQRS\Utils\ICommandHandlerFactory.cs" />
     <Compile Include="DesignPatterns\CQRS\Utils\IEventHandlerFactory.cs" />
+    <Compile Include="DesignPatterns\CQRS\Utils\IStateHelper.cs" />
+    <Compile Include="DesignPatterns\CQRS\Utils\StateHelper.cs" />
     <Compile Include="DesignPatterns\CQRS\Utils\StructureMapCommandHandlerFactory.cs" />
     <Compile Include="DesignPatterns\CQRS\Utils\StructureMapEventHandlerFactory.cs" />
     <Compile Include="Entities\CqrsViewModel.cs" />

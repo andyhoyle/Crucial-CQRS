@@ -14,5 +14,6 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
         void Save(AggregateRoot aggregate);
         T GetMemento<T>(int aggregateId) where T : BaseMemento;
         void SaveMemento(BaseMemento memento);
+        IEnumerable<Event> GetAllEvents();
     }
 }

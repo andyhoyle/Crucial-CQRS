@@ -25,5 +25,18 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
                 eventHandler.Handle(@event);
             }
         }
+
+        public void Replay(IEnumerable<Event> eventList)
+        {
+            foreach (dynamic ev in eventList)
+            {
+                var handlers = _eventHandlerFactory.GetHandlers(ev);
+
+                foreach (var eventHandler in handlers)
+                {
+                    eventHandler.Handle(ev);
+                }
+            }
+        }
     }
 }

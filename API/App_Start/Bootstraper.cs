@@ -33,6 +33,7 @@ namespace API
                 x.For<IEventStoreContext>().Use(() => new EventStoreContext());
                 x.For<IQuestionManager>().Use<QuestionManager>();
                 x.For<ICategoryRepository>().Use<CategoryRepository>();
+                x.For<IStateHelper>().Use<StateHelper>();
 
                 x.Scan(s =>
                 {

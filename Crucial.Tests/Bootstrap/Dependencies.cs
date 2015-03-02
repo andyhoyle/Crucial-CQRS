@@ -39,7 +39,8 @@ namespace Crucial.Tests.Bootstrap
                 x.For<IQuestionManager>().Use<QuestionManager>();
                 x.For<ICategoryRepository>().Use<CategoryRepository>();
                 x.For<IEventStorage>().Singleton().Use<DatabaseEventStorage>();
-                               
+                x.For<IStateHelper>().Use<StateHelper>();
+
                 x.Scan(s => {
                     s.AssemblyContainingType<Crucial.Qyz.CommandHandlers.UserCategoryNameChangeCommandHandler>();
                     s.ConnectImplementationsToTypesClosing(typeof(Crucial.Framework.DesignPatterns.CQRS.Commands.ICommandHandler<>));

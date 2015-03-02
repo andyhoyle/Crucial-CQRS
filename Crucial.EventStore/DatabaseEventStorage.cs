@@ -41,6 +41,11 @@ namespace Crucial.EventStore
             return _eventStoreContext.Events.Where(e => e.AggregateId == aggregateId).Select(s => _eventMapper.ToThirdPartyEntity(s)).ToList();
         }
 
+        public IEnumerable<Event> GetAllEvents()
+        {
+            return _eventStoreContext.Events.Select(s => _eventMapper.ToThirdPartyEntity(s)).ToList();
+        }
+
         public void Save(AggregateRoot aggregate)
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
@@ -142,7 +147,6 @@ namespace Crucial.EventStore
         {
             _eventStoreContext.BaseMementoes.Add(_mementoMapper.ToProviderEntity(memento));
             _eventStoreContext.SaveChanges();
-
         }
     }
 }

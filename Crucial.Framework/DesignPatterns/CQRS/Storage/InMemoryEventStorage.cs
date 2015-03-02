@@ -35,6 +35,13 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
             return events;
         }
 
+        public IEnumerable<Event> GetAllEvents()
+        {
+            var events = _events.Select(p => p);
+            
+            return events;
+        }
+
         public void Save(AggregateRoot aggregate)
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
