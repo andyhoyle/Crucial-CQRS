@@ -44,15 +44,7 @@ namespace Api.Controllers
         // POST: api/User
         public void Post([FromBody]API.Models.Category value)
         {
-            int maxId = 1;
-            var categories = Get();
-
-            if (categories != null && categories.Count() > 0)
-            {
-                maxId = categories.Max(i => i.Id);
-            }
-            
-            _commandBus.Send(new UserCategoryCreateCommand(maxId + 1, value.Name));
+            _commandBus.Send(new UserCategoryCreateCommand(value.Name));
         }
 
         // PUT: api/User/5

@@ -28,7 +28,7 @@ namespace Crucial.Providers.Questions.Data
             ToTable(schema + ".Category");
             HasKey(x => x.Id);
 
-            Property(x => x.Id).HasColumnName("Id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.Id).HasColumnName("Id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.UserId).HasColumnName("UserId").IsRequired();
             Property(x => x.Name).HasColumnName("Name").IsRequired().HasMaxLength(128);
             Property(x => x.Version).HasColumnName("Version").IsRequired();

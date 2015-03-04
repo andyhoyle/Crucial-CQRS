@@ -11,7 +11,7 @@ namespace Crucial.Qyz.Commands
     {
         public string Name { get; set; }
 
-        public UserCategoryCreateCommand(int id, string name) : base (id, -1)
+        public UserCategoryCreateCommand(string name) : base (0, -1)
         {
             Name = name;
         }

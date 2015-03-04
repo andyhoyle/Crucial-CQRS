@@ -70,7 +70,9 @@ namespace Crucial.EventStore
 
                 if (version == 0)
                 {
-                    _eventStoreContext.AggregateRoots.Add(_aggregateMapper.ToProviderEntity(aggregate));
+                    var ag = _eventStoreContext.AggregateRoots.Add(_aggregateMapper.ToProviderEntity(aggregate));
+                    _eventStoreContext.SaveChanges();
+                    @event.AggregateId = ag.Id;
                 }
                 else
                 {

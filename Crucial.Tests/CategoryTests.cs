@@ -49,10 +49,10 @@ namespace Crucial.Tests
             var name = "Test Category 1";
 
             //Arrange
-            _commandBus.Send(new UserCategoryCreateCommand(1, name));
+            _commandBus.Send(new UserCategoryCreateCommand(name));
 
             //Act
-            var cat = _categoryRepo.FindBy(q => q.Id == 1).FirstOrDefault();
+            var cat = _categoryRepo.FindBy(q => q.Id == 0).FirstOrDefault();
 
             //Act
             Assert.AreEqual(cat.Name, name);
@@ -90,11 +90,11 @@ namespace Crucial.Tests
             //Arrange
             var catName = "Test Category 345";
             IEventStoreContext eContext = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IEventStoreContext>();
-            var command = new UserCategoryCreateCommand(1, catName);
+            var command = new UserCategoryCreateCommand(catName);
 
             //Act
             _commandBus.Send(command);
-            var e = eContext.Events.Where(x => x.AggregateId == 1).FirstOrDefault();
+            var e = eContext.Events.Where(x => x.AggregateId == 0).FirstOrDefault();
 
             //Assert
             Assert.IsNotNull(e);
@@ -109,11 +109,11 @@ namespace Crucial.Tests
             //Arrange
             var catName = "Test Category 345";
             IEventStoreContext eContext = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IEventStoreContext>();
-            var command = new UserCategoryCreateCommand(1, catName);
+            var command = new UserCategoryCreateCommand(catName);
 
             //Act
             _commandBus.Send(command);
-            var agg = eContext.AggregateRoots.Where(x => x.Id == 1).FirstOrDefault();
+            var agg = eContext.AggregateRoots.Where(x => x.Id == 0).FirstOrDefault();
 
             //Assert
             Assert.IsNotNull(agg);
@@ -127,15 +127,15 @@ namespace Crucial.Tests
 
             // Arrange
             // No version - it's new
-            var e1 = new UserCategoryCreateCommand(1, "Category Name");
+            var e1 = new UserCategoryCreateCommand("Category Name");
             // Acting on Version 0
-            var e2 = new UserCategoryNameChangeCommand(1, "Category Name Changed Once", 0);
+            var e2 = new UserCategoryNameChangeCommand(0, "Category Name Changed Once", 0);
             // Acting on Version 1
-            var e3 = new UserCategoryNameChangeCommand(1, "Category Name Changed Twice", 1);
+            var e3 = new UserCategoryNameChangeCommand(0, "Category Name Changed Twice", 1);
             // Acting on Version 2
-            var e4 = new UserCategoryNameChangeCommand(1, "Category Name Changed Three Times", 2);
+            var e4 = new UserCategoryNameChangeCommand(0, "Category Name Changed Three Times", 2);
             // Acting on Version 3
-            var e5 = new UserCategoryNameChangeCommand(1, "Category Name Changed Four Times", 3);
+            var e5 = new UserCategoryNameChangeCommand(0, "Category Name Changed Four Times", 3);
 
             // Act
             _commandBus.Send<UserCategoryCreateCommand>(e1);
@@ -145,7 +145,7 @@ namespace Crucial.Tests
             _commandBus.Send<UserCategoryNameChangeCommand>(e5);
 
             // Assert
-            var m = eContext.BaseMementoes.Where(x => x.Id == 1).FirstOrDefault();
+            var m = eContext.BaseMementoes.Where(x => x.Id == 0).FirstOrDefault();
             Assert.IsNotNull(m);
             var memento = DatabaseEventStorage.DeSerialize<UserCategoryMemento>(m.Data);
             UserCategory c = new UserCategory();
