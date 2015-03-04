@@ -15,9 +15,12 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.Questions.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
+using Crucial.Framework.Data.EntityFramework;
+using Crucial.Framework.Testing.EF;
 
 namespace Crucial.Providers.Questions.Data
 {
+
     public class FakeDbSet<T> : IDbSet<T> where T : class
     {
         private readonly HashSet<T> _data;

@@ -65,7 +65,7 @@ namespace Crucial.Tests.Mocks
         public IDbSet<BaseMemento> BaseMementoes { get; set; }
         public DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
-            return this.Events as TestDbSet<TEntity>;
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,7 +1,7 @@
 (function(angular) {
   'use strict';
 
-  var app = angular.module('qyz', ['Qyz.Category', 'Qyz.Settings', 'ngResource', 'ngRoute', 'ng-polymer-elements'])
+  var app = angular.module('qyz', ['Qyz.Category', 'Qyz.Settings', 'ngResource', 'ngRoute', 'ngMaterial'])
    
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
         

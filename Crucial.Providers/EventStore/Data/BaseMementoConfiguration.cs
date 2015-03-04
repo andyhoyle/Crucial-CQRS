@@ -28,6 +28,7 @@ namespace Crucial.Providers.EventStore.Data
 
             Property(x => x.Id).HasColumnName("Id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Version).HasColumnName("Version").IsRequired();
+            Property(x => x.Data).HasColumnName("Data").IsRequired();
         }
     }
 

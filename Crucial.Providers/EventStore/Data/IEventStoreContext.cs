@@ -14,16 +14,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.EventStore.Entities;
-using Crucial.Framework.Data.EntityFramework;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
 
 namespace Crucial.Providers.EventStore.Data
 {
-    public interface IEventStoreContext : IDbContext, IDisposable
+    public interface IEventStoreContext : IDisposable
     {
         IDbSet<AggregateRoot> AggregateRoots { get; set; } // AggregateRoots
         IDbSet<BaseMemento> BaseMementoes { get; set; } // BaseMementoes
         IDbSet<Event> Events { get; set; } // Event
+
+        int SaveChanges();
     }
 
 }

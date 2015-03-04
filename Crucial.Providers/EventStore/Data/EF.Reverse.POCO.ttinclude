@@ -159,6 +159,11 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
         partial void InitializePartial();
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
 <#}#>
+
+		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
+            Entry<TEntity>(entityItem).State = state;
+        }
     }
 <# }
     if (ElementsToGenerate.HasFlag(Elements.Context) && AddUnitTestingDbContext)

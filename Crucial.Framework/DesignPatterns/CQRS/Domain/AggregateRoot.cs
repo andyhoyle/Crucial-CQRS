@@ -33,8 +33,12 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Domain
 
         public void LoadsFromHistory(IEnumerable<Event> history)
         {
-            foreach (var e in history) ApplyChange(e, false);
-            Version = history.Last().Version;
+            if (history.Count() > 0)
+            {
+                foreach (var e in history) ApplyChange(e, false);
+                Version = history.Last().Version;
+            }
+
             EventVersion = Version;
         }
 

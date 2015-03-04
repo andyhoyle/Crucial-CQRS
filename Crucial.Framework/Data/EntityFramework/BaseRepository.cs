@@ -18,7 +18,8 @@ namespace Crucial.Framework.Data.EntityFramework
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         DbSet Set(Type entityType);
         IEnumerable<DbEntityValidationResult> GetValidationErrors();
-        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        //DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        void SetState<TEntity>(TEntity entity, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase;
         DbEntityEntry Entry(object entity);
         int SaveChanges();
     }
@@ -126,7 +127,8 @@ namespace Crucial.Framework.Data.EntityFramework
 
         public bool Update(TEntity entity)
         {
-            Context.Entry(entity).State = EntityState.Modified;
+            Context.SetState(entity, EntityState.Modified);
+            //Context.Entry(entity).State = EntityState.Modified;
 
             try
             {

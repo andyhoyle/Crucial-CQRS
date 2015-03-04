@@ -1,9 +1,45 @@
-                
-					<paper-shadow>
-						<paper-item ng-repeat="category in categories" label="{{category.Name}}">{{category.Name}} <a ng-click="edit(category)">Edit</a></paper-item>
-					</paper-shadow>
+<md-content>
+    <md-item-content>
+        <div>
+            <md-input-container flex>
+                <label>New Category</label>
+                <input ng-model="category.Name" placeholder="New Category">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button ng-click="add()" ng-show="buttonMode=='Add'">Add</md-button>
+            <md-button ng-click="commitEdit()" ng-show="buttonMode=='Edit'">Save</md-button>
+        </div>
+    </md-item-content>
+
+        <md-list>
+            <md-item ng-repeat="category in categories">
+                <md-item-content>
+                    <div class="md-tile-left">
+                        <img ng-src="https://material.angularjs.org/img/list/60.jpeg" class="face" alt="{{category.Name}}">
+                    </div>
+                    <div class="md-tile-content">
+                        <h3>{{category.Name}}</h3>
+                        <h4>Created by John Smith</h4>
+                        <p>
+                            Questions about x, y and z
+                        </p>
+                    </div>
+                    <div>
+                        <md-button ng-click="startEdit(category)">Edit</md-button>
+                    </div>
+                </md-item-content>
+            </md-item>
+        </md-list>
+
+</md-content>                
+
+
+					<div>
+						<div ng-repeat="category in categories" label="{{category.Name}}">{{category.Name}} <a ng-click="edit(category)">Edit</a></div>
+					</div>
                     
 					<div>
-                        <paper-input label="New Category" ng-model="category.Name" floatinglabel></paper-input>
+                        <input type="text" ng-model="category.Name" label="New Category" />
 						<button  ng-click="add()">Add</button>
 					</div>

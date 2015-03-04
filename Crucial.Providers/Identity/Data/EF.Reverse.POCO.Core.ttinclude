@@ -331,7 +331,7 @@
 
         private List<string> GetConfigPathsInProjectForFile(EnvDTE.Project project, string filename)
         {
-            if(project.Kind == EnvDTE.Constants.vsProjectKindUnmodeled) {
+            if(project.Kind == EnvDTE.Constants.vsProjectKindUnmodeled || project.Kind.ToString() == "{E24C65DC-7377-472b-9ABA-BC803B73C61A}") {
                 // project is 'unloaded'
                 return new List<string>();
             }

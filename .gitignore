@@ -182,4 +182,4 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-bower_components
+Web/bower_components

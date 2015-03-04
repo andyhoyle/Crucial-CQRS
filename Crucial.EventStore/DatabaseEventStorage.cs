@@ -38,7 +38,7 @@ namespace Crucial.EventStore
 
         public IEnumerable<Event> GetEvents(int aggregateId)
         {
-            return _eventStoreContext.Events.Where(e => e.AggregateId == aggregateId).Select(s => _eventMapper.ToThirdPartyEntity(s)).ToList();
+            return _eventStoreContext.Events.Where(e => e.AggregateId == aggregateId).AsEnumerable().Select(s => _eventMapper.ToThirdPartyEntity(s)).ToList();
         }
 
         public IEnumerable<Event> GetAllEvents()
@@ -137,7 +137,7 @@ namespace Crucial.EventStore
 
         public T GetMemento<T>(int aggregateId) where T : BaseMemento
         {
-            var memento = _eventStoreContext.BaseMementoes.Where(m => m.Id == aggregateId).Select(m => _mementoMapper.ToThirdPartyEntity(m)).LastOrDefault();
+            var memento = _eventStoreContext.BaseMementoes.Where(m => m.Id == aggregateId).AsEnumerable().Select(m => _mementoMapper.ToThirdPartyEntity(m)).LastOrDefault();
             if (memento != null)
                 return (T)memento;
             return null;

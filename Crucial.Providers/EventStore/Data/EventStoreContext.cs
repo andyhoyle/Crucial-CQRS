@@ -58,5 +58,10 @@ namespace Crucial.Providers.EventStore.Data
             modelBuilder.Configurations.Add(new EventConfiguration(schema));
             return modelBuilder;
         }
+
+		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
+            Entry<TEntity>(entityItem).State = state;
+        }
     }
 }

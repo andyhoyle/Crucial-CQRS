@@ -18,27 +18,27 @@ using Crucial.Providers.EventStore.Entities;
 
 namespace Crucial.Providers.EventStore.Data
 {
-    //public class FakeEventStoreContext : IEventStoreContext
-    //{
-    //    public IDbSet<AggregateRoot> AggregateRoots { get; set; }
-    //    public IDbSet<BaseMemento> BaseMementoes { get; set; }
-    //    public IDbSet<Event> Events { get; set; }
+    public class FakeEventStoreContext : IEventStoreContext
+    {
+        public IDbSet<AggregateRoot> AggregateRoots { get; set; }
+        public IDbSet<BaseMemento> BaseMementoes { get; set; }
+        public IDbSet<Event> Events { get; set; }
 
-    //    public FakeEventStoreContext()
-    //    {
-    //        AggregateRoots = new FakeDbSet<AggregateRoot>();
-    //        BaseMementoes = new FakeDbSet<BaseMemento>();
-    //        Events = new FakeDbSet<Event>();
-    //    }
+        public FakeEventStoreContext()
+        {
+            AggregateRoots = new FakeDbSet<AggregateRoot>();
+            BaseMementoes = new FakeDbSet<BaseMemento>();
+            Events = new FakeDbSet<Event>();
+        }
 
-    //    public int SaveChanges()
-    //    {
-    //        return 0;
-    //    }
+        public int SaveChanges()
+        {
+            return 0;
+        }
 
-    //    public void Dispose()
-    //    {
-    //        throw new NotImplementedException(); 
-    //    }
-    //}
+        public void Dispose()
+        {
+            throw new NotImplementedException(); 
+        }
+    }
 }

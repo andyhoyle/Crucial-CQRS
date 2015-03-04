@@ -15,26 +15,34 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.Questions.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
+using Crucial.Framework.Data.EntityFramework;
+using Crucial.Framework.Testing.EF;
 
 namespace Crucial.Providers.Questions.Data
 {
-    //public class FakeQuestionsDbContext : IQuestionsDbContext
-    //{
-    //    public IDbSet<Category> Categories { get; set; }
+    public class FakeQuestionsDbContext : TestDbContextBase, IQuestionsDbContext
+    {
 
-    //    public FakeQuestionsDbContext()
-    //    {
-    //        Categories = new FakeDbSet<Category>();
-    //    }
+        public IDbSet<Category> Categories { get; set; }
 
-    //    public int SaveChanges()
-    //    {
-    //        return 0;
-    //    }
+        public FakeQuestionsDbContext()
+        {
+            Categories = new TestDbSet<Category>();
+        }
 
-    //    public void Dispose()
-    //    {
-    //        throw new NotImplementedException(); 
-    //    }
-    //}
+        public int SaveChanges()
+        {
+            return 0;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException(); 
+        }
+
+		public DbSet<TEntity> Set<TEntity>() where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

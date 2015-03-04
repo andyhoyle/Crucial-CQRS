@@ -15,6 +15,8 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.Questions.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
+using Crucial.Framework.Data.EntityFramework;
+using Crucial.Framework.Testing.EF;
 
 namespace Crucial.Providers.Questions.Data
 {
@@ -59,5 +61,9 @@ namespace Crucial.Providers.Questions.Data
 
         partial void InitializePartial();
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
+		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
+            Entry<TEntity>(entityItem).State = state;
+        }
     }
 }

@@ -40,14 +40,18 @@ namespace Crucial.Framework.Testing.EF
             throw new NotImplementedException();
         }
 
-        public DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class
+        public void Entry<TEntity>(TEntity entity) where TEntity : class
         {
-            throw new NotImplementedException();
+            
         }
 
         public DbEntityEntry Entry(object entity)
         {
             throw new NotImplementedException();
+        }
+
+        public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
         }
     }
 

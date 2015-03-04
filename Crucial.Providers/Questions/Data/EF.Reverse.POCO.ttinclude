@@ -63,6 +63,7 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 <#if (!string.IsNullOrEmpty(CollectionTypeNamespace)){
         #>using <#=CollectionTypeNamespace#>;
 <#}#>
+using Crucial.Framework.Testing.EF;
 
 namespace <#= Namespace #>
 {
@@ -72,7 +73,7 @@ namespace <#= Namespace #>
     // ************************************************************************
     // Unit of work
 <# } #>
-    public interface I<#=DbContextName#> : IDisposable
+    public interface I<#=DbContextName#> : IDbContext, IDisposable
     {
 <#
 foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.NameHumanCase) select t)
@@ -84,7 +85,7 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 <# } #>
 <# } #>
 
-        int SaveChanges();
+        //int SaveChanges();
     }
 
 <# }
@@ -159,6 +160,10 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
         partial void InitializePartial();
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
 <#}#>
+		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
+            Entry<TEntity>(entityItem).State = state;
+        }
     }
 <# }
     if (ElementsToGenerate.HasFlag(Elements.Context) && AddUnitTestingDbContext)
@@ -170,8 +175,9 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
     // ************************************************************************
     // Fake Database context
 <# } #>
-    public class Fake<#=DbContextName #> : I<#=DbContextName #>
+    public class Fake<#=DbContextName #> : TestDbContextBase, I<#=DbContextName #>
     {
+
 <#
 foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.NameHumanCase) select t)
 {
@@ -185,7 +191,7 @@ foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.N
 foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.NameHumanCase) select t)
 {
 #>
-            <#=Inflector.MakePlural(tbl.NameHumanCase) #> = new FakeDbSet<<#=tbl.NameHumanCase #>>();
+            <#=Inflector.MakePlural(tbl.NameHumanCase) #> = new TestDbSet<<#=tbl.NameHumanCase #>>();
 <# } #>
         }
 
@@ -198,6 +204,11 @@ foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.N
         {
             throw new NotImplementedException(); 
         }
+
+		public DbSet<TEntity> Set<TEntity>() where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
     }
 <#fileManager.StartNewFile("FakeDbSet" + FileExtension); #>
 <# if (!GenerateSeparateFiles)
@@ -206,6 +217,7 @@ foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.N
     // ************************************************************************
     // Fake DbSet
 <# } #>
+
     public class FakeDbSet<T> : IDbSet<T> where T : class
     {
         private readonly HashSet<T> _data;
