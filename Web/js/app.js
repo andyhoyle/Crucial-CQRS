@@ -1,13 +1,13 @@
 (function(angular) {
   'use strict';
 
-    var app = angular.module('qyz', ['qyz.indexCtrl', 'qyz.settingsCtrl', 'qyz.categoriesFactory', 'ngResource', 'ngRoute', 'ng-polymer-elements'])
+  var app = angular.module('qyz', ['Qyz.Category', 'Qyz.Settings', 'ngResource', 'ngRoute', 'ng-polymer-elements'])
    
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
         
         $routeProvider
             .when('/', {
-                controller: 'indexCtrl',
+                controller: 'CategoryController',
                 templateUrl: 'templates/category.html',
                 title: 'Categories'
             })
@@ -15,7 +15,7 @@
                 redirectTo: '/'
             })
             .when('/settings', {
-                controller: 'settingsCtrl',
+                controller: 'SettingsController',
                 templateUrl: 'templates/settings.html',
                 title: 'Settings'
             })

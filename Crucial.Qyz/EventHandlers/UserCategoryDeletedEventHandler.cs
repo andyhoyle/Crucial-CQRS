@@ -8,26 +8,23 @@ using Crucial.Qyz.Events;
 
 namespace Crucial.Qyz.EventHandlers
 {
-    public class UserCategoryNameChangedEventHandler : IEventHandler<UserCategoryNameChangedEvent>
+    public class UserCategoryDeletedEventHandler : IEventHandler<UserCategoryDeletedEvent>
     {
         private ICategoryRepository _categoryRepo;
 
-        public UserCategoryNameChangedEventHandler(ICategoryRepository categoryRepo)
+        public UserCategoryDeletedEventHandler(ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
         }
 
-        public void Handle(UserCategoryNameChangedEvent handle)
+        public void Handle(UserCategoryDeletedEvent handle)
         {
             var item = _categoryRepo.FindBy(c => c.Id == handle.AggregateId).FirstOrDefault();
 
             if (item != null)
             {
-                item.Name = handle.Name;
-                item.Version = handle.Version;
+                _categoryRepo.Delete(item);
             }
-
-            _categoryRepo.Update(item);
         }
     }
 }

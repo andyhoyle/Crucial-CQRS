@@ -43,7 +43,7 @@ namespace Crucial.EventStore
 
         public IEnumerable<Event> GetAllEvents()
         {
-            return _eventStoreContext.Events.Select(s => _eventMapper.ToThirdPartyEntity(s)).ToList();
+            return _eventStoreContext.Events.AsEnumerable().Select(s => _eventMapper.ToThirdPartyEntity(s)).ToList();
         }
 
         public void Save(AggregateRoot aggregate)

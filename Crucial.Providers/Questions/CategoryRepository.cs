@@ -17,6 +17,7 @@ namespace Crucial.Providers.Questions
     public interface ICategoryRepository : IQueryableRepository<Entities.Category>,
                                             IUpdateRepository<Entities.Category>,
                                             ICreateRepository<Entities.Category, Entities.Category>,
+                                            IDeleteRepository<Entities.Category>,
                                             Framework.IoC.IAutoRegister
     {
 

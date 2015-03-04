@@ -32,6 +32,11 @@ namespace Crucial.Qyz.Domain
             ApplyChange(new UserCategoryNameChangedEvent(Id, name, Version));
         }
 
+        public void Delete()
+        {
+            ApplyChange(new UserCategoryDeletedEvent(Id, Version));
+        }
+
         public BaseMemento GetMemento()
         {
             return new UserCategoryMemento(Id, Name, Version);

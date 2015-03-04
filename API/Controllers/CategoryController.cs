@@ -62,9 +62,9 @@ namespace Api.Controllers
         }
 
         // DELETE: api/User/5
-        public void Delete(int id)
+        public void Delete(int id, [FromBody]API.Models.Category value)
         {
-            throw new NotImplementedException();
+            _commandBus.Send(new UserCategoryDeleteCommand(id, value.Version));
         }
     }
 }

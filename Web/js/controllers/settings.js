@@ -1,9 +1,9 @@
 (function(angular) {
   'use strict';
 
-    var app = angular.module('qyz.settingsCtrl', [])
+  var module = angular.module('Qyz.Settings', []);
     
-    .controller('settingsCtrl', function($scope) {
+    module.controller('SettingsController', function($scope) {
         $scope.a = 2;
     })
 
