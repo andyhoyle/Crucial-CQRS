@@ -1,8 +1,8 @@
 (function(angular) {
   'use strict';
 
-  var app = angular.module('qyz', ['Qyz.Category', 'Qyz.Settings', 'ngResource', 'ngRoute', 'ngMaterial'])
-   
+    var app = angular.module('qyz', ['Qyz.Category', 'Qyz.Settings', 'Qyz.SignalR', 'ngResource', 'ngRoute', 'ngMaterial'])
+    .value('signalRServer', 'http://localhost:41194/')
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
         
         $routeProvider
@@ -36,3 +36,5 @@
 }]);
 
 })(window.angular);
+
+

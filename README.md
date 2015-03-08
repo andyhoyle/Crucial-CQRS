@@ -1,6 +1,6 @@
 # Crucial
 
-A WebAPI, Entity Framework, AngularJS (and soon SignalR) sample project to demonstrate CQRS and Event Sourcing. 
+A WebAPI, Entity Framework, AngularJS (and ~~soon~~ now SignalR) sample project to demonstrate CQRS and Event Sourcing. 
 
 Inspiration and adapation of code from:
 - http://prodinner.codeplex.com/

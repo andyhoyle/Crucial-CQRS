@@ -13,7 +13,7 @@
     </md-item-content>
 
         <md-list>
-            <md-item ng-repeat="category in categories">
+            <md-item ng-repeat="category in categories track by category.Id">
                 <md-item-content>
                     <div class="md-tile-left">
                         <img ng-src="https://material.angularjs.org/img/list/60.jpeg" class="face" alt="{{category.Name}}">
@@ -33,13 +33,3 @@
         </md-list>
 
 </md-content>                
-
-
-					<div>
-						<div ng-repeat="category in categories" label="{{category.Name}}">{{category.Name}} <a ng-click="edit(category)">Edit</a></div>
-					</div>
-                    
-					<div>
-                        <input type="text" ng-model="category.Name" label="New Category" />
-						<button  ng-click="add()">Add</button>
-					</div>

@@ -38,6 +38,7 @@ namespace API
                 x.Scan(s =>
                 {
                     s.AssemblyContainingType<Crucial.Qyz.CommandHandlers.UserCategoryNameChangeCommandHandler>();
+                    s.AssemblyContainingType<API.Controllers.BroadcastUserCategoryCreatedEventHandler>();
                     s.ConnectImplementationsToTypesClosing(typeof(Crucial.Framework.DesignPatterns.CQRS.Commands.ICommandHandler<>));
                     s.ConnectImplementationsToTypesClosing(typeof(Crucial.Framework.DesignPatterns.CQRS.Events.IEventHandler<>));
                 });

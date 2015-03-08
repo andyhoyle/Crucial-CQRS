@@ -101,8 +101,13 @@ namespace Crucial.Framework.Data.EntityFramework
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
+                StringBuilder sb = new StringBuilder();
+                foreach(var er in ex.EntityValidationErrors)
+                {
+                    sb.Append(er.ToString());
+                }
                 //CrucialLogger.LogException(ex);
-                throw new Exception("EF Validation failed, see inner exception for details", ex);
+                throw new Exception("EF Validation failed, see inner exception for details:" + sb.ToString(), ex);
             }
 
             return result as TKey;

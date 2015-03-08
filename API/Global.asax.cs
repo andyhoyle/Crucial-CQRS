@@ -1,4 +1,5 @@
 ﻿using Crucial.Framework.DesignPatterns.CQRS.Utils;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace API
         {
             Bootstrapper.BootstrapStructureMap();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            
+
             IStateHelper sh = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IStateHelper>();
             sh.RestoreState();
         }
