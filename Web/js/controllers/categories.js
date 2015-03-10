@@ -16,6 +16,10 @@
         $scope.category = {};
         $scope.buttonMode = "Add";
 
+        $scope.add = add;
+        $scope.startEdit = startEdit;
+        $scope.commitEdit = commitEdit;
+
         var outputLog = function (message) {
             console.log(message);
             angular.forEach($scope.categories, function (u, i) {
@@ -32,21 +36,17 @@
             return -1;
         }
 
-        $scope.add = function () {
+        function add() {
             Category.save($scope.category);
-            outputLog("After save");
         	$scope.category = {};
         };
 
-        $scope.startEdit = function (category) {
+        function startEdit(category) {
             $scope.category = category;
             $scope.buttonMode = "Edit";
         };
 
-        $scope.commitEdit = function () {
-            console.log("Editing:");
-            console.log($scope.category);
-            outputLog("Before update");
+        function commitEdit() {
             Category.update($scope.category);
             $scope.category = {};
             $scope.buttonMode = "Add";
@@ -55,16 +55,12 @@
         var categoryEventHub = signalRHubProxy(signalRHubProxy.defaultServer, 'categoryEventHub', { logging: true });
 
         categoryEventHub.on('userCategoryCreated', function (category) {
-            outputLog("Before Created Event");
             $scope.categories.push(category);
-            outputLog("After Created Event");
             var x = categoryEventHub.connection.id;
         });
 
         categoryEventHub.on('userCategoryNameChanged', function (category) {
-            outputLog("Before Updated Event");
             $scope.categories[angularIndexOf($scope.categories, category)] = category;
-            outputLog("After Updated Event");
         });
 
         categoryEventHub.start();
