@@ -8,13 +8,18 @@ Inspiration and adapation of code from:
 - http://www.asp.net/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr
 
 ## Components
-- AngularJS
+- AngularJS (with [Angular Material Design](https://material.angularjs.org/) )
 - [ValueInjector](http://valueinjecter.codeplex.com/)
-- EntityFramework 6
+- EntityFramework 6 (Code first with adapted [Reverse POCO generator](https://visualstudiogallery.msdn.microsoft.com/ee4fcff9-0c4c-4179-afd9-7a2fb90f5838))
 - WebAPI
 - [StructureMap](http://docs.structuremap.net/)
 - [NUnit](http://www.nunit.org/)
 - [Moq](https://github.com/Moq/moq4)
+
+# Points of Interest
+- Query database is recreated from Event Store on every application load (see `.API/global.asax.cs` for details)
+- UI is notified of events via SignalR, not directly via UI interactions (try experimenting with multiple browser windows)
+- Snapshots (Mementos) are generated and stored in the Event Store so replaying from last snapshot is faster than from entire history 
 
 # Getting started
 
@@ -37,6 +42,8 @@ You can also optionally run the web project from the Web folder if you install g
 You can then run `grunt connect` to view [http://localhost:8000](http://localhost:8000)
 
 # Roadmap
+- Diagrams explaining architecture
+- Restore query database form latest snapshot instead of replay entire event history
 - More test coverage
 - More complex examples of aggregates
 - Remove dependency for UI to keep track of versions
