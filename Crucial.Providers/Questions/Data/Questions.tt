@@ -22,7 +22,7 @@
     AddUnitTestingDbContext = true; // Will add a FakeDbContext and DbSet for easy unit testing
     
 	
-    // Pluralization ********************************************************************************************************************** 
+    // Pluralization **********************************************************************************************************************
     // To turn off pluralization, use:
     //      Inflector.PluralizationService = null;
     // Default pluralization, use:

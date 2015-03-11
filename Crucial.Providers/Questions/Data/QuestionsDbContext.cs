@@ -26,7 +26,16 @@ namespace Crucial.Providers.Questions.Data
 
         static QuestionsDbContext()
         {
+            Database.SetInitializer<QuestionsDbContext>(null);
+        }
+
+		public static void Drop()
+        {
             Database.SetInitializer<QuestionsDbContext>(new DropCreateDatabaseAlways<QuestionsDbContext>());
+            QuestionsDbContext ctx = new QuestionsDbContext();
+            ctx.Database.Initialize(true);
+            ctx.Dispose();
+            Database.SetInitializer<QuestionsDbContext>(null);
         }
 
         public QuestionsDbContext()

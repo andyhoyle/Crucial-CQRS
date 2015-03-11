@@ -62,7 +62,6 @@
             var idx = utils.indexOf($scope.categories, { Id: id });
             var cat = $scope.categories[idx];
             Category.delete(cat);
-            $scope.categories.splice(idx, 1);
         }
 
         function cancel() {
@@ -83,6 +82,13 @@
         categoryEventHub.on('userCategoryNameChanged', function (category) {
             $scope.categories[utils.indexOf($scope.categories, category)] = category;
         });
+
+        categoryEventHub.on('userCategoryDeleted', function (id) {
+            var idx = utils.indexOf($scope.categories, { Id: id });
+            $scope.categories.splice(idx, 1);
+        });
+
+
 
         categoryEventHub.start();
     }]);

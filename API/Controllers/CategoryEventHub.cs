@@ -58,9 +58,17 @@ namespace API.Controllers
         {
             Clients.All.userCategoryNameChanged(category);
         }
+
+        internal void UserCategoryDeletedEventNotify(int id)
+        {
+            Clients.All.userCategoryDeleted(id);
+        }
     }
 
-    public class BroadcastUserCategoryCreatedEventHandler : IEventHandler<UserCategoryCreatedEvent>, IEventHandler<UserCategoryNameChangedEvent>
+    public class BroadcastUserCategoryCreatedEventHandler : 
+        IEventHandler<UserCategoryCreatedEvent>, 
+        IEventHandler<UserCategoryNameChangedEvent>,
+        IEventHandler<UserCategoryDeletedEvent>
     {
         public void Handle(UserCategoryCreatedEvent handle)
         {
@@ -70,6 +78,11 @@ namespace API.Controllers
         public void Handle(UserCategoryNameChangedEvent handle)
         {
             CategoryEventBroadcaster.Instance.UserCategoryNameChangedEventNotify(new Models.Category { Id = handle.AggregateId, Name = handle.Name, Version = handle.Version });
+        }
+
+        public void Handle(UserCategoryDeletedEvent handle)
+        {
+            CategoryEventBroadcaster.Instance.UserCategoryDeletedEventNotify(handle.AggregateId);
         }
     }
 }

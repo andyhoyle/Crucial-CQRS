@@ -109,7 +109,16 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 
         static <#=DbContextName#>()
         {
+            Database.SetInitializer<<#=DbContextName#>>(null);
+        }
+
+		public static void Drop()
+        {
             Database.SetInitializer<<#=DbContextName#>>(new DropCreateDatabaseAlways<<#=DbContextName#>>());
+            <#=DbContextName#> ctx = new <#=DbContextName#>();
+            ctx.Database.Initialize(true);
+            ctx.Dispose();
+            Database.SetInitializer<<#=DbContextName#>>(null);
         }
 
         public <#=DbContextName#>()
