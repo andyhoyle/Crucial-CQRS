@@ -62,5 +62,11 @@ namespace Crucial.Qyz.Domain
             Version = e.Version;
             Id = e.AggregateId;
         }
+
+        public void Handle(UserCategoryDeletedEvent e)
+        {
+            Id = e.AggregateId;
+            Version = e.Version;
+        }
     }
 }

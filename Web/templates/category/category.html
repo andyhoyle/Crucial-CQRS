@@ -1,0 +1,35 @@
+<md-toolbar class="">
+    <h2 class="md-toolbar-tools">
+        <span>{{title}}</span>
+        <span flex></span>
+        <md-button ng-click="add()">New</md-button>
+    </h2>
+</md-toolbar>
+<md-content flex class="md-padding">
+    <md-list>
+        <md-item ng-repeat="category in categories track by category.Id">
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="https://material.angularjs.org/img/list/60.jpeg" class="face" alt="{{category.Name}}">
+                </div>
+                <div class="md-tile-content">
+                    <h3 ng-click="edit(category)" style="cursor: pointer;">{{category.Name}}</h3>
+                    <h4>Created by John Smith</h4>
+                    <p>
+                        Questions about x, y and z
+                    </p>
+                </div>
+                <div>
+                    <md-switch ng-model="category.enabled" aria-label="Category Enabled">
+
+                    </md-switch>
+                </div>
+                <md-button ng-click="delete(category.Id)" class="md-fab" aria-label="Delete Category">
+                    <md-icon md-svg-src="/bower_components/material-design-icons/navigation/svg/design/ic_close_18px.svg"></md-icon>
+                </md-button>
+            </md-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+        </md-item>
+    </md-list>
+
+</md-content>           

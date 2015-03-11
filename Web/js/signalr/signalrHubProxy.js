@@ -50,8 +50,7 @@ module.factory('signalRHubProxy', ['$rootScope', 'signalRServer',
                                 }
                             });
                         });
-                },
-                connection: connection
+                }
             };
         };
 

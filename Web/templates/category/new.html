@@ -1,0 +1,26 @@
+﻿<md-dialog aria-label="Add New Cateogry">
+    <md-content>
+        <h2>{{title}}</h2>
+        <md-item-content>
+            <div>
+                <md-input-container flex>
+                    <label>Category</label>
+                    <input ng-model="category.Name" placeholder="New Category">
+                </md-input-container>
+            </div>
+        </md-item-content>
+
+    </md-content>
+    <div class="md-actions" layout="row">
+        <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" hide show-md>
+            More on Wikipedia
+        </md-button>
+        <span flex></span>
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+        <md-button ng-click="save(category)" class="md-primary">
+            Save
+        </md-button>
+    </div>
+</md-dialog>

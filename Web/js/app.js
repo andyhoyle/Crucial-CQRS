@@ -1,14 +1,21 @@
 (function(angular) {
   'use strict';
 
-    var app = angular.module('qyz', ['Qyz.Category', 'Qyz.Settings', 'Qyz.SignalR', 'ngResource', 'ngRoute', 'ngMaterial'])
+  var module = angular.module('Qyz.Category', []);
+
+  var app = angular.module('qyz', ['Qyz.Category', 'Qyz.Settings', 'Qyz.SignalR', 'Utils', 'ngResource', 'ngRoute', 'ngMaterial'])
     .value('signalRServer', 'http://localhost:41194/')
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
         
         $routeProvider
             .when('/', {
                 controller: 'CategoryController',
-                templateUrl: 'templates/category.html',
+                templateUrl: 'templates/category/category.html',
+                title: 'Categories'
+            })
+            .when('/categories/new', {
+                controller: 'CategoryController',
+                templateUrl: 'templates/category/new.html',
                 title: 'Categories'
             })
             .when('/index.html', {

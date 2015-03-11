@@ -54,6 +54,7 @@ namespace Api.Controllers
         }
 
         // DELETE: api/User/5
+        [HttpPost]
         public void Delete(int id, [FromBody]API.Models.Category value)
         {
             _commandBus.Send(new UserCategoryDeleteCommand(id, value.Version));

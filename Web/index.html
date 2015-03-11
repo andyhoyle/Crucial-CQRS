@@ -4,7 +4,7 @@
 	    <base href="/">
         
         <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css" />
-	    
+
         <!-- angular -->
 	    <script src="/bower_components/angular/angular.js"></script>
         <script src="/bower_components/angular-animate/angular-animate.js"></script>
@@ -23,46 +23,18 @@
 
 		<!-- custom script -->    
 	    <script src="js/app.js"></script>
-	    <script src="js/controllers/categories.js"></script>
-	    <script src="js/controllers/settings.js"></script>
+	    <!--categories-->
+        <script src="js/category/controller.js"></script>
+        <script src="js/category/factory.js"></script>
+        <script src="js/utils/utils.js"></script>
+        
+        <!--settings-->
+	    <script src="js/settings/settings.js"></script>
         
 		<!-- css -->
 		<link rel="stylesheet" type="text/css" href="css/layout.css" />
 	</head>
 	<body>
-        <h1>{{title}}</h1>
-        <div layout="column">
-            <section layout="row" flex>
-                <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="false">
-                    <md-toolbar class="md-theme-indigo">
-                        <h1 class="md-toolbar-tools">Sidenav Left</h1>
-                    </md-toolbar>
-                    <md-content class="md-padding">
-                        <md-button ng-click="close()" class="md-primary" hide-gt-md>
-                            Close Sidenav Left
-                        </md-button>
-                        <p hide-md show-gt-md>
-                            This sidenav is locked open on your device. To go back to the default behavior,
-                            narrow your display.
-                        </p>
-                    </md-content>
-                </md-sidenav>
-                <md-content flex class="md-padding">
-                    <div layout="column" layout-fill layout-align="center center">
-                        <p>
-                            The left sidenav will 'lock open' on a medium (>=960px wide) device.
-                        </p>
-                        <div>
-                            <md-button ng-click="toggleLeft()"
-                                       class="md-primary" hide-gt-md>
-                                Toggle left
-                            </md-button>
-
-                            <div ng-view></div>
-                        </div>
-                    </div>
-                </md-content>
-            </section>
-        </div>
+        <div ng-view></div>    
 	</body>
 </html>
