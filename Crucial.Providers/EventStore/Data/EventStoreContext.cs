@@ -26,7 +26,7 @@ namespace Crucial.Providers.EventStore.Data
 
         static EventStoreContext()
         {
-            Database.SetInitializer<EventStoreContext>(null);
+            Database.SetInitializer<EventStoreContext>(new CreateDatabaseIfNotExists<EventStoreContext>());
         }
 
         public EventStoreContext()

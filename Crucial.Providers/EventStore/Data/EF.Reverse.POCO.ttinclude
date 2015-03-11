@@ -108,7 +108,7 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 
         static <#=DbContextName#>()
         {
-            Database.SetInitializer<<#=DbContextName#>>(null);
+            Database.SetInitializer<<#=DbContextName#>>(new CreateDatabaseIfNotExists<<#=DbContextName#>>());
         }
 
         public <#=DbContextName#>()
