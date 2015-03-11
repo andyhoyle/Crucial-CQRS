@@ -7,6 +7,15 @@ Inspiration and adapation of code from:
 - http://www.codeproject.com/Articles/555855/Introduction-to-CQRS
 - http://www.asp.net/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr
 
+## Components
+- AngularJS
+- [ValueInjector](http://valueinjecter.codeplex.com/)
+- EntityFramework 6
+- WebAPI
+- [StructureMap](http://docs.structuremap.net/)
+- [NUnit](http://www.nunit.org/)
+- [Moq](https://github.com/Moq/moq4)
+
 # Getting started
 
 - Install node.js & npm package manager (https://nodejs.org/download/)
@@ -26,3 +35,9 @@ You can also optionally run the web project from the Web folder if you install g
 - `npm install grunt`
 - `npm install grunt-contrib-connect --save-dev`
 You can then run `grunt connect` to view [http://localhost:8000](http://localhost:8000)
+
+# Roadmap
+- More test coverage
+- More complex examples of aggregates
+- Remove dependency for UI to keep track of versions
+- Gracefully handle version clashes (Concurrency exceptions)
