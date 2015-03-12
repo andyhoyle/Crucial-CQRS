@@ -3,7 +3,9 @@
         <md-item ng-repeat="category in categories track by category.Id">
             <md-item-content>
                 <div class="md-tile-left">
-                    <img ng-src="https://material.angularjs.org/img/list/60.jpeg" class="face" alt="{{category.Name}}">
+                    <md-button style="margin-right: 15px" ng-click="edit(category)" class="md-fab md-primary" aria-label="{{category.Name}}">
+                        <ng-md-icon icon="face" style="fill: #fff" options='{"duration": 250, "rotation": "none"}' size="32"></ng-md-icon>
+                    </md-button>
                 </div>
                 <div class="md-tile-content">
                     <h3 ng-click="edit(category)" style="cursor: pointer;">{{category.Name}}</h3>
@@ -21,13 +23,13 @@
                     <md-tooltip>
                         Delete
                     </md-tooltip>
-                    <ng-md-icon icon="{{category.deleteIcon}}" options='{"duration": 250, "rotation": "none"}' style="fill: #fff" size="24"></ng-md-icon>
+                    <ng-md-icon icon="{{getDeleteIcon(category)}}" options='{"duration": 250, "rotation": "none"}' style="fill: #fff" size="24"></ng-md-icon>
                 </md-button>
             </md-item-content>
             <md-divider></md-divider>
         </md-item>
         
-        <md-button style="margin: 13px;" ng-click="add()" class="md-fab md-primary md-hue-2" aria-label="Add New Category">
+        <md-button style="margin: 20px 0;" ng-click="add()" class="md-fab md-primary md-hue-2" aria-label="Add New Category">
             <md-tooltip>
                 Add Category
             </md-tooltip>

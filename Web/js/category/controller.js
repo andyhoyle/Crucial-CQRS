@@ -27,17 +27,19 @@
         $scope.delete = deleteCategory;
         $scope.toggle = toggle;
         $scope.addIcon = "add";
+        $scope.getDeleteIcon = getDeleteIcon;
 
         /////////////////////////////
 
-        Category.query().$promise.then(
-            function (data) {
-                console.log(data);
-                for (var i = 0; i < data.length; i++) {
-                    data[i].deleteIcon = "delete";
-                }
-                $scope.categories = data;
-            });
+        $scope.categories = Category.query();
+
+        function getDeleteIcon(cat) {
+            if (cat.isDeleted) {
+                return "done";
+            } else {
+                return "delete";
+            }
+        }
 
         function showDialog(title, callback) {
             $mdDialog.show({
@@ -76,7 +78,7 @@
         }
 
         function deleteCategory(category) {
-            category.deleteIcon = "done";
+            category.isDeleted = true;
             Category.delete(category);
         }
 

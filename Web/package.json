@@ -1,7 +1,7 @@
 {
-  "name": "Qyz",
+  "name": "Crucial-CQRS",
   "version": "0.0.1",
-  "description": "Simple quiz pllication to demo AngularJS, XSockets and SQL Query Notifications",
+  "description": "Simple quiz application to demo AngularJS, SignalR, and CQRS and Event Sourcing",
   "main": "Gruntfile.js",
   "dependencies": {
     "grunt": "^0.4.5",
