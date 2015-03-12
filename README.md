@@ -21,6 +21,9 @@ Inspiration and adapation of code from:
 - UI is notified of events via SignalR, not directly via UI interactions (try experimenting with multiple browser windows)
 - Snapshots (Mementos) are generated and stored in the Event Store so replaying from last snapshot is faster than from entire history 
 
+##Diagram
+![CQRS Diagram](Crucial-CQRS.png?raw=true "Crucial CQRS Diagram")
+
 ## Getting started
 
 - Install node.js & npm package manager (https://nodejs.org/download/)
