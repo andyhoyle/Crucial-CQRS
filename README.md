@@ -21,7 +21,7 @@ Inspiration and adapation of code from:
 - UI is notified of events via SignalR, not directly via UI interactions (try experimenting with multiple browser windows)
 - Snapshots (Mementos) are generated and stored in the Event Store so replaying from last snapshot is faster than from entire history 
 
-##Diagram
+##Architecture
 ![CQRS Diagram](Crucial-CQRS.png?raw=true "Crucial CQRS Diagram")
 
 ## Getting started
@@ -45,7 +45,7 @@ You can also optionally run the web project from the Web folder if you install g
 You can then run `grunt connect` to view [http://localhost:8000](http://localhost:8000)
 
 ## Roadmap
-- Diagrams explaining architecture
+- ~~Diagrams explaining architecture~~
 - Restore query database form latest snapshot instead of replay entire event history
 - More test coverage
 - More complex examples of aggregates
