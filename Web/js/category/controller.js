@@ -17,15 +17,8 @@
     }
 
     module.controller('CategoryController', ['$scope', 'Category', 'signalRHubProxy', 'UtilsService', '$mdDialog', function ($scope, Category, signalRHubProxy, utils, $mdDialog) {
-        Category.query().$promise.then(
-            function (data) {
-                console.log(data);
-                for (var i = 0; i < data.length; i++) {
-                    data[i].deleteIcon="delete";
-                }
-                $scope.categories = data;
-            });
-        
+        /////////////////////////////
+
         $scope.category = {};
         $scope.buttonMode = "Add";
 
@@ -34,6 +27,17 @@
         $scope.delete = deleteCategory;
         $scope.toggle = toggle;
         $scope.addIcon = "add";
+
+        /////////////////////////////
+
+        Category.query().$promise.then(
+            function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    data[i].deleteIcon = "delete";
+                }
+                $scope.categories = data;
+            });
 
         function showDialog(title, callback) {
             $mdDialog.show({
@@ -101,9 +105,7 @@
             var idx = utils.indexOf($scope.categories, { Id: id });
             $scope.categories.splice(idx, 1);
         });
-
-
-
+        
         categoryEventHub.start();
     }]);
 
