@@ -3,8 +3,6 @@
 	<head>
 	    <base href="/">
         
-        <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css" />
-
         <!-- angular -->
 	    <script src="/bower_components/angular/angular.js"></script>
         <script src="/bower_components/angular-animate/angular-animate.js"></script>
@@ -39,12 +37,14 @@
         <script src="js/settings/controller.js"></script>
         
 		<!-- css -->
+        <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css" />
 		<link rel="stylesheet" type="text/css" href="css/layout.css" />
+
 	</head>
 	<body>
         <div ng-controller="AppCtrl">
             <section layout="row" flex>
-                <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+                <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" >
                     <md-toolbar class="md-theme-indigo">
                         <h1 class="md-toolbar-tools">Menu</h1>
                     </md-toolbar>

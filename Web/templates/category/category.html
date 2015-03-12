@@ -9,7 +9,7 @@
                 </div>
                 <div class="md-tile-content">
                     <h3 ng-click="edit(category)" style="cursor: pointer;">{{category.Name}}</h3>
-                    <h4>Created by John Smith</h4>
+                    <h4>Created 2 hours ago by John Smith </h4>
                     <p>
                         Questions about x, y and z
                     </p>
@@ -19,11 +19,11 @@
 
                     </md-switch>
                 </div>
-                <md-button ng-click="delete(category)" class="md-fab" aria-label="Delete Category">
+                <md-button ng-click="delete(category)" class="md-fab" aria-label="Delete Category" ng-disabled="category.isDeleted">
                     <md-tooltip>
                         Delete
                     </md-tooltip>
-                    <ng-md-icon icon="{{getDeleteIcon(category)}}" options='{"duration": 250, "rotation": "none"}' style="fill: #fff" size="24"></ng-md-icon>
+                    <ng-md-icon icon="{{getDeleteIcon(category)}}" options='{"duration": 250, "rotation": "none"}' style="fill: #fff" size="32"></ng-md-icon>
                 </md-button>
             </md-item-content>
             <md-divider></md-divider>

@@ -5,7 +5,7 @@
             <div>
                 <md-input-container flex>
                     <label>Category</label>
-                    <input ng-model="category.Name" placeholder="New Category">
+                    <input ng-model="category.Name" placeholder="New Category" ng-keyup="$event.keyCode == 13 && save(category)">
                 </md-input-container>
             </div>
         </md-item-content>
