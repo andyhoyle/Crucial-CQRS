@@ -1,4 +1,4 @@
-# Crucial
+# Crucial CQRS
 
 A WebAPI, Entity Framework, AngularJS (and ~~soon~~ now SignalR) sample project to demonstrate CQRS and Event Sourcing. 
 
