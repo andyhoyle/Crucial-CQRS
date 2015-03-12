@@ -17,7 +17,15 @@
     }
 
     module.controller('CategoryController', ['$scope', 'Category', 'signalRHubProxy', 'UtilsService', '$mdDialog', function ($scope, Category, signalRHubProxy, utils, $mdDialog) {
-        $scope.categories = Category.query();
+        Category.query().$promise.then(
+            function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    data[i].deleteIcon="delete";
+                }
+                $scope.categories = data;
+            });
+        
         $scope.category = {};
         $scope.buttonMode = "Add";
 
@@ -25,6 +33,7 @@
         $scope.edit = startEdit;
         $scope.delete = deleteCategory;
         $scope.toggle = toggle;
+        $scope.addIcon = "add";
 
         function showDialog(title, callback) {
             $mdDialog.show({
@@ -40,31 +49,35 @@
         }
 
         function showAdd() {
+            $scope.addIcon = "more_horiz";
             showDialog('Add Category', add);
         };
 
         function startEdit(category) {
+            $scope.addIcon = "more_horiz";
             $scope.category = category;
             showDialog('Edit Category', commitEdit);
         };
 
         function add(cat) {
+            $scope.addIcon = "add";
             Category.save(cat);
             $scope.category = {};
         };
 
         function commitEdit(cat) {
+            $scope.addIcon = "add";
             Category.update(cat);
             $scope.category = {};
         }
 
-        function deleteCategory(id) {
-            var idx = utils.indexOf($scope.categories, { Id: id });
-            var cat = $scope.categories[idx];
-            Category.delete(cat);
+        function deleteCategory(category) {
+            category.deleteIcon = "done";
+            Category.delete(category);
         }
 
         function cancel() {
+            $scope.addIcon = "add";
             $scope.category = {};
         }
 
@@ -76,6 +89,7 @@
         var categoryEventHub = signalRHubProxy(signalRHubProxy.defaultServer, 'categoryEventHub', { logging: true });
 
         categoryEventHub.on('userCategoryCreated', function (category) {
+            category.deleteIcon="delete";
             $scope.categories.push(category);
         });
 

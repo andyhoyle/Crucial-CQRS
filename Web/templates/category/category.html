@@ -1,11 +1,4 @@
-<md-toolbar class="">
-    <h2 class="md-toolbar-tools">
-        <span>{{title}}</span>
-        <span flex></span>
-        <md-button ng-click="add()">New</md-button>
-    </h2>
-</md-toolbar>
-<md-content flex class="md-padding">
+
     <md-list>
         <md-item ng-repeat="category in categories track by category.Id">
             <md-item-content>
@@ -24,12 +17,21 @@
 
                     </md-switch>
                 </div>
-                <md-button ng-click="delete(category.Id)" class="md-fab" aria-label="Delete Category">
-                    <md-icon md-svg-src="/bower_components/material-design-icons/navigation/svg/design/ic_close_18px.svg"></md-icon>
+                <md-button ng-click="delete(category)" class="md-fab" aria-label="Delete Category">
+                    <md-tooltip>
+                        Delete
+                    </md-tooltip>
+                    <ng-md-icon icon="{{category.deleteIcon}}" options='{"duration": 250, "rotation": "none"}' style="fill: #fff" size="24"></ng-md-icon>
                 </md-button>
             </md-item-content>
             <md-divider ng-if="!$last"></md-divider>
         </md-item>
+        
+        <md-button style="margin-left: 13px;" ng-click="add()" class="md-fab md-primary md-hue-2" aria-label="Add New Category">
+            <md-tooltip>
+                Add Category
+            </md-tooltip>
+            <ng-md-icon icon="{{addIcon}}" style="fill: #fff" options='{"duration": 250, "rotation": "none"}' size="32"></ng-md-icon>
+        </md-button>
+                
     </md-list>
-
-</md-content>           

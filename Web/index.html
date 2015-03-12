@@ -12,7 +12,9 @@
         <script src="/bower_components/angular-material/angular-material.js"></script>
 	    <script src="/bower_components/angular-route/angular-route.js"></script>
 	    <script src="/bower_components/angular-resource/angular-resource.js"></script>
-        
+        <script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
+        <script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script> 
+
         <!--jQuery-->
         <script src="/js/jquery/jquery-1.6.4.js"></script>
 
@@ -23,18 +25,71 @@
 
 		<!-- custom script -->    
 	    <script src="js/app.js"></script>
+
 	    <!--categories-->
+        <script src="js/category/module.js"></script>
         <script src="js/category/controller.js"></script>
         <script src="js/category/factory.js"></script>
         <script src="js/utils/utils.js"></script>
         
         <!--settings-->
-	    <script src="js/settings/settings.js"></script>
+	    <script src="js/settings/module.js"></script>
+        <script src="js/settings/controller.js"></script>
         
 		<!-- css -->
 		<link rel="stylesheet" type="text/css" href="css/layout.css" />
 	</head>
 	<body>
-        <div ng-view></div>    
-	</body>
+        <div ng-controller="AppCtrl">
+            <section layout="row" flex>
+                <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+                    <md-toolbar class="md-theme-indigo">
+                        <h1 class="md-toolbar-tools">Menu</h1>
+                    </md-toolbar>
+                    <md-content class="md-padding" ng-controller="LeftCtrl">
+                        <md-button ng-click="close()" class="md-primary" hide-gt-md>
+                            Close Menu
+                        </md-button>
+
+                        <md-list>
+                            <md-item>
+                                <md-item-content>
+                                    <div class="md-tile-content">
+                                        <a href="/">Categories</a>
+                                    </div>
+</md-item-content>
+                            </md-item>
+                            <md-divider></md-divider>
+                            <md-item>
+                                <md-item-content>
+                                    <div class="md-tile-content">
+                                        <a href="/settings">Settings</a>
+                                        </div>
+</md-item-content>
+                            </md-item>
+                            <md-divider></md-divider>
+                        </md-list>
+                    </md-content>
+                </md-sidenav>
+                <md-content flex>
+                    <md-toolbar class="">
+                        <h2 class="md-toolbar-tools">
+                            <button class="docs-menu-icon" hide-gt-md aria-label="Toggle Menu" ng-controller="LeftCtrl" ng-click="open()">
+                                <md-icon md-svg-src="img/icons/ic_menu_24px.svg" class="ng-isolate-scope md-default-theme" aria-hidden="true">
+                                </md-icon>
+                            </button>
+                            <span>{{title}}</span>
+                            <span flex></span>
+                            <span><a href="http://github.com/andyhoyle/Crucial-CQRS">GitHub</a></span>
+                        </h2>
+                    </md-toolbar>
+                    <md-content flex class="md-padding">
+                        
+                        <div ng-view></div>
+                    </md-content>
+                    <div flex></div>
+                </md-content>
+            </section>
+        </div>
+    </body>
 </html>
