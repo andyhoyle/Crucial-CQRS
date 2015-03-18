@@ -28,7 +28,7 @@ Inspiration and adapation of code from:
 
 - Install node.js & npm package manager (https://nodejs.org/download/)
 - `cd ./Web`
-- `npm install bower`
+- `npm install -g bower`
 - `bower install`
 
 ### Update connection strings in `./API/web.config`
@@ -46,8 +46,10 @@ You can then run `grunt connect` to view [http://localhost:8000](http://localhos
 
 ## Roadmap
 - ~~Diagrams explaining architecture~~
+- Make all calls to WebAPI async and write to Event Bus asynchronously
+- Implement [Hangfire](http://hangfire.io/) to pick up items from Event Bus
 - Restore query database form latest snapshot instead of replay entire event history
-- More test coverage
+- More test coverage (using [Seleno](http://docs.teststack.net/seleno/index.html))
 - More complex examples of aggregates
 - Remove dependency for UI to keep track of versions
 - Gracefully handle version clashes (Concurrency exceptions)
