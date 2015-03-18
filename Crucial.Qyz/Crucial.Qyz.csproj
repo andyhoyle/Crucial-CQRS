@@ -48,20 +48,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\UserCategoryCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\UserCategoryDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\UserCategoryNameChangeCommandHandler.cs" />
-    <Compile Include="Commands\UserCategoryCreateCommand.cs" />
-    <Compile Include="Commands\UserCategoryDeleteCommand.cs" />
-    <Compile Include="Commands\UserCategoryNameChangeCommand.cs" />
+    <Compile Include="CommandHandlers\Question\QuestionCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\Question\QuestionDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\Question\QuestionTextChangeCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserCategory\UserCategoryCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserCategory\UserCategoryDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserCategory\UserCategoryNameChangeCommandHandler.cs" />
+    <Compile Include="Commands\Question\QuestionCreateCommand.cs" />
+    <Compile Include="Commands\Question\QuestionDeleteCommand.cs" />
+    <Compile Include="Commands\Question\QuestionTextChangeCommand.cs" />
+    <Compile Include="Commands\UserCategory\UserCategoryCreateCommand.cs" />
+    <Compile Include="Commands\UserCategory\UserCategoryDeleteCommand.cs" />
+    <Compile Include="Commands\UserCategory\UserCategoryNameChangeCommand.cs" />
+    <Compile Include="Domain\Mementos\Question.cs" />
     <Compile Include="Domain\Mementos\UserCategoryMemento.cs" />
+    <Compile Include="Domain\Question.cs" />
+    <Compile Include="Domain\QuestionBase.cs" />
+    <Compile Include="EventHandlers\Question\QuestionDeletedEventHandler.cs" />
+    <Compile Include="EventHandlers\Question\QuestionTextChangedEventHandler.cs" />
+    <Compile Include="Events\Question\QuestionTextChangedEvent.cs" />
+    <Compile Include="Domain\QuestionType.cs" />
     <Compile Include="Domain\UserCategory.cs" />
-    <Compile Include="EventHandlers\UserCategoryCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\UserCategoryDeletedEventHandler.cs" />
-    <Compile Include="EventHandlers\UserCategoryNameChangedEventHandler.cs" />
-    <Compile Include="Events\UserCategoryCreatedEvent.cs" />
-    <Compile Include="Events\UserCategoryDeletedEvent.cs" />
-    <Compile Include="Events\UserCategoryNameChangedEvent.cs" />
+    <Compile Include="EventHandlers\Question\QuestionCreatedEventHandler.cs" />
+    <Compile Include="EventHandlers\UserCategory\UserCategoryCreatedEventHandler.cs" />
+    <Compile Include="EventHandlers\UserCategory\UserCategoryDeletedEventHandler.cs" />
+    <Compile Include="EventHandlers\UserCategory\UserCategoryNameChangedEventHandler.cs" />
+    <Compile Include="Events\Question\QuestionCreatedEvent.cs" />
+    <Compile Include="Events\Question\QuestionDeletedEvent.cs" />
+    <Compile Include="Events\UserCategory\UserCategoryCreatedEvent.cs" />
+    <Compile Include="Events\UserCategory\UserCategoryDeletedEvent.cs" />
+    <Compile Include="Events\UserCategory\UserCategoryNameChangedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

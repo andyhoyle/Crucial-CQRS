@@ -32,8 +32,14 @@ namespace API
                 x.For<IQuestionsDbContext>().Use(() => new QuestionsDbContext());
                 x.For<IEventStoreContext>().Use(() => new EventStoreContext());
                 x.For<IQuestionManager>().Use<QuestionManager>();
-                x.For<ICategoryRepository>().Use<CategoryRepository>();
+                x.For<ICategoryManager>().Use<QuestionManager>();
                 x.For<IStateHelper>().Use<StateHelper>();
+
+                x.Scan(scanner =>
+                {
+                    scanner.AssemblyContainingType(typeof(CategoryRepository));
+                    scanner.WithDefaultConventions();
+                });
 
                 x.Scan(s =>
                 {

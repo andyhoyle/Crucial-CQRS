@@ -18,6 +18,7 @@ namespace Crucial.Providers.EventStore.Entities
         public int Id { get; set; } // Id (Primary key)
         public int AggregateId { get; set; } // AggregateId
         public byte[] Data { get; set; } // Data
+        public DateTime Timestamp { get; set; } // Timestamp
     }
 
 }

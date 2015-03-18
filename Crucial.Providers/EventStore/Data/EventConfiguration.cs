@@ -29,6 +29,7 @@ namespace Crucial.Providers.EventStore.Data
             Property(x => x.Id).HasColumnName("Id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.AggregateId).HasColumnName("AggregateId").IsRequired();
             Property(x => x.Data).HasColumnName("Data").IsRequired();
+            Property(x => x.Timestamp).HasColumnName("Timestamp").IsRequired();
         }
     }
 

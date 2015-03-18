@@ -22,3 +22,9 @@ utils.service('UtilsService', function () {
         indexOf: angularIndexOf
     };
 });
+
+utils.filter('fromNow', function () {
+    return function (date) {
+        return moment(date).fromNow();
+    }
+});

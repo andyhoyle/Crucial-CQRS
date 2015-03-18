@@ -9,7 +9,8 @@
                 </div>
                 <div class="md-tile-content">
                     <h3 ng-click="edit(category)" style="cursor: pointer;">{{category.Name}}</h3>
-                    <h4>Created 2 hours ago by John Smith </h4>
+                    <h4>Created {{category.CreatedDate | fromNow}}</h4>
+                    <h4 ng-show="category.ModifiedDate">Modified {{category.ModifiedDate | fromNow}}</h4>
                     <p>
                         Questions about x, y and z
                     </p>

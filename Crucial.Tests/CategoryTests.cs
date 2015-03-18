@@ -6,7 +6,7 @@ using Crucial.Tests.Bootstrap;
 using Crucial.Providers.Questions;
 using StructureMap;
 using Crucial.Framework.DesignPatterns.CQRS.Messaging;
-using Crucial.Qyz.Commands;
+using Crucial.Qyz.Commands.UserCategory;
 using System.Linq;
 using Crucial.Framework.IoC.StructureMapProvider;
 using Crucial.Framework.Testing.EF;
@@ -70,7 +70,7 @@ namespace Crucial.Tests
             qContext.Categories.Add(new Category { Id = 3, Name = "Category3", Version = 0 });
 
             IEventStoreContext eContext = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IEventStoreContext>();
-            UserCategoryCreatedEvent e = new UserCategoryCreatedEvent(2, "Category2");
+            UserCategoryCreatedEvent e = new UserCategoryCreatedEvent(2, "Category2", DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 2, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e) });
             
             eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Id = 2 });
@@ -162,13 +162,13 @@ namespace Crucial.Tests
             eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 1 });
             eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 2 });
 
-            UserCategoryCreatedEvent e = new UserCategoryCreatedEvent(1, "Category 1");
+            UserCategoryCreatedEvent e = new UserCategoryCreatedEvent(1, "Category 1", DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 1, AggregateId = 1, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e) });
 
-            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2");
+            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2", DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 2, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e2) });
 
-            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed", 0);
+            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed", 0, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 3, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e3) });
 
             var uc1 = ucr.GetById(1);
@@ -186,22 +186,22 @@ namespace Crucial.Tests
 
             eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 2 });
 
-            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2");
+            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2", DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 2, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e2) });
 
-            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Once", 0);
+            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Once", 0, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 3, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e3) });
 
-            UserCategoryNameChangedEvent e4 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Twice", 1);
+            UserCategoryNameChangedEvent e4 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Twice", 1, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 4, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e4) });
 
-            UserCategoryNameChangedEvent e5 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Three Times", 2);
+            UserCategoryNameChangedEvent e5 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Three Times", 2, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 5, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e5) });
 
-            UserCategoryNameChangedEvent e6 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Four Times", 3);
+            UserCategoryNameChangedEvent e6 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Four Times", 3, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e6) });
 
-            UserCategoryNameChangedEvent e7 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Five Times", 4);
+            UserCategoryNameChangedEvent e7 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Five Times", 4, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e7) });
 
             UserCategoryMemento memento = new UserCategoryMemento(2, "Category 2 Renamed Three Times", 3);
@@ -222,22 +222,22 @@ namespace Crucial.Tests
 
             eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 2 });
 
-            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2");
+            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2", DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 2, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e2) });
 
-            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Once", 0);
+            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Once", 0, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 3, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e3) });
 
-            UserCategoryNameChangedEvent e4 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Twice", 1);
+            UserCategoryNameChangedEvent e4 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Twice", 1, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 4, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e4) });
 
-            UserCategoryNameChangedEvent e5 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Three Times", 2);
+            UserCategoryNameChangedEvent e5 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Three Times", 2, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 5, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e5) });
 
-            UserCategoryNameChangedEvent e6 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Four Times", 3);
+            UserCategoryNameChangedEvent e6 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Four Times", 3, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e6) });
 
-            UserCategoryNameChangedEvent e7 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Five Times", 4);
+            UserCategoryNameChangedEvent e7 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Five Times", 4, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e7) });
 
             foreach (var @event in eContext.Events.ToList())
@@ -277,22 +277,22 @@ namespace Crucial.Tests
 
             eContext.AggregateRoots.Add(new AggregateRoot { EventVersion = 0, Version = 0, Id = 2 });
 
-            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2");
+            UserCategoryCreatedEvent e2 = new UserCategoryCreatedEvent(2, "Category 2", DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 2, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryCreatedEvent>(e2) });
 
-            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Once", 0);
+            UserCategoryNameChangedEvent e3 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Once", 0, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 3, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e3) });
 
-            UserCategoryNameChangedEvent e4 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Twice", 1);
+            UserCategoryNameChangedEvent e4 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Twice", 1, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 4, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e4) });
 
-            UserCategoryNameChangedEvent e5 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Three Times", 2);
+            UserCategoryNameChangedEvent e5 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Three Times", 2, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 5, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e5) });
 
-            UserCategoryNameChangedEvent e6 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Four Times", 3);
+            UserCategoryNameChangedEvent e6 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Four Times", 3, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e6) });
 
-            UserCategoryNameChangedEvent e7 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Five Times", 4);
+            UserCategoryNameChangedEvent e7 = new UserCategoryNameChangedEvent(2, "Category 2 Renamed Five Times", 4, DateTime.UtcNow);
             eContext.Events.Add(new Event { Id = 6, AggregateId = 2, Data = DatabaseEventStorage.Serialize<UserCategoryNameChangedEvent>(e7) });
 
 

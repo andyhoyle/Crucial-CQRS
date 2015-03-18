@@ -11,6 +11,8 @@
 	    <script src="/bower_components/angular-route/angular-route.js"></script>
 	    <script src="/bower_components/angular-resource/angular-resource.js"></script>
         
+        <script src="/bower_components/moment/min/moment.min.js"></script>
+
         <!--icons-->
         <script src="/bower_components/angular-material-icons/angular-material-icons.js"></script> 
         <script src="/bower_components/svg-morpheus/compile/unminified/svg-morpheus.js"></script> 
@@ -30,6 +32,13 @@
         <script src="js/category/module.js"></script>
         <script src="js/category/controller.js"></script>
         <script src="js/category/factory.js"></script>
+        
+        <!--questions-->
+        <script src="js/question/module.js"></script>
+        <script src="js/question/controller.js"></script>
+        <script src="js/question/factory.js"></script>
+
+        <!--utils-->
         <script src="js/utils/utils.js"></script>
         
         <!--settings-->
@@ -58,6 +67,14 @@
                                 <md-item-content>
                                     <div class="md-tile-content">
                                         <a href="/">Categories</a>
+                                    </div>
+                                </md-item-content>
+                            </md-item>
+                            <md-divider></md-divider>
+                            <md-item>
+                                <md-item-content>
+                                    <div class="md-tile-content">
+                                        <a href="/questions">Questions</a>
                                     </div>
                                 </md-item-content>
                             </md-item>

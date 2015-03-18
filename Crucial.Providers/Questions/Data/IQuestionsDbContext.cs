@@ -23,6 +23,8 @@ namespace Crucial.Providers.Questions.Data
     public interface IQuestionsDbContext : IDbContext, IDisposable
     {
         IDbSet<Category> Categories { get; set; } // Category
+        IDbSet<Question> Questions { get; set; } // Questions
+        IDbSet<QuestionAnswer> QuestionAnswers { get; set; } // QuestionAnswers
 
         //int SaveChanges();
     }

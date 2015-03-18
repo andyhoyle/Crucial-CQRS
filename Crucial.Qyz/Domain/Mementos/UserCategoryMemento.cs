@@ -12,14 +12,11 @@ namespace Crucial.Qyz.Domain.Mementos
     {
         public string Name { get; set; }
 
-        public int EventVersion { get; set; }
-
         public UserCategoryMemento(int id, string name, int version)
         {
             Id = id;
             Name = name;
             Version = version;
-            EventVersion = version;
         }
     }
 }

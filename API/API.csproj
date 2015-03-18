@@ -139,12 +139,16 @@
     <Compile Include="App_Start\RealtimeStartup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
-    <Compile Include="Controllers\CategoryEventHub.cs" />
+    <Compile Include="Hubs\QuestionEventHub.cs" />
+    <Compile Include="Hubs\CategoryEventHub.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappers\CategoryMapper.cs" />
+    <Compile Include="Mappers\QuestionToQuestionMapper.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Question.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

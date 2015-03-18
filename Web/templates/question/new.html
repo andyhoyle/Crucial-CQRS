@@ -1,0 +1,23 @@
+﻿<md-dialog aria-label="Add New Cateogry">
+    <md-content>
+        <h2>{{title}}</h2>
+        <md-item-content>
+            <div>
+                <md-input-container flex>
+                    <label>Question</label>
+                    <input ng-model="question.QuestionText" placeholder="New Question" ng-keyup="$event.keyCode == 13 && save(question)">
+                </md-input-container>
+            </div>
+        </md-item-content>
+
+    </md-content>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+        <md-button ng-click="save(question)" class="md-primary">
+            Save
+        </md-button>
+    </div>
+</md-dialog>

@@ -18,7 +18,19 @@ namespace Crucial.Providers.Questions.Entities
         public int Id { get; set; } // Id (Primary key)
         public int UserId { get; set; } // UserId
         public string Name { get; set; } // Name
+        public DateTime CreatedDate { get; set; } // CreatedDate
         public int Version { get; set; } // Version
+        public DateTime? ModifiedDate { get; set; } // ModifiedDate
+
+        // Reverse navigation
+        public virtual ICollection<Question> Questions { get; set; } // Many to many mapping
+
+        public Category()
+        {
+            Questions = new List<Question>();
+            InitializePartial();
+        }
+        partial void InitializePartial();
     }
 
 }

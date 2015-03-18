@@ -23,6 +23,8 @@ namespace Crucial.Providers.Questions.Data
     public partial class QuestionsDbContext : DbContext, IQuestionsDbContext
     {
         public IDbSet<Category> Categories { get; set; } // Category
+        public IDbSet<Question> Questions { get; set; } // Questions
+        public IDbSet<QuestionAnswer> QuestionAnswers { get; set; } // QuestionAnswers
 
         static QuestionsDbContext()
         {
@@ -59,12 +61,16 @@ namespace Crucial.Providers.Questions.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Configurations.Add(new CategoryConfiguration());
+            modelBuilder.Configurations.Add(new QuestionConfiguration());
+            modelBuilder.Configurations.Add(new QuestionAnswerConfiguration());
         OnModelCreatingPartial(modelBuilder);
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
             modelBuilder.Configurations.Add(new CategoryConfiguration(schema));
+            modelBuilder.Configurations.Add(new QuestionConfiguration(schema));
+            modelBuilder.Configurations.Add(new QuestionAnswerConfiguration(schema));
             return modelBuilder;
         }
 

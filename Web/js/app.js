@@ -5,6 +5,7 @@
       //app
       'Qyz.Category',
       'Qyz.Settings',
+      'Qyz.Question',
       'Qyz.SignalR',
       //utils
       'Utils',

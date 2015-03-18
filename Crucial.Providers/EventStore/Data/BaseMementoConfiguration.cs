@@ -24,10 +24,10 @@ namespace Crucial.Providers.EventStore.Data
         public BaseMementoConfiguration(string schema = "dbo")
         {
             ToTable(schema + ".BaseMementoes");
-            HasKey(x => x.Id);
+            HasKey(x => new { x.Id, x.Version });
 
-            Property(x => x.Id).HasColumnName("Id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.Version).HasColumnName("Version").IsRequired();
+            Property(x => x.Id).HasColumnName("Id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.Version).HasColumnName("Version").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.Data).HasColumnName("Data").IsRequired();
         }
     }

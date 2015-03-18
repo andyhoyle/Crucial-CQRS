@@ -21,7 +21,7 @@ namespace Crucial.Providers.Filesystem.Mappers
             return d;
         }
 
-        public override System.IO.DirectoryInfo ToThirdPartyEntity(Directory source)
+        public override System.IO.DirectoryInfo ToAnyEntity(Directory source)
         {
             var d = new System.IO.DirectoryInfo(source.BuildPath());          
             return d;

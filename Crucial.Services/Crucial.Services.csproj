@@ -45,11 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Managers\Interfaces\IQuestionManager.cs" />
-    <Compile Include="Managers\QuestionManager.cs" />
-    <Compile Include="Mappers\UserMapper.cs" />
+    <Compile Include="Interfaces\ICategoryManager.cs" />
+    <Compile Include="Interfaces\IQuestionManager.cs" />
+    <Compile Include="QuestionManager.cs" />
+    <Compile Include="Mappers\CategoryMapper.cs" />
+    <Compile Include="Mappers\QuestionMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceEntities\Category.cs" />
+    <Compile Include="ServiceEntities\Question.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crucial.Framework\Crucial.Framework.csproj">

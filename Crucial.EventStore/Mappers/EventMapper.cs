@@ -17,7 +17,7 @@ namespace Crucial.EventStore.Mappers
             return target;
         }
 
-        public override Event ToThirdPartyEntity(Providers.EventStore.Entities.Event source)
+        public override Event ToAnyEntity(Providers.EventStore.Entities.Event source)
         {
             var target = DatabaseEventStorage.DeSerialize<Event>(source.Data);
             return target;

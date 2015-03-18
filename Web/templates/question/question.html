@@ -1,0 +1,40 @@
+
+    <md-list>
+        <md-item ng-repeat="question in questions track by question.Id">
+            <md-item-content>
+                <div class="md-tile-left">
+                    <md-button style="margin-right: 15px" ng-click="edit(question)" class="md-fab md-primary" aria-label="{{question.QuestionText}}">
+                        <ng-md-icon icon="face" style="fill: #fff" options='{"duration": 250, "rotation": "none"}' size="32"></ng-md-icon>
+                    </md-button>
+                </div>
+                <div class="md-tile-content">
+                    <h3 ng-click="edit(question)" style="cursor: pointer;">{{question.QuestionText}}</h3>
+                    <h4>Created {{question.CreatedDate | fromNow}}</h4>
+                    <h4 ng-show="question.ModifiedDate">Modified {{question.ModifiedDate | fromNow}}</h4>
+                    <p>
+                        Questions about x, y and z
+                    </p>
+                </div>
+                <div>
+                    <md-switch ng-model="question.enabled" aria-label="question Enabled">
+
+                    </md-switch>
+                </div>
+                <md-button ng-click="delete(question)" class="md-fab" aria-label="Delete question" ng-disabled="question.isDeleted">
+                    <md-tooltip>
+                        Delete
+                    </md-tooltip>
+                    <ng-md-icon icon="{{getDeleteIcon(question)}}" options='{"duration": 250, "rotation": "none"}' style="fill: #fff" size="32"></ng-md-icon>
+                </md-button>
+            </md-item-content>
+            <md-divider></md-divider>
+        </md-item>
+        
+        <md-button style="margin: 20px 0;" ng-click="add()" class="md-fab md-primary md-hue-2" aria-label="Add New Question">
+            <md-tooltip>
+                Add question
+            </md-tooltip>
+            <ng-md-icon icon="{{addIcon}}" style="fill: #fff" options='{"duration": 250, "rotation": "none"}' size="32"></ng-md-icon>
+        </md-button>
+                
+    </md-list>

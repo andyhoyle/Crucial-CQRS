@@ -8,6 +8,9 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Events
 {
     public interface IEvent
     {
-        int Id { get; }
+        int Version { get; set; }
+        int AggregateId { get; set; }
+        int Id { get; set; }
+        DateTime Timestamp { get; set; }
     }
 }

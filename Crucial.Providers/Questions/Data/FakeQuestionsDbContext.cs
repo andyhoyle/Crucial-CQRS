@@ -24,10 +24,14 @@ namespace Crucial.Providers.Questions.Data
     {
 
         public IDbSet<Category> Categories { get; set; }
+        public IDbSet<Question> Questions { get; set; }
+        public IDbSet<QuestionAnswer> QuestionAnswers { get; set; }
 
         public FakeQuestionsDbContext()
         {
             Categories = new TestDbSet<Category>();
+            Questions = new TestDbSet<Question>();
+            QuestionAnswers = new TestDbSet<QuestionAnswer>();
         }
 
         public int SaveChanges()

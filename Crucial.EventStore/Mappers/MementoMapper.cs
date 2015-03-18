@@ -17,7 +17,7 @@ namespace Crucial.EventStore.Mappers
             return target;
         }
 
-        public override BaseMemento ToThirdPartyEntity(Providers.EventStore.Entities.BaseMemento source)
+        public override BaseMemento ToAnyEntity(Providers.EventStore.Entities.BaseMemento source)
         {
             var target = DatabaseEventStorage.DeSerialize<BaseMemento>(source.Data);
             return target;

@@ -26,10 +26,14 @@ namespace Crucial.Tests.Mocks
     public class TestQuestionContext : TestDbContextBase, IQuestionsDbContext
     {
         TestDbSet<Category> _categories;
+        TestDbSet<Question> _questions;
+        TestDbSet<QuestionAnswer> _questionAnswers;
 
         public TestQuestionContext()
         {
             this.Categories = new TestDbSet<Category>();
+            this.Questions = new TestDbSet<Question>();
+            this.QuestionAnswers = new TestDbSet<QuestionAnswer>();
         }
 
         public IDbSet<Category> Categories {
@@ -46,6 +50,31 @@ namespace Crucial.Tests.Mocks
         public DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return this.Categories as TestDbSet<TEntity>;
+        }
+
+
+        public IDbSet<Question> Questions
+        {
+            get
+            {
+                return _questions as IDbSet<Question>;
+            }
+            set
+            {
+                _questions = value as TestDbSet<Question>;
+            }
+        }
+
+        public IDbSet<QuestionAnswer> QuestionAnswers
+        {
+            get
+            {
+                return _questionAnswers as IDbSet<QuestionAnswer>;
+            }
+            set
+            {
+                _questionAnswers = value as TestDbSet<QuestionAnswer>;
+            }
         }
     }
 

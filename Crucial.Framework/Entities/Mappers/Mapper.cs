@@ -52,33 +52,33 @@ namespace Crucial.Framework.Entities.Mappers
         }
     }
 
-    public abstract class ProviderEntityMapper<TProviderEntity, TThirdPartyEntity>
+    public abstract class ProviderEntityMapper<TProviderEntity, TAnyEntity>
         where TProviderEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
-        where TThirdPartyEntity : class
+        where TAnyEntity : class
     {
-        public virtual TProviderEntity ToProviderEntity(TThirdPartyEntity source)
+        public virtual TProviderEntity ToProviderEntity(TAnyEntity source)
         {
-            return Mapper.Map<TThirdPartyEntity, TProviderEntity>(source);
+            return Mapper.Map<TAnyEntity, TProviderEntity>(source);
         }
 
-        public virtual TThirdPartyEntity ToThirdPartyEntity(TProviderEntity source)
+        public virtual TAnyEntity ToAnyEntity(TProviderEntity source)
         {
-            return Mapper.Map<TProviderEntity, TThirdPartyEntity>(source);
+            return Mapper.Map<TProviderEntity, TAnyEntity>(source);
         }
     }
 
-    public abstract class ServiceEntityMapper<TServiceEntity, TThirdPartyEntity>
+    public abstract class ServiceEntityMapper<TServiceEntity, TAnyEntity>
         where TServiceEntity : Crucial.Framework.BaseEntities.ServiceEntityBase
-        where TThirdPartyEntity : class
+        where TAnyEntity : class
     {
-        public virtual TServiceEntity ToServiceEntity(TThirdPartyEntity source)
+        public virtual TServiceEntity ToServiceEntity(TAnyEntity source)
         {
-            return Mapper.Map<TThirdPartyEntity, TServiceEntity>(source);
+            return Mapper.Map<TAnyEntity, TServiceEntity>(source);
         }
 
-        public virtual TThirdPartyEntity ToThirdPartyEntity(TServiceEntity source)
+        public virtual TAnyEntity ToAnyEntity(TServiceEntity source)
         {
-            return Mapper.Map<TServiceEntity, TThirdPartyEntity>(source);
+            return Mapper.Map<TServiceEntity, TAnyEntity>(source);
         }
     }
 

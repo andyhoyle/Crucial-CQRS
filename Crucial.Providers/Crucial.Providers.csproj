@@ -168,6 +168,12 @@
     <Compile Include="Questions\Data\IQuestionsDbContext.cs">
       <DependentUpon>Questions.tt</DependentUpon>
     </Compile>
+    <Compile Include="Questions\Data\QuestionAnswerConfiguration.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Data\QuestionConfiguration.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
     <Compile Include="Questions\Data\Questions.cs">
       <DependentUpon>Questions.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -177,6 +183,12 @@
       <DependentUpon>Questions.tt</DependentUpon>
     </Compile>
     <Compile Include="Questions\Entities\Category.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Entities\Question.cs">
+      <DependentUpon>Questions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\Entities\QuestionAnswer.cs">
       <DependentUpon>Questions.tt</DependentUpon>
     </Compile>
     <Compile Include="Questions\Entities\Questions.cs">

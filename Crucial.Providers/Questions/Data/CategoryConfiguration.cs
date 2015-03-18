@@ -31,7 +31,15 @@ namespace Crucial.Providers.Questions.Data
             Property(x => x.Id).HasColumnName("Id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.UserId).HasColumnName("UserId").IsRequired();
             Property(x => x.Name).HasColumnName("Name").IsRequired().HasMaxLength(128);
+            Property(x => x.CreatedDate).HasColumnName("CreatedDate").IsRequired();
             Property(x => x.Version).HasColumnName("Version").IsRequired();
+            Property(x => x.ModifiedDate).HasColumnName("ModifiedDate").IsOptional();
+            HasMany(t => t.Questions).WithMany(t => t.Categories).Map(m => 
+            {
+                m.ToTable("QuestionCategories", schema);
+                m.MapLeftKey("Category_Id");
+                m.MapRightKey("Question_Id");
+            });
             InitializePartial();
         }
         partial void InitializePartial();

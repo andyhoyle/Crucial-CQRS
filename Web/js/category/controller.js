@@ -100,6 +100,7 @@
         });
 
         categoryEventHub.on('userCategoryNameChanged', function (category) {
+            category.CreatedDate = $scope.categories[utils.indexOf($scope.categories, category)].CreatedDate
             $scope.categories[utils.indexOf($scope.categories, category)] = category;
         });
 

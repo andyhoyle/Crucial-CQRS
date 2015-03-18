@@ -16,7 +16,7 @@ namespace Crucial.Providers.EventStore.Entities
     public class BaseMemento : Crucial.Framework.BaseEntities.ProviderEntityBase
     {
         public int Id { get; set; } // Id (Primary key)
-        public int Version { get; set; } // Version
+        public int Version { get; set; } // Version (Primary key)
         public byte[] Data { get; set; } // Data
     }
 

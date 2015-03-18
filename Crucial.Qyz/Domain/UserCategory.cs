@@ -13,29 +13,46 @@ namespace Crucial.Qyz.Domain
 {
     public class UserCategory : AggregateRoot,
        IHandle<UserCategoryCreatedEvent>,
+       IHandle<UserCategoryNameChangedEvent>,
+       IHandle<UserCategoryDeletedEvent>,
        IOriginator
     {
-        public string Name { get; set; }
+        #region Public Parameterless Constructor
 
         public UserCategory()
         {
 
         }
 
-        public UserCategory(int id, string name)
+        #endregion
+
+        #region Public properties
+
+        public string Name { get; set; }
+        public DateTime CreatedDate { get; private set; }
+
+        #endregion
+
+        #region Internal command implementations
+
+        internal UserCategory(int id, string name)
         {
-            ApplyChange(new UserCategoryCreatedEvent(id, name));
+            ApplyChange(new UserCategoryCreatedEvent(id, name, DateTime.UtcNow));
         }
 
-        public void ChangeName(string name)
+        internal void ChangeName(string name)
         {
-            ApplyChange(new UserCategoryNameChangedEvent(Id, name, Version));
+            ApplyChange(new UserCategoryNameChangedEvent(Id, name, Version, DateTime.UtcNow));
         }
 
-        public void Delete()
+        internal void Delete()
         {
-            ApplyChange(new UserCategoryDeletedEvent(Id, Version));
+            ApplyChange(new UserCategoryDeletedEvent(Id, Version, DateTime.UtcNow));
         }
+
+        #endregion
+
+        #region IOriginator implementation
 
         public BaseMemento GetMemento()
         {
@@ -48,7 +65,11 @@ namespace Crucial.Qyz.Domain
             Version = memento.Version;
             Id = memento.Id;
         }
-        
+
+        #endregion
+
+        #region IHandle implementation
+
         public void Handle(UserCategoryCreatedEvent e)
         {
             Name = e.Name;
@@ -68,5 +89,7 @@ namespace Crucial.Qyz.Domain
             Id = e.AggregateId;
             Version = e.Version;
         }
+
+        #endregion
     }
 }
