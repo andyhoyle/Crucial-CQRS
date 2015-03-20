@@ -6,8 +6,11 @@ Inspiration and adapation of code from:
 - http://prodinner.codeplex.com/
 - http://www.codeproject.com/Articles/555855/Introduction-to-CQRS
 - http://www.asp.net/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr
+- http://blogs.msdn.com/b/mrtechnocal/archive/2014/03/16/asynchronous-repositories.aspx
+- http://henriquat.re/server-integration/signalr/integrateWithSignalRHubs.html
 
 ## Components
+- [SignalR](http://signalr.net/)
 - AngularJS (with [Angular Material Design](https://material.angularjs.org/) )
 - [ValueInjector](http://valueinjecter.codeplex.com/)
 - EntityFramework 6 (Code first with adapted [Reverse POCO generator](https://visualstudiogallery.msdn.microsoft.com/ee4fcff9-0c4c-4179-afd9-7a2fb90f5838))
@@ -15,6 +18,8 @@ Inspiration and adapation of code from:
 - [StructureMap](http://docs.structuremap.net/)
 - [NUnit](http://www.nunit.org/)
 - [Moq](https://github.com/Moq/moq4)
+- [Angular Material Icons](https://klarsys.github.io/angular-material-icons/) with [SVG Morpheus](https://github.com/alexk111/SVG-Morpheus)
+- [Moment.js](http://momentjs.com/)
 
 ## Points of Interest
 - Query database is recreated from Event Store on every application load (see `.API/global.asax.cs` for details)
@@ -47,6 +52,7 @@ You can then run `grunt connect` to view [http://localhost:8000](http://localhos
 ## Roadmap
 - ~~Diagrams explaining architecture~~
 - Make all calls to WebAPI async and write to Event Bus asynchronously
+- Implement [Asynchronous Entity Framework repositories](http://blogs.msdn.com/b/mrtechnocal/archive/2014/03/16/asynchronous-repositories.aspx)
 - Implement [Hangfire](http://hangfire.io/) to pick up items from Event Bus
 - Restore query database form latest snapshot instead of replay entire event history
 - More test coverage (using [Seleno](http://docs.teststack.net/seleno/index.html))
