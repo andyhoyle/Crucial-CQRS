@@ -17,7 +17,6 @@ Inspiration and adapation of code from:
 - WebAPI
 - [StructureMap](http://docs.structuremap.net/)
 - [NUnit](http://www.nunit.org/)
-- [Moq](https://github.com/Moq/moq4)
 - [Angular Material Icons](https://klarsys.github.io/angular-material-icons/) with [SVG Morpheus](https://github.com/alexk111/SVG-Morpheus)
 - [Moment.js](http://momentjs.com/)
 
