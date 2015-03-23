@@ -52,7 +52,7 @@ You can then run `grunt connect` to view [http://localhost:8000](http://localhos
 ## Roadmap
 - ~~Diagrams explaining architecture~~
 - ~~Make all calls to WebAPI async and write to Event Bus asynchronously~~
-- Implement [Asynchronous Entity Framework repositories](http://blogs.msdn.com/b/mrtechnocal/archive/2014/03/16/asynchronous-repositories.aspx)
+- ~~Implement [Asynchronous Entity Framework repositories](http://blogs.msdn.com/b/mrtechnocal/archive/2014/03/16/asynchronous-repositories.aspx)~~
 - Implement [Hangfire](http://hangfire.io/) to pick up items from Event Bus
 - Restore query database form latest snapshot instead of replay entire event history
 - More test coverage (using [Seleno](http://docs.teststack.net/seleno/index.html))
