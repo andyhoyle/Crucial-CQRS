@@ -13,7 +13,7 @@ Inspiration and adapation of code from:
 - [SignalR](http://signalr.net/)
 - AngularJS (with [Angular Material Design](https://material.angularjs.org/) )
 - [ValueInjector](http://valueinjecter.codeplex.com/)
-- EntityFramework 6 (Code first with adapted [Reverse POCO generator](https://visualstudiogallery.msdn.microsoft.com/ee4fcff9-0c4c-4179-afd9-7a2fb90f5838))
+- EntityFramework 6 (Code first with adapted [Reverse POCO generator](https://visualstudiogallery.msdn.microsoft.com/ee4fcff9-0c4c-4179-afd9-7a2fb90f5838) testing using fake Context  provided by [Effort](https://effort.codeplex.com/))
 - WebAPI
 - [StructureMap](http://docs.structuremap.net/)
 - [NUnit](http://www.nunit.org/)
