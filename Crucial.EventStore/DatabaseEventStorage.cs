@@ -16,37 +16,51 @@ using Crucial.Framework.Entities.Mappers;
 using Crucial.Framework.Data.EntityFramework;
 using Crucial.Providers.EventStore.Data;
 using Crucial.EventStore.Mappers;
+using Crucial.Providers.EventStore;
+using Crucial.Framework.DesignPatterns.Repository.Async.Extensions;
 
 namespace Crucial.EventStore
 {
     public class DatabaseEventStorage : IEventStorage
     {
         private readonly IEventBus _eventBus;
-        private Providers.EventStore.Data.IEventStoreContext _eventStoreContext;
+        
+        private IEventRepositoryAsync _eventRepository;
+        private IAggregateRepositoryAsync _aggregateRepository;
+        private IMementoRepositoryAsync _mementoRepository;
+
         private EventMapper _eventMapper;
         private MementoMapper _mementoMapper;
         private AggregateMapper _aggregateMapper;
 
-        public DatabaseEventStorage(ContextProvider<IEventStoreContext> contextProvider, IEventBus eventBus)
+        public DatabaseEventStorage(
+            IEventRepositoryAsync eventRepository, 
+            IAggregateRepositoryAsync aggregateRepository,
+            IMementoRepositoryAsync mementoRepository,
+            IEventBus eventBus)
         {
-            _eventStoreContext = contextProvider.DbContext;
+            _eventRepository = eventRepository;
+            _aggregateRepository = aggregateRepository;
+            _mementoRepository = mementoRepository;
             _eventBus = eventBus;
             _eventMapper = new EventMapper();
             _mementoMapper = new MementoMapper();
             _aggregateMapper = new AggregateMapper();
         }
 
-        public IEnumerable<Event> GetEvents(int aggregateId)
+        public async Task<IEnumerable<Event>> GetEvents(int aggregateId)
         {
-            return _eventStoreContext.Events.Where(e => e.AggregateId == aggregateId).AsEnumerable().Select(s => _eventMapper.ToAnyEntity(s)).ToList();
+            var events = await _eventRepository.FindByAsync(e => e.AggregateId == aggregateId).ConfigureAwait(false);
+            return events.Select(_eventMapper.ToAnyEntity);
         }
 
-        public IEnumerable<Event> GetAllEvents()
+        public async Task<IEnumerable<Event>> GetAllEvents()
         {
-            return _eventStoreContext.Events.AsEnumerable().Select(s => _eventMapper.ToAnyEntity(s)).ToList();
+            var events = await _eventRepository.GetAllAsync().ConfigureAwait(false);
+            return events.Select(_eventMapper.ToAnyEntity);
         }
 
-        public void Save(AggregateRoot aggregate)
+        public async Task Save(AggregateRoot aggregate)
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
@@ -61,7 +75,7 @@ namespace Crucial.EventStore
                         var originator = (IOriginator)aggregate;
                         var memento = originator.GetMemento();
                         memento.Version = version;
-                        SaveMemento(memento);
+                        await SaveMemento(memento).ConfigureAwait(false);
                     }
                 }
 
@@ -70,13 +84,13 @@ namespace Crucial.EventStore
 
                 if (version == 0)
                 {
-                    var ag = _eventStoreContext.AggregateRoots.Add(_aggregateMapper.ToProviderEntity(aggregate));
-                    _eventStoreContext.SaveChanges();
+                    var ag = await _aggregateRepository.Create(_aggregateMapper.ToProviderEntity(aggregate)).ConfigureAwait(false);
                     @event.AggregateId = ag.Id;
                 }
                 else
                 {
-                    var aggregateRoot = _eventStoreContext.AggregateRoots.Where(x => x.Id == aggregate.Id).FirstOrDefault();
+                    var aggregateRoots = await _aggregateRepository.FindByAsync(x => x.Id == aggregate.Id).ConfigureAwait(false);
+                    var aggregateRoot = aggregateRoots.FirstOrDefault();
                     
                     if (aggregateRoot == null)
                     {
@@ -86,14 +100,13 @@ namespace Crucial.EventStore
                     aggregateRoot.Version = version;
                 }
 
-                _eventStoreContext.Events.Add(_eventMapper.ToProviderEntity(@event));
-                _eventStoreContext.SaveChanges();
+                await _eventRepository.Create(_eventMapper.ToProviderEntity(@event)).ConfigureAwait(false);
             }
 
             foreach (var @event in uncommittedChanges)
             {
                 var desEvent = Converter.ChangeTo(@event, @event.GetType());
-                _eventBus.Publish(desEvent);
+                await _eventBus.Publish(desEvent).ConfigureAwait(false);
             }
         }
 
@@ -137,18 +150,20 @@ namespace Crucial.EventStore
             return e;
         }
 
-        public T GetMemento<T>(int aggregateId) where T : BaseMemento
+        public async Task<T> GetMemento<T>(int aggregateId) where T : BaseMemento
         {
-            var memento = _eventStoreContext.BaseMementoes.Where(m => m.Id == aggregateId).AsEnumerable().Select(m => _mementoMapper.ToAnyEntity(m)).LastOrDefault();
+            var mementos = await _mementoRepository.FindByAsync(m => m.Id == aggregateId).ConfigureAwait(false);
+            var memento = mementos.LastOrDefault();
+
             if (memento != null)
-                return (T)memento;
+                return (T)_mementoMapper.ToAnyEntity(memento);
+            
             return null;
         }
 
-        public void SaveMemento(Framework.DesignPatterns.CQRS.Domain.BaseMemento memento)
+        public async Task SaveMemento(Framework.DesignPatterns.CQRS.Domain.BaseMemento memento)
         {
-            _eventStoreContext.BaseMementoes.Add(_mementoMapper.ToProviderEntity(memento));
-            _eventStoreContext.SaveChanges();
+            await _mementoRepository.Create(_mementoMapper.ToProviderEntity(memento)).ConfigureAwait(false);
         }
     }
 }

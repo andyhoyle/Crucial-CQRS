@@ -19,7 +19,7 @@ namespace Crucial.Qyz.CommandHandlers
             _repository = repository;
         }
 
-        public void Execute(UserCategoryCreateCommand command)
+        public async Task Execute(UserCategoryCreateCommand command)
         {
             if (command == null)
             {
@@ -33,7 +33,7 @@ namespace Crucial.Qyz.CommandHandlers
 
             var aggregate = new UserCategory(command.Id, command.Name);
             aggregate.Version = -1;
-            _repository.Save(aggregate, aggregate.Version);
+            await _repository.Save(aggregate, aggregate.Version).ConfigureAwait(false);
         }
     }
 }

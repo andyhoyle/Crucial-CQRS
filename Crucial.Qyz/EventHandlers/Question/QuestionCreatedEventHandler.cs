@@ -14,14 +14,14 @@ namespace Crucial.Qyz.EventHandlers
     public class QuestionCreatedEventHandler : 
         IEventHandler<QuestionCreatedEvent>
     {
-        private IQuestionRepository _questionRepo;
+        private IQuestionRepositoryAsync _questionRepo;
 
-        public QuestionCreatedEventHandler(IQuestionRepository questionRepository)
+        public QuestionCreatedEventHandler(IQuestionRepositoryAsync questionRepository)
         {
             _questionRepo = questionRepository;
         }
 
-        public void Handle(QuestionCreatedEvent handle)
+        public async Task Handle(QuestionCreatedEvent handle)
         {
             Question question = new Question()
             {
@@ -31,7 +31,7 @@ namespace Crucial.Qyz.EventHandlers
                 CreatedDate = handle.Timestamp
             };
 
-            _questionRepo.Create(question);
+            await _questionRepo.Create(question).ConfigureAwait(false);
         }
     }
 }

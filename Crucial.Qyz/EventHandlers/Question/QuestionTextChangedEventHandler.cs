@@ -5,21 +5,25 @@ using System.Text;
 using Crucial.Providers.Questions;
 using Crucial.Framework.DesignPatterns.CQRS.Events;
 using Crucial.Qyz.Events;
+using System.Threading.Tasks;
+using Crucial.Framework.DesignPatterns.Repository.Async.Extensions;
 
 namespace Crucial.Qyz.EventHandlers
 {
     public class QuestionTextChangedEventHandler : IEventHandler<QuestionTextChangedEvent>
     {
-        private IQuestionRepository _categoryRepo;
+        private IQuestionRepositoryAsync _questionRepo;
 
-        public QuestionTextChangedEventHandler(IQuestionRepository categoryRepo)
+        public QuestionTextChangedEventHandler(IQuestionRepositoryAsync questionRepo)
         {
-            _categoryRepo = categoryRepo;
+            _questionRepo = questionRepo;
         }
 
-        public void Handle(QuestionTextChangedEvent handle)
+        public async Task Handle(QuestionTextChangedEvent handle)
         {
-            var item = _categoryRepo.FindBy(c => c.Id == handle.AggregateId).FirstOrDefault();
+            var items = await _questionRepo.FindByAsync(c => c.Id == handle.AggregateId).ConfigureAwait(false);
+
+            var item = items.FirstOrDefault();
 
             if (item != null)
             {
@@ -28,7 +32,7 @@ namespace Crucial.Qyz.EventHandlers
                 item.ModifiedDate = handle.Timestamp;
             }
 
-            _categoryRepo.Update(item);
+            _questionRepo.Update(item);
         }
     }
 }

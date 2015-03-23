@@ -9,7 +9,6 @@ using Crucial.Providers.Questions.Data;
 using Crucial.Qyz.Domain;
 using Crucial.Services.Managers;
 using Crucial.Services.Managers.Interfaces;
-using Crucial.Tests.Mocks;
 using StructureMap;
 using System;
 using System.Collections.Generic;
@@ -21,6 +20,8 @@ using StructureMap.Configuration.DSL;
 using Crucial.Framework.DesignPatterns.CQRS.Commands;
 using Crucial.Qyz.CommandHandlers;
 using Crucial.Qyz.Commands;
+using Crucial.Providers.EventStore;
+using System.Data.Common;
 
 namespace Crucial.Tests.Bootstrap
 {
@@ -37,7 +38,11 @@ namespace Crucial.Tests.Bootstrap
                 x.For<ICommandBus>().Use<CommandBus>();
                 x.For<IEventBus>().Use<EventBus>();
                 x.For<IQuestionManager>().Use<QuestionManager>();
-                x.For<ICategoryRepository>().Use<CategoryRepository>();
+                x.For<ICategoryRepositoryAsync>().Use<CategoryRepositoryAsync>();
+                x.For<IQuestionRepositoryAsync>().Use<QuestionRepositoryAsync>();
+                x.For<IEventRepositoryAsync>().Use<EventRepositoryAsync>();
+                x.For<IAggregateRepositoryAsync>().Use<AggregateRepositoryAsync>();
+                x.For<IMementoRepositoryAsync>().Use<MementoRepositoryAsync>();
                 x.For<IEventStorage>().Singleton().Use<DatabaseEventStorage>();
                 x.For<IStateHelper>().Use<StateHelper>();
 
@@ -48,8 +53,13 @@ namespace Crucial.Tests.Bootstrap
                 });
                 
                 // Mocks
-                x.For<IEventStoreContext>().Singleton().Use<TestEventContext>();
-                x.For<IQuestionsDbContext>().Singleton().Use<TestQuestionContext>();
+                var testEventStore = Effort.DbConnectionFactory.CreateTransient();
+                var testQuestionsDb = Effort.DbConnectionFactory.CreateTransient();
+
+                //x.For<IEventStoreContext>().Singleton().Use<TestEventContext>();
+                x.For<IEventStoreContext>().Singleton().Use(() => new EventStoreContext(testEventStore));
+                //x.For<IQuestionsDbContext>().Singleton().Use<TestQuestionContext>();
+                x.For<IQuestionsDbContext>().Singleton().Use(() => new QuestionsDbContext(testQuestionsDb));
             });
         }
     }

@@ -10,6 +10,7 @@ using Crucial.Services.Managers.Interfaces;
 using Crucial.Qyz.Commands.UserCategory;
 using API.Mappers;
 using Crucial.Framework.DesignPatterns.CQRS.Messaging;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -28,16 +29,16 @@ namespace Api.Controllers
         }
 
         // GET: api/User
-        public IEnumerable<API.Models.Category> Get()
+        public async Task<IEnumerable<API.Models.Category>> Get()
         {
-            var categories = _categoryManager.GetUserCategories();
+            var categories = await _categoryManager.GetUserCategories().ConfigureAwait(false);
             return categories.Select(c => _categoryMapper.ToAnyEntity(c)).ToList();
         }
 
         // GET: api/User/5
-        public Category Get(int id)
+        public async Task<Category> Get(int id)
         {
-            var category = _categoryManager.GetUserCategory(id);
+            var category = await _categoryManager.GetUserCategory(id).ConfigureAwait(false);
             return _categoryMapper.ToAnyEntity(category);
         }
 

@@ -5,6 +5,7 @@ using System.Text;
 using Crucial.Framework.DesignPatterns.CQRS.Events;
 using Crucial.Framework.DesignPatterns.CQRS.Messaging;
 using Crucial.Framework.DesignPatterns.CQRS.Utils;
+using System.Threading.Tasks;
 
 namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
 {
@@ -17,13 +18,18 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
             _eventHandlerFactory = eventHandlerFactory;
         }
         
-        public void Publish<T>(T @event) where T : Event
+        public async Task Publish<T>(T @event) where T : Event
         {
             var handlers = _eventHandlerFactory.GetHandlers<T>();
+
+            var eventHandlers = new List<Task>();
+
             foreach (var eventHandler in handlers)
             {
-                eventHandler.Handle(@event);
+                eventHandlers.Add(eventHandler.Handle(@event));
             }
+
+            await Task.WhenAll(eventHandlers);
         }
 
         public void Replay(IEnumerable<Event> eventList)

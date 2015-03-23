@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Crucial.Framework.DesignPatterns.Repository.Async.Extensions;
 
 namespace Crucial.Services.Managers
 {
@@ -12,14 +13,14 @@ namespace Crucial.Services.Managers
         Crucial.Services.Managers.Interfaces.IQuestionManager,
         Crucial.Services.Managers.Interfaces.ICategoryManager
     {
-        private ICategoryRepository _categoryRepo;
-        private IQuestionRepository _questionRepo;
+        private ICategoryRepositoryAsync _categoryRepo;
+        private IQuestionRepositoryAsync _questionRepo;
 
         private CategoryToCategoryMapper _categoryMapper;
         private QuestionToQuestionMapper _questionMapper;
 
-        public QuestionManager(ICategoryRepository categoryRepo,
-            IQuestionRepository questionRepo)
+        public QuestionManager(ICategoryRepositoryAsync categoryRepo,
+            IQuestionRepositoryAsync questionRepo)
         {
             _categoryRepo = categoryRepo;
             _questionRepo = questionRepo;
@@ -29,32 +30,34 @@ namespace Crucial.Services.Managers
 
         #region ICategoryManager implementation
 
-        public IEnumerable<ServiceEntities.Category> GetUserCategories()
+        public async Task<IEnumerable<ServiceEntities.Category>> GetUserCategories()
         {
-            var categories = _categoryRepo.FindBy(x => x.Id > -1).ToList();
-            return categories.Select(s => _categoryMapper.ToServiceEntity(s)).ToList();
+            var categories = await _categoryRepo.FindByAsync(x => x.Id > -1).ConfigureAwait(false);
+            var categoriesList = categories.ToList();
+            return categoriesList.Select(_categoryMapper.ToServiceEntity);
         }
 
-        public ServiceEntities.Category GetUserCategory(int categoryId)
+        public async Task<ServiceEntities.Category> GetUserCategory(int categoryId)
         {
-            var providerEntity = _categoryRepo.FindBy(x => x.Id == categoryId).FirstOrDefault();
-            return _categoryMapper.ToServiceEntity(providerEntity);
+            var providerEntity = await _categoryRepo.FindByAsync(x => x.Id == categoryId).ConfigureAwait(false);
+            return _categoryMapper.ToServiceEntity(providerEntity.FirstOrDefault());
         }
 
         #endregion
 
         #region IQuestionManager implementation
 
-        public IEnumerable<ServiceEntities.Question> GetQuestions()
+        public async Task<IEnumerable<ServiceEntities.Question>> GetQuestions()
         {
-            var questions = _questionRepo.FindBy(x => x.Id > -1).ToList();
-            return questions.Select(q => _questionMapper.ToServiceEntity(q)).ToList();
+            var questions = await _questionRepo.FindByAsync(x => x.Id > -1).ConfigureAwait(false);
+            var questionsList = questions.ToList();
+            return questionsList.Select(_questionMapper.ToServiceEntity);
         }
 
-        public ServiceEntities.Question GetQuestion(int questionId)
+        public async Task<ServiceEntities.Question> GetQuestion(int questionId)
         {
-            var providerEntity = _questionRepo.FindBy(x => x.Id == questionId).FirstOrDefault();
-            return _questionMapper.ToServiceEntity(providerEntity);
+            var providerEntity = await _questionRepo.FindByAsync(x => x.Id == questionId).ConfigureAwait(false);
+            return _questionMapper.ToServiceEntity(providerEntity.FirstOrDefault());
         }
 
         #endregion

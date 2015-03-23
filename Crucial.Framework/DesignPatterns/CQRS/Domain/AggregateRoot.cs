@@ -31,7 +31,7 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Domain
             _changes.Clear();
         }
 
-        public void LoadsFromHistory(IEnumerable<Event> history)
+        public async Task LoadsFromHistory(IEnumerable<Event> history)
         {
             if (history.Count() > 0)
             {
@@ -50,8 +50,8 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Domain
         private void ApplyChange(Event @event, bool isNew)
         {
             dynamic d = this;
-            
-            d.Handle(Converter.ChangeTo(@event,@event.GetType()));
+
+            d.Handle(Converter.ChangeTo(@event, @event.GetType()));
             if (isNew)
             {
                 _changes.Add(@event);

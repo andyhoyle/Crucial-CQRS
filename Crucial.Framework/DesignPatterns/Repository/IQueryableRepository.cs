@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using Crucial.Framework.BaseEntities;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Crucial.Framework.DesignPatterns.Repository
 {

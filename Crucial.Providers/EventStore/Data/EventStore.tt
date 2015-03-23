@@ -1,9 +1,9 @@
-﻿<#@ include file="EF.Reverse.POCO.Core.ttinclude" #>
+﻿<#@ include file="..\..\..\Crucial.Framework\Data\EntityFramework\T4Templating\EF.Reverse.POCO.Core.ttinclude" #>
 <#
     // v2.8.1
     // Please make changes to the settings below.
     // All you have to do is save this file, and the output file(s) is/are generated. Compiling does not regenerate the file(s).
-
+	
     // Misc settings **********************************************************************************************************************
     // Namespace = ""; // Override the default namespace here
     DbContextName = "EventStoreContext";
@@ -19,9 +19,9 @@
     DisableGeographyTypes = false; // Turns off use of System.Data.Entity.Spatial.DbGeography and System.Data.Entity.Spatial.DbGeometry as OData doesn't support entities with geometry/geography types.
     CollectionType = "List";  // Determines the type of collection for the Navigation Properties. "ObservableCollection" for example
     CollectionTypeNamespace = ""; // "System.Collections.ObjectModel" is required if setting the CollectionType = "ObservableCollection"
-    AddUnitTestingDbContext = true; // Will add a FakeDbContext and FakeDbSet for easy unit testing
+    AddUnitTestingDbContext = false; // Will add a FakeDbContext and FakeDbSet for easy unit testing
     
-
+	
     // Pluralization **********************************************************************************************************************
     // To turn off pluralization, use:
     //      Inflector.PluralizationService = null;
@@ -133,5 +133,5 @@
     if (tables.Count > 0)
     {
 #>
-<#@ include file="EF.Reverse.POCO.ttinclude" #>
+<#@ include file="..\..\..\Crucial.Framework\Data\EntityFramework\T4Templating\EF.Reverse.POCO.ttinclude" #>
 <# } #>

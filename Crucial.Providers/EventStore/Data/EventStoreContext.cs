@@ -6,15 +6,14 @@
 // ReSharper disable RedundantNameQualifier
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.EventStore.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
+using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace Crucial.Providers.EventStore.Data
 {
@@ -26,7 +25,16 @@ namespace Crucial.Providers.EventStore.Data
 
         static EventStoreContext()
         {
-            Database.SetInitializer<EventStoreContext>(new CreateDatabaseIfNotExists<EventStoreContext>());
+            Database.SetInitializer<EventStoreContext>(null);
+        }
+
+		public static void Drop()
+        {
+            Database.SetInitializer<EventStoreContext>(new DropCreateDatabaseAlways<EventStoreContext>());
+            EventStoreContext ctx = new EventStoreContext();
+            ctx.Database.Initialize(true);
+            ctx.Dispose();
+            Database.SetInitializer<EventStoreContext>(null);
         }
 
         public EventStoreContext()
@@ -42,6 +50,11 @@ namespace Crucial.Providers.EventStore.Data
         {
         }
 
+		public EventStoreContext(DbConnection connection) : base(connection, true)
+        {
+			Database.SetInitializer(new DropCreateDatabaseAlways<EventStoreContext>());
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -51,17 +64,17 @@ namespace Crucial.Providers.EventStore.Data
             modelBuilder.Configurations.Add(new EventConfiguration());
         }
 
+		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
+            Entry<TEntity>(entityItem).State = state;
+        }
+
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
             modelBuilder.Configurations.Add(new AggregateRootConfiguration(schema));
             modelBuilder.Configurations.Add(new BaseMementoConfiguration(schema));
             modelBuilder.Configurations.Add(new EventConfiguration(schema));
             return modelBuilder;
-        }
-
-		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
-        {
-            Entry<TEntity>(entityItem).State = state;
         }
     }
 }

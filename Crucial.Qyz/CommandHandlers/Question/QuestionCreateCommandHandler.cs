@@ -19,7 +19,7 @@ namespace Crucial.Qyz.CommandHandlers
             _repository = repository;
         }
 
-        public void Execute(QuestionCreateCommand command)
+        public async Task Execute(QuestionCreateCommand command)
         {
             if (command == null)
             {
@@ -33,7 +33,7 @@ namespace Crucial.Qyz.CommandHandlers
 
             var aggregate = new Question(command.Id, command.QuestionText);
             aggregate.Version = -1;
-            _repository.Save(aggregate, aggregate.Version);
+            await _repository.Save(aggregate, aggregate.Version).ConfigureAwait(false);
         }
     }
 }

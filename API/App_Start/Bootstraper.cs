@@ -37,7 +37,7 @@ namespace API
 
                 x.Scan(scanner =>
                 {
-                    scanner.AssemblyContainingType(typeof(CategoryRepository));
+                    scanner.AssemblyContainingType(typeof(CategoryRepositoryAsync));
                     scanner.WithDefaultConventions();
                 });
 

@@ -8,7 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
+using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace Crucial.Providers.EventStore.Entities
 {

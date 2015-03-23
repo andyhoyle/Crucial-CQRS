@@ -6,25 +6,24 @@
 // ReSharper disable RedundantNameQualifier
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.EventStore.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
+using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace Crucial.Providers.EventStore.Data
 {
-    public interface IEventStoreContext : IDisposable
+    public interface IEventStoreContext : IDbContextAsync, IDisposable
     {
         IDbSet<AggregateRoot> AggregateRoots { get; set; } // AggregateRoots
         IDbSet<BaseMemento> BaseMementoes { get; set; } // BaseMementoes
         IDbSet<Event> Events { get; set; } // Event
 
-        int SaveChanges();
+        //int SaveChanges();
     }
 
 }

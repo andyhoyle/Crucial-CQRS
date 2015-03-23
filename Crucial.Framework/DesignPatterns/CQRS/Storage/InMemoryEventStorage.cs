@@ -25,24 +25,24 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
             _eventBus = eventBus;
         }
 
-        public IEnumerable<Event> GetEvents(int aggregateId)
+        public async Task<IEnumerable<Event>> GetEvents(int aggregateId)
         {
             var events = _events.Where(p => p.AggregateId == aggregateId).Select(p => p);
             if (events.Count() == 0)
             {
                 throw new AggregateNotFoundException(string.Format("Aggregate with Id: {0} was not found", aggregateId));
             }
+
             return events;
         }
 
-        public IEnumerable<Event> GetAllEvents()
+        public async Task<IEnumerable<Event>> GetAllEvents()
         {
             var events = _events.Select(p => p);
-            
             return events;
         }
 
-        public void Save(AggregateRoot aggregate)
+        public async Task Save(AggregateRoot aggregate)
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
@@ -63,22 +63,27 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
                 @event.Version = version;
                 _events.Add(@event);
             }
+
+            List<Task> tasks = new List<Task>();
+
             foreach (var @event in uncommittedChanges)
             {
                 var desEvent = Converter.ChangeTo(@event, @event.GetType());
-                _eventBus.Publish(desEvent);
+                tasks.Add(_eventBus.Publish(desEvent));
             }
+
+            await Task.WhenAll(tasks);
         }
 
-        public T GetMemento<T>(int aggregateId) where T : BaseMemento
+        public async Task<T> GetMemento<T>(int aggregateId) where T : BaseMemento
         {
-            var memento = _mementos.Where(m => m.Id == aggregateId).Select(m => m).LastOrDefault();
+            var memento = _mementos.Where(m => m.Id == aggregateId).Select(m => m);
             if (memento != null)
                 return (T)memento;
             return null;
         }
 
-        public void SaveMemento(BaseMemento memento)
+        public async Task SaveMemento(BaseMemento memento)
         {
             _mementos.Add(memento);
         }

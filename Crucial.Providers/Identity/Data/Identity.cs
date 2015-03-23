@@ -7,5 +7,5 @@
 // 
 //     Configuration file:     "API\Web.config"
 //     Connection String Name: "DefaultConnection"
-//     Connection String:      "Data Source=(local);Initial Catalog=Qyz;Integrated Security=True"
+//     Connection String:      "Data Source=(local);Initial Catalog=QueryDB;Integrated Security=True"
 

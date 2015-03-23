@@ -7,21 +7,5 @@
 // 
 //     Configuration file:     "API\Web.config"
 //     Connection String Name: "DefaultConnection"
-//     Connection String:      "Data Source=(local);Initial Catalog=Qyz;Integrated Security=True"
-
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable DoNotCallOverridableMethodsInConstructor
-// ReSharper disable InconsistentNaming
-// ReSharper disable PartialTypeWithSinglePart
-// ReSharper disable PartialMethodWithSinglePart
-// ReSharper disable RedundantNameQualifier
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-
-namespace Crucial.Providers.Identity.Entities
-{
-}
+//     Connection String:      "Data Source=(local);Initial Catalog=QueryDB;Integrated Security=True"
 

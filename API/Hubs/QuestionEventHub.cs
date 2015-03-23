@@ -9,6 +9,7 @@ using Crucial.Qyz.Events;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Web.Hosting;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -48,19 +49,19 @@ namespace API.Controllers
             Clients = clients;
         }
 
-        internal void QuestionCreateEventNotify(Models.Question question)
+        internal async Task QuestionCreateEventNotify(Models.Question question)
         {
-            Clients.All.questionCreated(question);
+            await Clients.All.questionCreated(question).ConfigureAwait(false);
         }
 
-        internal void QuestionTextChangedEventNotify(Models.Question question)
+        internal async Task QuestionTextChangedEventNotify(Models.Question question)
         {
-            Clients.All.questionTextChangedCreated(question);
+            await Clients.All.questionTextChangedCreated(question).ConfigureAwait(false);
         }
 
-        internal void QuestionDeletedEventNotify(int id)
+        internal async Task QuestionDeletedEventNotify(int id)
         {
-            Clients.All.questionDeleted(id);
+            await Clients.All.questionDeleted(id).ConfigureAwait(false);
         }
     }
 
@@ -69,19 +70,19 @@ namespace API.Controllers
         IEventHandler<QuestionTextChangedEvent>,
         IEventHandler<QuestionDeletedEvent>
     {
-        public void Handle(QuestionCreatedEvent handle)
+        public async Task Handle(QuestionCreatedEvent handle)
         {
-            QuestionEventBroadcaster.Instance.QuestionCreateEventNotify(new Models.Question { Id = handle.AggregateId, QuestionText = handle.Question, Version = handle.Version, CreatedDate = handle.Timestamp });
+            await QuestionEventBroadcaster.Instance.QuestionCreateEventNotify(new Models.Question { Id = handle.AggregateId, QuestionText = handle.Question, Version = handle.Version, CreatedDate = handle.Timestamp }).ConfigureAwait(false);
         }
 
-        public void Handle(QuestionTextChangedEvent handle)
+        public async Task Handle(QuestionTextChangedEvent handle)
         {
-            QuestionEventBroadcaster.Instance.QuestionTextChangedEventNotify(new Models.Question { Id = handle.AggregateId, QuestionText = handle.Question, Version = handle.Version, ModifiedDate = handle.Timestamp });
+            await QuestionEventBroadcaster.Instance.QuestionTextChangedEventNotify(new Models.Question { Id = handle.AggregateId, QuestionText = handle.Question, Version = handle.Version, ModifiedDate = handle.Timestamp }).ConfigureAwait(false);
         }
 
-        public void Handle(QuestionDeletedEvent handle)
+        public async Task Handle(QuestionDeletedEvent handle)
         {
-            QuestionEventBroadcaster.Instance.QuestionDeletedEventNotify(handle.AggregateId);
+            await QuestionEventBroadcaster.Instance.QuestionDeletedEventNotify(handle.AggregateId).ConfigureAwait(false);
         }
     }
 }

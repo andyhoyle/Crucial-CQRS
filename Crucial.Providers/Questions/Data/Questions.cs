@@ -7,7 +7,7 @@
 // 
 //     Configuration file:     "API\Web.config"
 //     Connection String Name: "DefaultConnection"
-//     Connection String:      "Data Source=(local);Initial Catalog=Qyz;Integrated Security=True"
+//     Connection String:      "Data Source=(local);Initial Catalog=QueryDB;Integrated Security=True"
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
@@ -17,10 +17,6 @@
 // ReSharper disable RedundantNameQualifier
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
@@ -28,6 +24,8 @@ using Crucial.Providers.Questions.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
 using Crucial.Framework.Data.EntityFramework;
 using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace Crucial.Providers.Questions.Data
 {

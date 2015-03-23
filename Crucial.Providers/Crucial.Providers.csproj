@@ -38,12 +38,14 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -54,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventStore\AggregateRepositoryAsync.cs" />
+    <Compile Include="EventStore\MementoRepositoryAsync.cs" />
+    <Compile Include="EventStore\EventRepositoryAsync.cs" />
     <Compile Include="EventStore\Data\AggregateRootConfiguration.cs">
       <DependentUpon>EventStore.tt</DependentUpon>
     </Compile>
@@ -69,12 +74,6 @@
       <DependentUpon>EventStore.tt</DependentUpon>
     </Compile>
     <Compile Include="EventStore\Data\EventStoreContext.cs">
-      <DependentUpon>EventStore.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EventStore\Data\FakeDbSet.cs">
-      <DependentUpon>EventStore.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EventStore\Data\FakeEventStoreContext.cs">
       <DependentUpon>EventStore.tt</DependentUpon>
     </Compile>
     <Compile Include="EventStore\Data\IEventStoreContext.cs">
@@ -116,18 +115,11 @@
     <Compile Include="Identity\Data\AspNetUserRoleConfiguration.cs">
       <DependentUpon>Identity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Identity\Data\FakeDbSet.cs">
-      <DependentUpon>Identity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Identity\Data\FakeIdentityDbContext.cs">
-      <DependentUpon>Identity.tt</DependentUpon>
-    </Compile>
     <Compile Include="Identity\Data\Identity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Identity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Identity\Data\IdentityContextProvider.cs" />
     <Compile Include="Identity\Data\IdentityDbContext.cs">
       <DependentUpon>Identity.tt</DependentUpon>
     </Compile>
@@ -155,14 +147,9 @@
     <Compile Include="Identity\Interfaces\IUserRepository.cs" />
     <Compile Include="Identity\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Questions\CategoryRepository.cs" />
+    <Compile Include="Questions\QuestionRepositoryAsync.cs" />
+    <Compile Include="Questions\CategoryRepositoryAsync.cs" />
     <Compile Include="Questions\Data\CategoryConfiguration.cs">
-      <DependentUpon>Questions.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Questions\Data\FakeDbSet.cs">
-      <DependentUpon>Questions.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Questions\Data\FakeQuestionsDbContext.cs">
       <DependentUpon>Questions.tt</DependentUpon>
     </Compile>
     <Compile Include="Questions\Data\IQuestionsDbContext.cs">
@@ -196,46 +183,33 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Questions.tt</DependentUpon>
     </Compile>
-    <Compile Include="Questions\QuestionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="EventStore\Data\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="EventStore\Data\EF.Reverse.POCO.ttinclude" />
     <None Include="EventStore\Data\EventStore.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EventStore.cs</LastGenOutput>
     </None>
-    <None Include="EventStore\Entities\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="EventStore\Entities\EF.Reverse.POCO.ttinclude" />
     <None Include="EventStore\Entities\EventStore.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EventStore.cs</LastGenOutput>
     </None>
-    <None Include="Identity\Data\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="Identity\Data\EF.Reverse.POCO.ttinclude" />
     <None Include="Identity\Data\Identity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Identity.cs</LastGenOutput>
     </None>
-    <None Include="Identity\Entities\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="Identity\Entities\EF.Reverse.POCO.ttinclude" />
     <None Include="Identity\Entities\Identity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Identity.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
-    <None Include="Questions\Data\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="Questions\Data\EF.Reverse.POCO.ttinclude" />
     <None Include="Questions\Data\Questions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Questions.cs</LastGenOutput>
     </None>
-    <None Include="Questions\Entities\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="Questions\Entities\EF.Reverse.POCO.ttinclude" />
     <None Include="Questions\Entities\Questions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Questions.cs</LastGenOutput>

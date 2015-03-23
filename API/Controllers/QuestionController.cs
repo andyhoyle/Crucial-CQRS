@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -29,16 +30,16 @@ namespace API.Controllers
         }
 
         // GET api/<controller>
-        public IEnumerable<API.Models.Question> Get()
+        public async Task<IEnumerable<API.Models.Question>> Get()
         {
-            var questions = _questionManager.GetQuestions();
+            var questions = await _questionManager.GetQuestions().ConfigureAwait(false);
             return questions.Select(c => _questionMapper.ToAnyEntity(c)).ToList();
         }
 
         // GET api/<controller>/5
-        public API.Models.Question Get(int id)
+        public async Task<API.Models.Question> Get(int id)
         {
-            var question = _questionManager.GetQuestion(id);
+            var question = await _questionManager.GetQuestion(id).ConfigureAwait(false);
             return _questionMapper.ToAnyEntity(question);
         }
 

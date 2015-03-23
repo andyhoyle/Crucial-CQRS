@@ -63,6 +63,9 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 <#if (!string.IsNullOrEmpty(CollectionTypeNamespace)){
         #>using <#=CollectionTypeNamespace#>;
 <#}#>
+using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace <#= Namespace #>
 {
@@ -72,7 +75,7 @@ namespace <#= Namespace #>
     // ************************************************************************
     // Unit of work
 <# } #>
-    public interface I<#=DbContextName#> : IDisposable
+    public interface I<#=DbContextName#> : IDbContextAsync, IDisposable
     {
 <#
 foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.NameHumanCase) select t)
@@ -84,7 +87,7 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 <# } #>
 <# } #>
 
-        int SaveChanges();
+        //int SaveChanges();
     }
 
 <# }
@@ -111,6 +114,15 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
             Database.SetInitializer<<#=DbContextName#>>(null);
         }
 
+		public static void Drop()
+        {
+            Database.SetInitializer<<#=DbContextName#>>(new DropCreateDatabaseAlways<<#=DbContextName#>>());
+            <#=DbContextName#> ctx = new <#=DbContextName#>();
+            ctx.Database.Initialize(true);
+            ctx.Dispose();
+            Database.SetInitializer<<#=DbContextName#>>(null);
+        }
+
         public <#=DbContextName#>()
             : base("Name=<#=ConnectionStringName#>")
         {
@@ -130,6 +142,13 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 <#}#>
         }
 
+		public <#=DbContextName#>(DbConnection connection) : base(connection, true)
+        {
+			Database.SetInitializer(new DropCreateDatabaseAlways<<#=DbContextName#>>());
+<#if(MakeClassesPartial) {#>        InitializePartial();
+<#}#>
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -142,6 +161,11 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 <# } #>
 <#if(MakeClassesPartial) {#>        OnModelCreatingPartial(modelBuilder);
 <#}#>
+        }
+
+		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
+            Entry<TEntity>(entityItem).State = state;
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
@@ -159,10 +183,6 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
         partial void InitializePartial();
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
 <#}#>
-		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
-        {
-            Entry<TEntity>(entityItem).State = state;
-        }
     }
 <# }
     if (ElementsToGenerate.HasFlag(Elements.Context) && AddUnitTestingDbContext)
@@ -174,8 +194,9 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
     // ************************************************************************
     // Fake Database context
 <# } #>
-    public class Fake<#=DbContextName #> : I<#=DbContextName #>
+    public class Fake<#=DbContextName #> : TestDbContextBase, I<#=DbContextName #>
     {
+
 <#
 foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.NameHumanCase) select t)
 {
@@ -189,18 +210,13 @@ foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.N
 foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.NameHumanCase) select t)
 {
 #>
-            <#=Inflector.MakePlural(tbl.NameHumanCase) #> = new FakeDbSet<<#=tbl.NameHumanCase #>>();
+            <#=Inflector.MakePlural(tbl.NameHumanCase) #> = new TestDbSet<<#=tbl.NameHumanCase #>>();
 <# } #>
         }
 
-        public int SaveChanges()
+		public DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
-            return 0;
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
         }
     }
 <#fileManager.StartNewFile("FakeDbSet" + FileExtension); #>
@@ -210,6 +226,7 @@ foreach (Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.N
     // ************************************************************************
     // Fake DbSet
 <# } #>
+
     public class FakeDbSet<T> : IDbSet<T> where T : class
     {
         private readonly HashSet<T> _data;

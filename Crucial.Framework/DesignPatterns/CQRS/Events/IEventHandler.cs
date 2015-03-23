@@ -8,6 +8,6 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Events
 {
     public interface IEventHandler<TEvent> where TEvent : Event
     {
-        void Handle(TEvent handle);
+        Task Handle(TEvent handle);
     }
 }

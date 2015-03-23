@@ -8,8 +8,8 @@ namespace Crucial.Services.Managers.Interfaces
 {
     public interface ICategoryManager
     {
-        IEnumerable<Crucial.Services.ServiceEntities.Category> GetUserCategories();
+        Task<IEnumerable<ServiceEntities.Category>> GetUserCategories();
 
-        ServiceEntities.Category GetUserCategory(int categoryId);
+        Task<ServiceEntities.Category> GetUserCategory(int categoryId);
     }
 }

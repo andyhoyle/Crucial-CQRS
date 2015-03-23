@@ -12,14 +12,14 @@ namespace Crucial.Qyz.EventHandlers
 {
     public class UserCategoryCreatedEventHandler : IEventHandler<UserCategoryCreatedEvent>
     {
-        private ICategoryRepository _categoryRepo;
+        private ICategoryRepositoryAsync _categoryRepo;
 
-        public UserCategoryCreatedEventHandler(ICategoryRepository categoryRepository)
+        public UserCategoryCreatedEventHandler(ICategoryRepositoryAsync categoryRepository)
         {
             _categoryRepo = categoryRepository;
         }
 
-        public void Handle(UserCategoryCreatedEvent handle)
+        public async Task Handle(UserCategoryCreatedEvent handle)
         {
             Category category = new Category()
             {
@@ -29,7 +29,7 @@ namespace Crucial.Qyz.EventHandlers
                 CreatedDate = handle.Timestamp
             };
 
-            _categoryRepo.Create(category);
+            await _categoryRepo.Create(category).ConfigureAwait(false);
         }
     }
 }

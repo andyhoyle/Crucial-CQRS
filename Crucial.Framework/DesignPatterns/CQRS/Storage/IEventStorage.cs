@@ -10,10 +10,10 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 {
     public interface IEventStorage
     {
-        IEnumerable<Event> GetEvents(int aggregateId);
-        void Save(AggregateRoot aggregate);
-        T GetMemento<T>(int aggregateId) where T : BaseMemento;
-        void SaveMemento(BaseMemento memento);
-        IEnumerable<Event> GetAllEvents();
+        Task<IEnumerable<Event>> GetEvents(int aggregateId);
+        Task Save(AggregateRoot aggregate);
+        Task<T> GetMemento<T>(int aggregateId) where T : BaseMemento;
+        Task SaveMemento(BaseMemento memento);
+        Task<IEnumerable<Event>> GetAllEvents();
     }
 }

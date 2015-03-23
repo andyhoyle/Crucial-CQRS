@@ -6,10 +6,6 @@
 // ReSharper disable RedundantNameQualifier
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
@@ -17,6 +13,8 @@ using Crucial.Providers.Questions.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
 using Crucial.Framework.Data.EntityFramework;
 using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace Crucial.Providers.Questions.Data
 {
@@ -56,6 +54,12 @@ namespace Crucial.Providers.Questions.Data
         InitializePartial();
         }
 
+		public QuestionsDbContext(DbConnection connection) : base(connection, true)
+        {
+			Database.SetInitializer(new DropCreateDatabaseAlways<QuestionsDbContext>());
+        InitializePartial();
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -64,6 +68,11 @@ namespace Crucial.Providers.Questions.Data
             modelBuilder.Configurations.Add(new QuestionConfiguration());
             modelBuilder.Configurations.Add(new QuestionAnswerConfiguration());
         OnModelCreatingPartial(modelBuilder);
+        }
+
+		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
+        {
+            Entry<TEntity>(entityItem).State = state;
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
@@ -76,9 +85,5 @@ namespace Crucial.Providers.Questions.Data
 
         partial void InitializePartial();
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
-		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
-        {
-            Entry<TEntity>(entityItem).State = state;
-        }
     }
 }

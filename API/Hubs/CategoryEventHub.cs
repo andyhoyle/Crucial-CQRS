@@ -9,6 +9,7 @@ using Crucial.Qyz.Events;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Web.Hosting;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -48,19 +49,19 @@ namespace API.Controllers
             Clients = clients;
         }
 
-        internal void UserCategoryCreateEventNotify(Models.Category category)
+        internal async Task UserCategoryCreateEventNotify(Models.Category category)
         {
-            Clients.All.userCategoryCreated(category);
+            await Clients.All.userCategoryCreated(category);
         }
 
-        internal void UserCategoryNameChangedEventNotify(Models.Category category)
+        internal async Task UserCategoryNameChangedEventNotify(Models.Category category)
         {
-            Clients.All.userCategoryNameChanged(category);
+            await Clients.All.userCategoryNameChanged(category);
         }
 
-        internal void UserCategoryDeletedEventNotify(int id)
+        internal async Task UserCategoryDeletedEventNotify(int id)
         {
-            Clients.All.userCategoryDeleted(id);
+            await Clients.All.userCategoryDeleted(id);
         }
     }
 
@@ -69,19 +70,19 @@ namespace API.Controllers
         IEventHandler<UserCategoryNameChangedEvent>,
         IEventHandler<UserCategoryDeletedEvent>
     {
-        public void Handle(UserCategoryCreatedEvent handle)
+        public async Task Handle(UserCategoryCreatedEvent handle)
         {
-            CategoryEventBroadcaster.Instance.UserCategoryCreateEventNotify(new Models.Category { Id = handle.AggregateId, Name = handle.Name, Version = handle.Version, CreatedDate = handle.Timestamp });
+            await CategoryEventBroadcaster.Instance.UserCategoryCreateEventNotify(new Models.Category { Id = handle.AggregateId, Name = handle.Name, Version = handle.Version, CreatedDate = handle.Timestamp });
         }
 
-        public void Handle(UserCategoryNameChangedEvent handle)
+        public async Task Handle(UserCategoryNameChangedEvent handle)
         {
-            CategoryEventBroadcaster.Instance.UserCategoryNameChangedEventNotify(new Models.Category { Id = handle.AggregateId, Name = handle.Name, Version = handle.Version, ModifiedDate = handle.Timestamp });
+            await CategoryEventBroadcaster.Instance.UserCategoryNameChangedEventNotify(new Models.Category { Id = handle.AggregateId, Name = handle.Name, Version = handle.Version, ModifiedDate = handle.Timestamp });
         }
 
-        public void Handle(UserCategoryDeletedEvent handle)
+        public async Task Handle(UserCategoryDeletedEvent handle)
         {
-            CategoryEventBroadcaster.Instance.UserCategoryDeletedEventNotify(handle.AggregateId);
+            await CategoryEventBroadcaster.Instance.UserCategoryDeletedEventNotify(handle.AggregateId);
         }
     }
 }

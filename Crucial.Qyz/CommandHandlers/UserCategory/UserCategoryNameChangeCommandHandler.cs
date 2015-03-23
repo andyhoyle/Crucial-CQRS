@@ -3,6 +3,7 @@ using Crucial.Framework.DesignPatterns.CQRS.Storage;
 using Crucial.Qyz.Commands.UserCategory;
 using Crucial.Qyz.Domain;
 using System;
+using System.Threading.Tasks;
 
 
 namespace Crucial.Qyz.CommandHandlers
@@ -16,7 +17,7 @@ namespace Crucial.Qyz.CommandHandlers
             _repository = repository;
         }
 
-        public void Execute(UserCategoryNameChangeCommand command)
+        public async Task Execute(UserCategoryNameChangeCommand command)
         {
             if (command == null)
             {
@@ -27,12 +28,12 @@ namespace Crucial.Qyz.CommandHandlers
                 throw new InvalidOperationException("Repository is not initialized.");
             }
 
-            var aggregate = _repository.GetById(command.Id);
+            var aggregate = await _repository.GetById(command.Id).ConfigureAwait(false);
 
             if (aggregate.Name != command.Name)
                 aggregate.ChangeName(command.Name);
 
-            _repository.Save(aggregate, command.Version);
+            await _repository.Save(aggregate, command.Version).ConfigureAwait(false);
         }
     }
 }

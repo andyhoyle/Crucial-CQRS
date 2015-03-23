@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Crucial.Services.Managers.Interfaces
 {
     public interface IQuestionManager
     {
-        IEnumerable<Crucial.Services.ServiceEntities.Question> GetQuestions();
+        Task<IEnumerable<Crucial.Services.ServiceEntities.Question>> GetQuestions();
 
-        ServiceEntities.Question GetQuestion(int questionId);
+        Task<ServiceEntities.Question> GetQuestion(int questionId);
     }
 }

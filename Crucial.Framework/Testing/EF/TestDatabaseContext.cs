@@ -20,6 +20,12 @@ namespace Crucial.Framework.Testing.EF
             return 1;
         }
 
+        public async Task<int> SaveChangesAsync()
+        {
+            this.SaveChangesCount++;
+            return 1;
+        }
+
         public Database Database
         {
             get { throw new NotImplementedException(); }

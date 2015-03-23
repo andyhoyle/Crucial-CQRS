@@ -6,10 +6,6 @@
 // ReSharper disable RedundantNameQualifier
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
@@ -17,10 +13,12 @@ using Crucial.Providers.Questions.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
 using Crucial.Framework.Data.EntityFramework;
 using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace Crucial.Providers.Questions.Data
 {
-    public interface IQuestionsDbContext : IDbContext, IDisposable
+    public interface IQuestionsDbContext : IDbContextAsync, IDisposable
     {
         IDbSet<Category> Categories { get; set; } // Category
         IDbSet<Question> Questions { get; set; } // Questions

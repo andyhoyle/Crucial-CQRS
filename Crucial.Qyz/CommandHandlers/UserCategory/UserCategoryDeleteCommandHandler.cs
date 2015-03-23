@@ -3,6 +3,7 @@ using Crucial.Framework.DesignPatterns.CQRS.Storage;
 using Crucial.Qyz.Commands.UserCategory;
 using Crucial.Qyz.Domain;
 using System;
+using System.Threading.Tasks;
 
 
 namespace Crucial.Qyz.CommandHandlers
@@ -16,7 +17,7 @@ namespace Crucial.Qyz.CommandHandlers
             _repository = repository;
         }
 
-        public void Execute(UserCategoryDeleteCommand command)
+        public async Task Execute(UserCategoryDeleteCommand command)
         {
             if (command == null)
             {
@@ -27,11 +28,11 @@ namespace Crucial.Qyz.CommandHandlers
                 throw new InvalidOperationException("Repository is not initialized.");
             }
 
-            var aggregate = _repository.GetById(command.Id);
+            var aggregate = await _repository.GetById(command.Id).ConfigureAwait(false);
 
             aggregate.Delete();
 
-            _repository.Save(aggregate, command.Version);
+            await _repository.Save(aggregate, command.Version).ConfigureAwait(false);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<#@ include file="EF.Reverse.POCO.Core.ttinclude" #>
+﻿<#@ include file="..\..\..\Crucial.Framework\Data\EntityFramework\T4Templating\EF.Reverse.POCO.Core.ttinclude" #>
 <#
     // v2.8.1
     // Please make changes to the settings below.
@@ -19,7 +19,7 @@
     DisableGeographyTypes = false; // Turns off use of System.Data.Entity.Spatial.DbGeography and System.Data.Entity.Spatial.DbGeometry as OData doesn't support entities with geometry/geography types.
     CollectionType = "List";  // Determines the type of collection for the Navigation Properties. "ObservableCollection" for example
     CollectionTypeNamespace = ""; // "System.Collections.ObjectModel" is required if setting the CollectionType = "ObservableCollection"
-    AddUnitTestingDbContext = true; // Will add a FakeDbContext and FakeDbSet for easy unit testing
+    AddUnitTestingDbContext = false; // Will add a FakeDbContext and FakeDbSet for easy unit testing
     
 
     // Pluralization **********************************************************************************************************************
@@ -133,5 +133,5 @@
     if (tables.Count > 0)
     {
 #>
-<#@ include file="EF.Reverse.POCO.ttinclude" #>
+<#@ include file="..\..\..\Crucial.Framework\Data\EntityFramework\T4Templating\EF.Reverse.POCO.ttinclude" #>
 <# } #>

@@ -8,6 +8,6 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Commands
 {
     public interface ICommandHandler<TCommand> where TCommand : Command
     {
-        void Execute(TCommand command);
+        Task Execute(TCommand command);
     }
 }

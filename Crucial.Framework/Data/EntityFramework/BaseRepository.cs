@@ -13,13 +13,18 @@ using System.Threading.Tasks;
 
 namespace Crucial.Framework.Data.EntityFramework
 {
+    public interface IDbContextAsync : IDbContext
+    {
+        Task<int> SaveChangesAsync();
+    }
+
     public interface IDbContext : IDisposable
     {
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         DbSet Set(Type entityType);
         IEnumerable<DbEntityValidationResult> GetValidationErrors();
-        //DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
-        void SetState<TEntity>(TEntity entity, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase;
+
+        void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase;
         DbEntityEntry Entry(object entity);
         int SaveChanges();
     }

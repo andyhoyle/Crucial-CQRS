@@ -7,7 +7,7 @@
 // 
 //     Configuration file:     "API\Web.config"
 //     Connection String Name: "EventStore"
-//     Connection String:      "Data Source=(local);Initial Catalog=EventStore;Integrated Security=True"
+//     Connection String:      "Data Source=(local);Initial Catalog=EventStoreDB;Integrated Security=True"
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
@@ -19,7 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
+using Crucial.Framework.Testing.EF;
+using Crucial.Framework.Data.EntityFramework;
+using System.Data.Common;
 
 namespace Crucial.Providers.EventStore.Entities
 {

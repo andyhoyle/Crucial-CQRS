@@ -19,9 +19,9 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Utils
             _eventBus = eventBus;
         }
 
-        public void RestoreState()
+        public async Task RestoreState()
         {
-            var events = _eventStore.GetAllEvents();
+            var events = await _eventStore.GetAllEvents().ConfigureAwait(false);
             _eventBus.Replay(events);
         }
     }
