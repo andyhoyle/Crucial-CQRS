@@ -12,8 +12,6 @@ using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.Questions.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
 using Crucial.Framework.Data.EntityFramework;
-using Crucial.Framework.Testing.EF;
-using Crucial.Framework.Data.EntityFramework;
 using System.Data.Common;
 
 namespace Crucial.Providers.Questions.Data
@@ -26,7 +24,7 @@ namespace Crucial.Providers.Questions.Data
 
         static QuestionsDbContext()
         {
-            Database.SetInitializer<QuestionsDbContext>(null);
+			Database.SetInitializer<QuestionsDbContext>(new CreateDatabaseIfNotExists<QuestionsDbContext>());
         }
 
 		public static void Drop()
@@ -56,7 +54,7 @@ namespace Crucial.Providers.Questions.Data
 
 		public QuestionsDbContext(DbConnection connection) : base(connection, true)
         {
-			Database.SetInitializer(new DropCreateDatabaseAlways<QuestionsDbContext>());
+			Database.SetInitializer(new CreateDatabaseIfNotExists<QuestionsDbContext>());
         InitializePartial();
         }
 
@@ -68,11 +66,6 @@ namespace Crucial.Providers.Questions.Data
             modelBuilder.Configurations.Add(new QuestionConfiguration());
             modelBuilder.Configurations.Add(new QuestionAnswerConfiguration());
         OnModelCreatingPartial(modelBuilder);
-        }
-
-		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
-        {
-            Entry<TEntity>(entityItem).State = state;
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)

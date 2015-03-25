@@ -8,8 +8,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Crucial.Framework.Testing.EF;
-using Crucial.Framework.Data.EntityFramework;
 using System.Data.Common;
 
 namespace Crucial.Providers.Questions.Entities

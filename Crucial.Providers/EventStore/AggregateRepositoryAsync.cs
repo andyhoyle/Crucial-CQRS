@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Crucial.Framework.Data.EntityFramework;
+using Crucial.Framework.Logging;
 
 namespace Crucial.Providers.EventStore
 {
@@ -20,5 +22,6 @@ namespace Crucial.Providers.EventStore
 
     public class AggregateRepositoryAsync : Crucial.Framework.Data.EntityFramework.Async.BaseRepository<IEventStoreContext, Entities.AggregateRoot, Entities.AggregateRoot>, IAggregateRepositoryAsync
     {
+        public AggregateRepositoryAsync(IContextProvider<IEventStoreContext> cp, ILogger logger) : base(cp, logger) { }
     }
 }

@@ -6,24 +6,25 @@ using Crucial.Framework.DesignPatterns.CQRS.Exceptions;
 using Crucial.Framework.DesignPatterns.CQRS.Events;
 using System.Threading.Tasks;
 using System.Threading;
+using Crucial.Framework.Threading;
 
 namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 {
     public class Repository<T> : IRepository<T> where T : AggregateRoot, new()
     {
         private readonly IEventStorage _storage;
-        private static object _lockObject = new object();
+        private static readonly NamedLocker _locker = new NamedLocker();
 
         public Repository(IEventStorage storage)
         {
             _storage = storage;
         }
 
-        public async Task Save(AggregateRoot aggregate, int expectedVersion)
+        public void Save(AggregateRoot aggregate, int expectedVersion)
         {
             if (aggregate.GetUncommittedChanges().Any())
             {
-                lock (_lockObject)
+                lock (_locker.GetLock(aggregate.Id.ToString()))
                 {
                     var item = new T();
 
@@ -33,12 +34,11 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 
                         if (item.Version != expectedVersion)
                         {
-                            throw new ConcurrencyException(string.Format("Aggregate {0} has been previously modified",
-                                                                         item.Id));
+                            throw new ConcurrencyException(string.Format("Aggregate {0} has been previously modified", item.Id));
                         }
                     }
 
-                    _storage.Save(aggregate);
+                    _storage.Save(aggregate).Wait();
                 }
             }
         }
@@ -56,11 +56,15 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
             {
                 events = await _storage.GetEvents(id).ConfigureAwait(false);
             }
-            var obj = new T();
-            if (memento != null)
-                ((IOriginator)obj).SetMemento(memento);
 
-            await obj.LoadsFromHistory(events).ConfigureAwait(false);
+            var obj = new T();
+
+            if (memento != null)
+            {
+                ((IOriginator) obj).SetMemento(memento);
+            }
+
+            await Task.Run(() => obj.LoadsFromHistory(events)).ConfigureAwait(false);
             return obj;
         }
     }

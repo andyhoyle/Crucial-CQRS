@@ -316,7 +316,7 @@ namespace Crucial.Framework.Logging
             if (_nLogger == null) return;
             if (_nLogger.IsEnabled(logLevel))
             {
-                if (parameters != null)
+                if (parameters != null && parameters.Length > 0)
                 {
                     string parametersString = BuildParameters(parameters);
                     message = string.Concat(message, "------- Params -------", parametersString);

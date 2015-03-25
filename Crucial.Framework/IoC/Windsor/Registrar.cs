@@ -62,12 +62,12 @@ namespace Crucial.Framework.IoC.Windsor
         public static void RegisterAllFromAssembliesEndingWith<T>(CrucialLifestyleType lifestyleType, string endsWith, bool performanceLogging = false)
         {
             Resolver.Container.Register(
-                AllTypes.FromAssemblyContaining<T>()
+                Classes.FromAssemblyContaining<T>()
                 .Where(t => t.Name.EndsWith(endsWith))
                 .WithService.AllInterfaces()
                 .Configure(c => c.LifeStyle.Is((LifestyleType)lifestyleType))
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                 )
             );
         }
@@ -75,7 +75,7 @@ namespace Crucial.Framework.IoC.Windsor
         public static void RegisterAllFromAssembliesNoInterceptors<T>()
         {
             Resolver.Container.Register(
-                AllTypes.FromAssemblyContaining<T>()
+                Classes.FromAssemblyContaining<T>()
                 .Where(t => t.Name.EndsWith("Interceptor"))
                 .WithService.AllInterfaces()
 
@@ -88,13 +88,13 @@ namespace Crucial.Framework.IoC.Windsor
         public static void RegisterAllFromAssemblies<T>(bool performanceLogging = false)
         {
             Resolver.Container.Register(
-                AllTypes.FromAssemblyContaining<T>()
+                Classes.FromAssemblyContaining<T>()
                 .BasedOn<Crucial.Framework.IoC.IAutoRegister>()
                 .WithService.FromInterface()
                 .Configure(
                     c => c.LifeStyle.Is(LifestyleType.Transient)
                 ).ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                 )
             );
         }
@@ -102,12 +102,12 @@ namespace Crucial.Framework.IoC.Windsor
         public static void RegisterAllFromAssemblies<T>(CrucialLifestyleType lifestyleType, bool performanceLogging = false)
         {
             Resolver.Container.Register(
-                AllTypes.FromAssemblyContaining<T>()
+                Classes.FromAssemblyContaining<T>()
                 .BasedOn<Crucial.Framework.IoC.IAutoRegister>()
                 .WithService.FromInterface()
                 .Configure(c => c.LifeStyle.Is((LifestyleType)lifestyleType))
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                 )
             );
         }
@@ -210,24 +210,24 @@ namespace Crucial.Framework.IoC.Windsor
         public static void RegisterAllFromAssembliesPerWcfOperation<T>(bool performanceLogging = false)
         {
             Resolver.Container.Register(
-                AllTypes.FromAssemblyContaining<T>()
+                Classes.FromAssemblyContaining<T>()
                 .BasedOn<Crucial.Framework.IoC.IAutoRegister>()
                 .WithService.FromInterface()
                 .LifestylePerWcfOperation()
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                 )
             );
         }
         public static void RegisterAllFromAssembliesEndingWithPerWcfOperation<T>(bool performanceLogging = false)
         {
             Resolver.Container.Register(
-                AllTypes.FromAssemblyContaining<T>()
+                Classes.FromAssemblyContaining<T>()
                 .Where(t => t.Name.EndsWith("Service"))
                 .WithService.AllInterfaces()
                 .LifestylePerWcfOperation()
                 .ConfigureIf(
-                    c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                    c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                 )
             );
         }

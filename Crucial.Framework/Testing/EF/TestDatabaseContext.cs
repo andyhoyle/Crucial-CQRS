@@ -22,7 +22,11 @@ namespace Crucial.Framework.Testing.EF
 
         public async Task<int> SaveChangesAsync()
         {
-            this.SaveChangesCount++;
+            await Task.Run(() =>
+            {
+                this.SaveChangesCount++;
+            }).ConfigureAwait(false);
+
             return 1;
         }
 

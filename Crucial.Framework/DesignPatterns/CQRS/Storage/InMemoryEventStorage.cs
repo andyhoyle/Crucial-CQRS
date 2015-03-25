@@ -27,7 +27,8 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 
         public async Task<IEnumerable<Event>> GetEvents(int aggregateId)
         {
-            var events = _events.Where(p => p.AggregateId == aggregateId).Select(p => p);
+            var events = await Task.Run(() => _events.Where(p => p.AggregateId == aggregateId).Select(p => p)).ConfigureAwait(false);
+            
             if (events.Count() == 0)
             {
                 throw new AggregateNotFoundException(string.Format("Aggregate with Id: {0} was not found", aggregateId));
@@ -38,7 +39,7 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 
         public async Task<IEnumerable<Event>> GetAllEvents()
         {
-            var events = _events.Select(p => p);
+            var events = await Task.Run(() => _events.Select(p => p)).ConfigureAwait(false);
             return events;
         }
 
@@ -57,7 +58,7 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
                         var originator = (IOriginator)aggregate;
                         var memento = originator.GetMemento();
                         memento.Version = version;
-                        SaveMemento(memento);
+                        await SaveMemento(memento);
                     }
                 }
                 @event.Version = version;
@@ -75,17 +76,24 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
             await Task.WhenAll(tasks);
         }
 
-        public async Task<T> GetMemento<T>(int aggregateId) where T : BaseMemento
+        public Task<T> GetMemento<T>(int aggregateId) where T : BaseMemento
         {
-            var memento = _mementos.Where(m => m.Id == aggregateId).Select(m => m);
+            return Task.Run(() => GetMementoSyncronous<T>(aggregateId));
+        }
+
+        private T GetMementoSyncronous<T>(int aggregateId) where T : BaseMemento
+        {
+            var memento = _mementos.FirstOrDefault(m => m.Id == aggregateId);
+            
             if (memento != null)
                 return (T)memento;
+            
             return null;
         }
 
-        public async Task SaveMemento(BaseMemento memento)
+        public Task SaveMemento(BaseMemento memento)
         {
-            _mementos.Add(memento);
+            return Task.Run(() => _mementos.Add(memento));
         }
     }
 }

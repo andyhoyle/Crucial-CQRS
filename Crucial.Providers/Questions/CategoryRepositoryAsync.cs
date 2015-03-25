@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Crucial.Framework.Data.EntityFramework;
+using Crucial.Framework.Logging;
 
 namespace Crucial.Providers.Questions
 {
@@ -19,5 +21,6 @@ namespace Crucial.Providers.Questions
 
     public class CategoryRepositoryAsync : Crucial.Framework.Data.EntityFramework.Async.BaseRepository<IQuestionsDbContext, Entities.Category, Entities.Category>, ICategoryRepositoryAsync
     {
+        public CategoryRepositoryAsync(IContextProvider<IQuestionsDbContext> cp, ILogger logger) : base(cp, logger) {}
     }
 }

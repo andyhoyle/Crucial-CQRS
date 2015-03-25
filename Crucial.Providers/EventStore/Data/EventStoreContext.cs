@@ -11,7 +11,6 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.EventStore.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
-using Crucial.Framework.Testing.EF;
 using Crucial.Framework.Data.EntityFramework;
 using System.Data.Common;
 
@@ -25,7 +24,7 @@ namespace Crucial.Providers.EventStore.Data
 
         static EventStoreContext()
         {
-            Database.SetInitializer<EventStoreContext>(null);
+			Database.SetInitializer<EventStoreContext>(new CreateDatabaseIfNotExists<EventStoreContext>());
         }
 
 		public static void Drop()
@@ -52,7 +51,7 @@ namespace Crucial.Providers.EventStore.Data
 
 		public EventStoreContext(DbConnection connection) : base(connection, true)
         {
-			Database.SetInitializer(new DropCreateDatabaseAlways<EventStoreContext>());
+			Database.SetInitializer(new CreateDatabaseIfNotExists<EventStoreContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -62,11 +61,6 @@ namespace Crucial.Providers.EventStore.Data
             modelBuilder.Configurations.Add(new AggregateRootConfiguration());
             modelBuilder.Configurations.Add(new BaseMementoConfiguration());
             modelBuilder.Configurations.Add(new EventConfiguration());
-        }
-
-		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
-        {
-            Entry<TEntity>(entityItem).State = state;
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)

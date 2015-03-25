@@ -35,6 +35,7 @@
         string ConnectionStringName = "";        		
         bool IncludeViews = true;
         bool AddUnitTestingDbContext = true;
+		bool CreateDatabaseIfNotExist = false;
         string DbContextName = "MyDbContext";
         string ConfigurationClassName = "Configuration";
         string CollectionType = "List";

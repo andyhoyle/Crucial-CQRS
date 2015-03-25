@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Crucial.Framework.Data.EntityFramework;
 using System.Diagnostics.CodeAnalysis;
+using Crucial.Framework.Logging;
 
 namespace Crucial.Framework.Data.EntityFramework.Async
 {
@@ -27,55 +28,78 @@ namespace Crucial.Framework.Data.EntityFramework.Async
         where TKey : Crucial.Framework.BaseEntities.ProviderEntityBase
     {
         protected TContext Context;
+        private readonly ILogger _logger;
 
-        protected BaseRepository()
+        protected BaseRepository(IContextProvider<TContext> contextProvider, ILogger logger)
         {
-            Context = new ContextProvider<TContext>().DbContext;
+            _logger = logger;
+            Context = contextProvider.DbContext;
         }
 
         public async Task<IEnumerable<TEntity>> GetAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryShaper, CancellationToken cancellationToken)
         {
+            _logger.Trace(String.Format("Get GetAsync In:IQ<{0}> Out:IQ{0} : Begin", typeof(TEntity).FullName));
+
             var query = queryShaper(Context.Set<TEntity>());
-            return await query.ToListAsync().ConfigureAwait(false);
+            var output = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+
+            _logger.Trace(String.Format("Get GetAsync IQ<{0}> in IQ{0} out: Begin", typeof(TEntity).FullName));
+
+            return output;
         }
 
 
         public async Task<TResult> GetAsync<TResult>(Func<IQueryable<TEntity>, TResult> queryShaper, CancellationToken cancellationToken)
         {
+            _logger.Trace(String.Format("Get GetAsync In:IQ<{0}> Out:{1} : Begin", typeof(TEntity).FullName, typeof(TResult).FullName));
+
             var factory = Task<TResult>.Factory;
-            return await factory.StartNew(() => queryShaper(Context.Set<TEntity>())).ConfigureAwait(false);
+            var output = await factory.StartNew(() => queryShaper(Context.Set<TEntity>()), cancellationToken).ConfigureAwait(false);
+
+            _logger.Trace(String.Format("Get GetAsync In:IQ<{0}> Out:{1} : End", typeof(TEntity).FullName, typeof(TResult).FullName));
+
+            return output;
         }
 
         public async Task<TKey> Create(TEntity entity)
         {
+            _logger.Trace(String.Format("Create {0}: Begin", typeof(TEntity).FullName));
+
             var output = Context.Set<TEntity>();
             TEntity result = output.Add(entity);
-            await Context.SaveChangesAsync().ConfigureAwait(false);
-            //try
-            //{
+            
+            try
+            {
+                await Context.SaveChangesAsync().ConfigureAwait(false);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                _logger.LogException(ex);
+                throw;
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                StringBuilder sb = new StringBuilder();
                 
-            //}
-            //catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
-            //{
-            //    //CrucialLogger.LogException(ex);
-            //    throw new Exception("Update exception, see inner exception for details", ex);
-            //}
-            //catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            //{
-            //    StringBuilder sb = new StringBuilder();
-            //    foreach (var er in ex.EntityValidationErrors)
-            //    {
-            //        sb.Append(er.ToString());
-            //    }
-            //    //CrucialLogger.LogException(ex);
-            //    throw new Exception("EF Validation failed, see inner exception for details:" + sb.ToString(), ex);
-            //}
+                foreach (var er in ex.EntityValidationErrors)
+                {
+                    sb.Append(er.ToString());
+                }
+                
+                _logger.Fatal(sb.ToString());
+                _logger.LogException(ex);
+                throw;
+            }
+            
+            _logger.Trace(String.Format("Create {0}: End", typeof(TEntity).FullName, result));
 
             return result as TKey;
         }
 
         public async Task<bool> Delete(TKey entity)
         {
+            _logger.Trace(String.Format("Delete {0}: Begin", typeof(TEntity).FullName));
+
             Context.Set<TKey>().Remove(entity);
 
             try
@@ -84,17 +108,20 @@ namespace Crucial.Framework.Data.EntityFramework.Async
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                //CrucialLogger.LogException(ex);
+                _logger.LogException(ex);
                 throw new Exception("EF Validation failed, see inner exception for details", ex);
             }
+
+            _logger.Trace(String.Format("Delete {0}: End", typeof(TEntity).FullName));
 
             return true;
         }
 
         public async Task<bool> Update(TEntity entity)
         {
-            Context.SetState(entity, EntityState.Modified);
-            //Context.Entry(entity).State = EntityState.Modified;
+            _logger.Trace(String.Format("Update {0}: Begin", typeof(TEntity).FullName));
+            
+            Context.Entry(entity).State = EntityState.Modified;
 
             try
             {
@@ -102,11 +129,13 @@ namespace Crucial.Framework.Data.EntityFramework.Async
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                //CrucialLogger.LogException(ex);
+                _logger.LogException(ex);
 
                 Context.Entry(entity).State = EntityState.Unchanged;
-                throw new Exception("EF Validation failed, see inner exception for details", ex);
+                throw;
             }
+
+            _logger.Trace(String.Format("Update {0}: End", typeof(TEntity).FullName));
 
             return true;
         }

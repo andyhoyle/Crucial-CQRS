@@ -10,6 +10,5 @@ namespace Crucial.Providers.Identity.Interfaces
 {
     public interface IIdentityContextProvider : Crucial.Framework.Data.EntityFramework.IDatabaseContextProvider
     {
-        DbContext DbContext { get; }
     }
 }

@@ -6,7 +6,7 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Storage
 {
     public interface IRepository<T> where T : AggregateRoot, new()
     {
-        Task Save(AggregateRoot aggregate, int expectedVersion);
+        void Save(AggregateRoot aggregate, int expectedVersion);
         Task<T> GetById(int id);
     }
 }

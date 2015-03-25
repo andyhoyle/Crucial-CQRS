@@ -31,12 +31,12 @@ namespace Crucial.Framework.IoC.Windsor
             // Retain a private copy of the kernel.
             this.container = container;
 
-            container.Register(AllTypes.FromAssembly(ass)
+            container.Register(Classes.FromAssembly(ass)
                             .BasedOn<IController>()
                             .If(t => t.Name.EndsWith("Controller"))
                             .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                             .ConfigureIf(
-                                c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                                c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                             )
             );
         }
@@ -46,12 +46,12 @@ namespace Crucial.Framework.IoC.Windsor
             // Retain a private copy of the kernel.
             this.container = container;
 
-            container.Register(AllTypes.FromAssembly(ass)
+            container.Register(Classes.FromAssembly(ass)
                             .BasedOn<IController>()
                             .If(t => t.Name.EndsWith("Controller"))
                             .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                             .ConfigureIf(
-                                c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                                c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                             )
             );
 
@@ -60,12 +60,12 @@ namespace Crucial.Framework.IoC.Windsor
             {
                 string path = HttpContext.Current.Server.MapPath("") + "\\bin\\" + assemblyName + ".dll";
 
-                container.Register(AllTypes.FromAssembly(Assembly.LoadFrom(path))
+                container.Register(Classes.FromAssembly(Assembly.LoadFrom(path))
                          .BasedOn<IController>()
                          .If(t => t.Name.EndsWith("Controller"))
                          .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                          .ConfigureIf(
-                            c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                            c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                          )
                 );
             }
@@ -85,12 +85,12 @@ namespace Crucial.Framework.IoC.Windsor
             this.container = container;
 
             // new method for MVC3 - used when this class is not in the same assembly as the contollers, controller are assumed to be in the calling assembly...
-            container.Register(AllTypes.FromAssembly(Assembly.GetCallingAssembly())
+            container.Register(Classes.FromAssembly(Assembly.GetCallingAssembly())
                             .BasedOn<IController>()
                             .If(t => t.Name.EndsWith("Controller"))
                             .Configure(c => c.LifeStyle.Is(LifestyleType.Transient))
                             .ConfigureIf(
-                                c => performanceLogging, c => c.Interceptors("Crucial.Common.Infra.Interceptors.PerformanceInterceptor")
+                                c => performanceLogging, c => c.Interceptors("Crucial.Framework.Interceptors.PerformanceInterceptor")
                             )
             );
         }
@@ -105,7 +105,7 @@ namespace Crucial.Framework.IoC.Windsor
             if (allAssemblies)
             {
                 container.Register(
-                    AllTypes.FromAssemblyInDirectory(
+                    Classes.FromAssemblyInDirectory(
                         new AssemblyFilter(HttpRuntime.BinDirectory)
                     )
                     .BasedOn<IController>()

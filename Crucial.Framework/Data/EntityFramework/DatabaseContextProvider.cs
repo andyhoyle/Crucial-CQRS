@@ -3,7 +3,12 @@
 
 namespace Crucial.Framework.Data.EntityFramework
 {
-    public class ContextProvider<T>
+    public interface IContextProvider<out T>
+    {
+        T DbContext { get; }
+    }
+
+    public class ContextProvider<T> : IContextProvider<T>
     {
         private readonly T _context;
 

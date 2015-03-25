@@ -25,8 +25,6 @@ namespace Crucial.Providers.Identity.Data
         IDbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims
         IDbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
         IDbSet<AspNetUserRole> AspNetUserRoles { get; set; } // AspNetUserRoles
-
-        int SaveChanges();
     }
 
 }

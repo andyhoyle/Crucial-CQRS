@@ -11,7 +11,6 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using Crucial.Providers.EventStore.Entities;
 //using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.DatabaseGeneratedOption;
-using Crucial.Framework.Testing.EF;
 using Crucial.Framework.Data.EntityFramework;
 using System.Data.Common;
 

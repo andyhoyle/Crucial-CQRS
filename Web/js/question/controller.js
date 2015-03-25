@@ -50,7 +50,7 @@
             .then(function (item) {
                 callback(item);
             }, function () {
-                cancel()
+                cancel();
             });
         }
 

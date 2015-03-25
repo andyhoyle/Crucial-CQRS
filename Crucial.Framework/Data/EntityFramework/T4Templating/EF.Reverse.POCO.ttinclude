@@ -63,8 +63,6 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 <#if (!string.IsNullOrEmpty(CollectionTypeNamespace)){
         #>using <#=CollectionTypeNamespace#>;
 <#}#>
-using Crucial.Framework.Testing.EF;
-using Crucial.Framework.Data.EntityFramework;
 using System.Data.Common;
 
 namespace <#= Namespace #>
@@ -87,7 +85,6 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 <# } #>
 <# } #>
 
-        //int SaveChanges();
     }
 
 <# }
@@ -111,7 +108,11 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 
         static <#=DbContextName#>()
         {
+<# if (CreateDatabaseIfNotExist) { #>
+			Database.SetInitializer<<#=DbContextName#>>(new CreateDatabaseIfNotExists<<#=DbContextName#>>());
+<# } else { #>
             Database.SetInitializer<<#=DbContextName#>>(null);
+<# } #>
         }
 
 		public static void Drop()
@@ -144,7 +145,7 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 
 		public <#=DbContextName#>(DbConnection connection) : base(connection, true)
         {
-			Database.SetInitializer(new DropCreateDatabaseAlways<<#=DbContextName#>>());
+			Database.SetInitializer(new CreateDatabaseIfNotExists<<#=DbContextName#>>());
 <#if(MakeClassesPartial) {#>        InitializePartial();
 <#}#>
         }
@@ -161,11 +162,6 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 <# } #>
 <#if(MakeClassesPartial) {#>        OnModelCreatingPartial(modelBuilder);
 <#}#>
-        }
-
-		public void SetState<TEntity>(TEntity entityItem, EntityState state) where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
-        {
-            Entry<TEntity>(entityItem).State = state;
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)

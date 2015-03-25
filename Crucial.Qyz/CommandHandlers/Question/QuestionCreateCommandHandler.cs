@@ -33,7 +33,7 @@ namespace Crucial.Qyz.CommandHandlers
 
             var aggregate = new Question(command.Id, command.QuestionText);
             aggregate.Version = -1;
-            await _repository.Save(aggregate, aggregate.Version).ConfigureAwait(false);
+            await Task.Run(() => _repository.Save(aggregate, command.Version)).ConfigureAwait(false);
         }
     }
 }

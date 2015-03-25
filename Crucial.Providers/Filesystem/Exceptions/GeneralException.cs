@@ -7,12 +7,13 @@ namespace Crucial.Providers.Filesystem.Exceptions
 {
     class GeneralException : Exception
     {
-        Object _Object;
-        Type _Type;
+        Object _object;
+        Type _type;
 
         public GeneralException(Object o, Type t)
         {
-            _Object = o;
+            _object = o;
+            _type = t;
         }
 
         public string Object

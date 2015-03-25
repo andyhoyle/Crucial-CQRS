@@ -168,12 +168,12 @@ namespace Crucial.Framework.DesignPatterns.Repository.Async.Extensions
         /// </code></example>
         [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Required for generics support." )]
         [SuppressMessage( "Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated by a code contract." )]
-        public async static Task<IEnumerable<T>> FindByAsync<T>( this IReadOnlyRepository<T> repository, Expression<Func<T, bool>> predicate ) where T : class
+        public static Task<IEnumerable<T>> FindByAsync<T>( this IReadOnlyRepository<T> repository, Expression<Func<T, bool>> predicate ) where T : class
         {
             Contract.Requires( repository != null );
             Contract.Requires( predicate != null );
             Contract.Ensures( Contract.Result<Task<IEnumerable<T>>>() != null );
-            return await repository.GetAsync( q => q.Where( predicate ), CancellationToken.None ).ConfigureAwait(false);
+            return repository.GetAsync( q => q.Where( predicate ), CancellationToken.None );
         }
 
         /// <summary>

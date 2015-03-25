@@ -6,7 +6,7 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Domain
 {
     public interface IEventProvider
     {
-        Task LoadsFromHistory(IEnumerable<Event> history);
+        void LoadsFromHistory(IEnumerable<Event> history);
         IEnumerable<Event> GetUncommittedChanges();
     }
 }

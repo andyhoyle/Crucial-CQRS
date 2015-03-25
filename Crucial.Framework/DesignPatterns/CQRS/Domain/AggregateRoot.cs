@@ -31,11 +31,17 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Domain
             _changes.Clear();
         }
 
-        public async Task LoadsFromHistory(IEnumerable<Event> history)
+        public void LoadsFromHistory(IEnumerable<Event> history)
         {
             if (history.Count() > 0)
             {
-                foreach (var e in history) ApplyChange(e, false);
+                List<Task> tasks = new List<Task>();
+                
+                foreach (var e in history)
+                {
+                    ApplyChange(e, false);
+                }
+
                 Version = history.Last().Version;
             }
 

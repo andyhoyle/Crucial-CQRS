@@ -17,7 +17,7 @@ module.factory('signalRHubProxy', ['$rootScope', 'signalRServer',
                             }
                         })
                         .fail(function (error) {
-                            console.log(error)
+                            console.log(error);
                         });
                 },
                 on: function (eventName, callback) {

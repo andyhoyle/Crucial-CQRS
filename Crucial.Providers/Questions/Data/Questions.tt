@@ -3,7 +3,7 @@
     // v2.8.1 
     // Please make changes to the settings below.
     // All you have to do is save this file, and the output file(s) is/are generated. Compiling does not regenerate the file(s).
-
+	
     // Misc settings **********************************************************************************************************************
     Namespace = "Crucial.Providers.Questions.Data"; // Override the default namespace here
     DbContextName = "QuestionsDbContext";
@@ -20,7 +20,7 @@
     CollectionType = "List";  // Determines the type of collection for the Navigation Properties. "ObservableCollection" for example
     CollectionTypeNamespace = "Crucial.Framework.Data.EntityFramework"; // "System.Collections.ObjectModel" is required if setting the CollectionType = "ObservableCollection"
     AddUnitTestingDbContext = false; // Will add a FakeDbContext and DbSet for easy unit testing
-    
+    CreateDatabaseIfNotExist = true;
 	
     // Pluralization **********************************************************************************************************************
     // To turn off pluralization, use:

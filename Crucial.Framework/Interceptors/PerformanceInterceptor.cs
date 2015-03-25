@@ -9,9 +9,9 @@ namespace Crucial.Framework.Interceptors
     {
         private readonly ILogger _logger;
 
-        public PerformanceInterceptor(ILogger CrucialLogger)
+        public PerformanceInterceptor(ILogger crucialLogger)
         {
-            _logger = CrucialLogger;
+            _logger = crucialLogger;
         }
 
         public void Intercept(IInvocation invocation)

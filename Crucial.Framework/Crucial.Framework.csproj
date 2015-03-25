@@ -199,6 +199,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\PasswordUtils.cs" />
     <Compile Include="Testing\EF\TestDatabaseContext.cs" />
+    <Compile Include="Threading\NamedLocker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

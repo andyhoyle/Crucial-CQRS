@@ -113,7 +113,7 @@ namespace Crucial.Tests
         }
 
         [TestMethod]
-        public void UserCategoryCreateCommandStoresAggregateRootInEventStore()
+        public async void UserCategoryCreateCommandStoresAggregateRootInEventStore()
         {
             //Arrange
             var catName = "Test Category 345";
@@ -121,7 +121,7 @@ namespace Crucial.Tests
             var command = new UserCategoryCreateCommand(catName);
 
             //Act
-            _commandBus.Send(command);
+            await _commandBus.Send(command);
             var agg = eContext.AggregateRoots.Where(x => x.Id == 1).FirstOrDefault();
 
             //Assert

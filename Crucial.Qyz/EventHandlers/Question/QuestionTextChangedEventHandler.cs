@@ -32,7 +32,7 @@ namespace Crucial.Qyz.EventHandlers
                 item.ModifiedDate = handle.Timestamp;
             }
 
-            _questionRepo.Update(item);
+            await _questionRepo.Update(item);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Crucial.Qyz.CommandHandlers
 
             aggregate.Delete();
 
-            await _repository.Save(aggregate, command.Version).ConfigureAwait(false);
+            await Task.Run(() => _repository.Save(aggregate, command.Version)).ConfigureAwait(false);
         }
     }
 }
