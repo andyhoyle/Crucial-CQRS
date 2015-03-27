@@ -4,6 +4,7 @@ using Crucial.Qyz.Commands.UserCategory;
 using Crucial.Qyz.Domain;
 using System;
 using System.Threading.Tasks;
+using Crucial.Framework.Logging;
 
 
 namespace Crucial.Qyz.CommandHandlers
@@ -11,10 +12,12 @@ namespace Crucial.Qyz.CommandHandlers
     public class UserCategoryNameChangeCommandHandler : ICommandHandler<UserCategoryNameChangeCommand>
     {
         private readonly IRepository<UserCategory> _repository;
+        private ILogger _logger;
 
-        public UserCategoryNameChangeCommandHandler(IRepository<UserCategory> repository)
+        public UserCategoryNameChangeCommandHandler(IRepository<UserCategory> repository, ILogger logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public async Task Execute(UserCategoryNameChangeCommand command)
@@ -27,6 +30,8 @@ namespace Crucial.Qyz.CommandHandlers
             {
                 throw new InvalidOperationException("Repository is not initialized.");
             }
+
+            _logger.Trace("UserCategoryNameChangeCommand", command);
 
             var aggregate = await _repository.GetById(command.Id).ConfigureAwait(false);
 

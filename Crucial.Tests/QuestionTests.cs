@@ -63,10 +63,13 @@ namespace Crucial.Tests
         {
             //Arrange
             var command = new QuestionCreateCommand("Test Question 1");
-            await _commandBus.Send(command);
+            var c1 = _commandBus.Send(command);
             
             var command2 = new QuestionTextChangeCommand(1, "Question Updated", 0);
-            await _commandBus.Send(command2);
+            var c2 = _commandBus.Send(command2);
+
+            await c1;
+            await c2;
 
             //Act
             var questions = await _questionRepo.FindByAsync(q => q.Id == 1).ConfigureAwait(false);

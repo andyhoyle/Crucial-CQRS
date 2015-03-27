@@ -34,47 +34,42 @@ namespace Api.Controllers
         // GET: api/User
         public async Task<IEnumerable<API.Models.Category>> Get()
         {
-            _logger.Trace("Get All Categories Start");
-            
             var categories = await _categoryManager.GetUserCategories().ConfigureAwait(false);
-            var categoriesList = categories.Select(c => _categoryMapper.ToAnyEntity(c)).ToList();
-
-            _logger.Trace("Get All Categories End");
-
-            return categoriesList;
+            return categories.Select(c => _categoryMapper.ToAnyEntity(c)).ToList();
         }
 
         // GET: api/User/5
         public async Task<Category> Get(int id)
         {
-            _logger.Trace(String.Format("Get Category: {0} Start",id));
-
             var category = await _categoryManager.GetUserCategory(id).ConfigureAwait(false);
-            var cat = _categoryMapper.ToAnyEntity(category);
-
-            _logger.Trace(String.Format("Get Category: {0} End", id));
-
-            return cat;
+            return _categoryMapper.ToAnyEntity(category);
         }
 
         // POST: api/User
         public async Task Post([FromBody]API.Models.Category value)
         {
-            _logger.Trace(String.Format("New Category: {0} Start", value.Name));
-
-            await _commandBus.Send(new UserCategoryCreateCommand(value.Name));
-
-            _logger.Trace(String.Format("New Category: {0} End", value.Name));
+            if(value !=null && !String.IsNullOrEmpty(value.Name))
+            {
+                await _commandBus.Send(new UserCategoryCreateCommand(value.Name));
+            } 
+            else
+            {
+                _logger.Error("Category name is not set");
+            }
         }
 
         // PUT: api/<controller>/5
         public async Task Put(int id, [FromBody]API.Models.Category value)
         {
-            _logger.Trace(String.Format("Edit Category Start: {0} Name: {1}", value.Id, value.Name));
-
-            await _commandBus.Send(new UserCategoryNameChangeCommand(value.Id, value.Name, value.Version));
-
-            _logger.Trace(String.Format("Edit Category End: {0} Name: {1}", value.Id, value.Name));
+            if(id > -1 && value !=null && !String.IsNullOrEmpty(value.Name))
+            {
+                await _commandBus.Send(new UserCategoryNameChangeCommand(value.Id, value.Name, value.Version));
+            } 
+            else
+            {
+                _logger.Error("Category name is not set");
+            }
+            
         }
 
         // DELETE: api/User/5
