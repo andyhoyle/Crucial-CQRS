@@ -105,8 +105,14 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 
 <# } #>
 <# } #>
+		private readonly bool _avoidDisposeForTesting = false;
+        
+		private void Configure() 
+		{
+			base.Configuration.LazyLoadingEnabled = <#=LazyLoading.ToString().ToLower()#>;
+		}
 
-        static <#=DbContextName#>()
+		static <#=DbContextName#>()
         {
 <# if (CreateDatabaseIfNotExist) { #>
 			Database.SetInitializer<<#=DbContextName#>>(new CreateDatabaseIfNotExists<<#=DbContextName#>>());
@@ -115,6 +121,7 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
 <# } #>
         }
 
+<# if(AllowDropDatabase) { #>
 		public static void Drop()
         {
             Database.SetInitializer<<#=DbContextName#>>(new DropCreateDatabaseAlways<<#=DbContextName#>>());
@@ -123,30 +130,36 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
             ctx.Dispose();
             Database.SetInitializer<<#=DbContextName#>>(null);
         }
+<# } #>
 
         public <#=DbContextName#>()
             : base("Name=<#=ConnectionStringName#>")
         {
-<#if(MakeClassesPartial) {#>        InitializePartial();
+			Configure();
+<#if(MakeClassesPartial) {#>            InitializePartial();
 <#}#>
         }
 
         public <#=DbContextName#>(string connectionString) : base(connectionString)
         {
-<#if(MakeClassesPartial) {#>        InitializePartial();
+			Configure();
+<#if(MakeClassesPartial) {#>            InitializePartial();
 <#}#>
         }
 
         public <#=DbContextName#>(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
         {
-<#if(MakeClassesPartial) {#>        InitializePartial();
+			Configure();
+<#if(MakeClassesPartial) {#>            InitializePartial();
 <#}#>
         }
 
-		public <#=DbContextName#>(DbConnection connection) : base(connection, true)
+		// For testing fake DB needs to be singleton and not call dispose 
+		public <#=DbContextName#>(DbConnection connection, bool avoidDisposeForTesting) : base(connection, true)
         {
 			Database.SetInitializer(new CreateDatabaseIfNotExists<<#=DbContextName#>>());
-<#if(MakeClassesPartial) {#>        InitializePartial();
+			_avoidDisposeForTesting = avoidDisposeForTesting;
+<#if(MakeClassesPartial) {#>            InitializePartial();
 <#}#>
         }
 
@@ -179,6 +192,14 @@ foreach(Table tbl in from t in tables.Where(t => !t.IsMapping).OrderBy(x => x.Na
         partial void InitializePartial();
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
 <#}#>
+		public void Dispose()
+        {
+            if (!_avoidDisposeForTesting)
+            {
+                base.Dispose();
+            }
+        }
+
     }
 <# }
     if (ElementsToGenerate.HasFlag(Elements.Context) && AddUnitTestingDbContext)

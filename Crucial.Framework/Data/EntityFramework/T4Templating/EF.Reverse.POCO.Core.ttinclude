@@ -36,6 +36,8 @@
         bool IncludeViews = true;
         bool AddUnitTestingDbContext = true;
 		bool CreateDatabaseIfNotExist = false;
+		bool AllowDropDatabase = true;
+		bool LazyLoading = false;
         string DbContextName = "MyDbContext";
         string ConfigurationClassName = "Configuration";
         string CollectionType = "List";

@@ -16,13 +16,19 @@ using System.Data.Common;
 
 namespace Crucial.Providers.Questions.Data
 {
-    public partial class QuestionsDbContext : DbContext, IQuestionsDbContext
+    public class QuestionsDbContext : DbContext, IQuestionsDbContext
     {
         public IDbSet<Category> Categories { get; set; } // Category
         public IDbSet<Question> Questions { get; set; } // Questions
         public IDbSet<QuestionAnswer> QuestionAnswers { get; set; } // QuestionAnswers
+		private readonly bool _avoidDisposeForTesting = false;
+        
+		private void Configure() 
+		{
+			base.Configuration.LazyLoadingEnabled = false;
+		}
 
-        static QuestionsDbContext()
+		static QuestionsDbContext()
         {
 			Database.SetInitializer<QuestionsDbContext>(new CreateDatabaseIfNotExists<QuestionsDbContext>());
         }
@@ -39,23 +45,24 @@ namespace Crucial.Providers.Questions.Data
         public QuestionsDbContext()
             : base("Name=DefaultConnection")
         {
-        InitializePartial();
+			Configure();
         }
 
         public QuestionsDbContext(string connectionString) : base(connectionString)
         {
-        InitializePartial();
+			Configure();
         }
 
         public QuestionsDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
         {
-        InitializePartial();
+			Configure();
         }
 
-		public QuestionsDbContext(DbConnection connection) : base(connection, true)
+		// For testing fake DB needs to be singleton and not call dispose 
+		public QuestionsDbContext(DbConnection connection, bool avoidDisposeForTesting) : base(connection, true)
         {
 			Database.SetInitializer(new CreateDatabaseIfNotExists<QuestionsDbContext>());
-        InitializePartial();
+			_avoidDisposeForTesting = avoidDisposeForTesting;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -65,7 +72,6 @@ namespace Crucial.Providers.Questions.Data
             modelBuilder.Configurations.Add(new CategoryConfiguration());
             modelBuilder.Configurations.Add(new QuestionConfiguration());
             modelBuilder.Configurations.Add(new QuestionAnswerConfiguration());
-        OnModelCreatingPartial(modelBuilder);
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
@@ -75,8 +81,13 @@ namespace Crucial.Providers.Questions.Data
             modelBuilder.Configurations.Add(new QuestionAnswerConfiguration(schema));
             return modelBuilder;
         }
+		public void Dispose()
+        {
+            if (!_avoidDisposeForTesting)
+            {
+                base.Dispose();
+            }
+        }
 
-        partial void InitializePartial();
-        partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
     }
 }

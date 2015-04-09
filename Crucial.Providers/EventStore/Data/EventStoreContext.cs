@@ -21,37 +21,40 @@ namespace Crucial.Providers.EventStore.Data
         public IDbSet<AggregateRoot> AggregateRoots { get; set; } // AggregateRoots
         public IDbSet<BaseMemento> BaseMementoes { get; set; } // BaseMementoes
         public IDbSet<Event> Events { get; set; } // Event
+		private readonly bool _avoidDisposeForTesting = false;
+        
+		private void Configure() 
+		{
+			base.Configuration.LazyLoadingEnabled = false;
+		}
 
-        static EventStoreContext()
+		static EventStoreContext()
         {
 			Database.SetInitializer<EventStoreContext>(new CreateDatabaseIfNotExists<EventStoreContext>());
         }
 
-		public static void Drop()
-        {
-            Database.SetInitializer<EventStoreContext>(new DropCreateDatabaseAlways<EventStoreContext>());
-            EventStoreContext ctx = new EventStoreContext();
-            ctx.Database.Initialize(true);
-            ctx.Dispose();
-            Database.SetInitializer<EventStoreContext>(null);
-        }
 
         public EventStoreContext()
             : base("Name=EventStore")
         {
+			Configure();
         }
 
         public EventStoreContext(string connectionString) : base(connectionString)
         {
+			Configure();
         }
 
         public EventStoreContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
         {
+			Configure();
         }
 
-		public EventStoreContext(DbConnection connection) : base(connection, true)
+		// For testing fake DB needs to be singleton and not call dispose 
+		public EventStoreContext(DbConnection connection, bool avoidDisposeForTesting) : base(connection, true)
         {
 			Database.SetInitializer(new CreateDatabaseIfNotExists<EventStoreContext>());
+			_avoidDisposeForTesting = avoidDisposeForTesting;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -70,5 +73,13 @@ namespace Crucial.Providers.EventStore.Data
             modelBuilder.Configurations.Add(new EventConfiguration(schema));
             return modelBuilder;
         }
+		public void Dispose()
+        {
+            if (!_avoidDisposeForTesting)
+            {
+                base.Dispose();
+            }
+        }
+
     }
 }

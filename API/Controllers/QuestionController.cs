@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Crucial.Qyz.Commands.UserCategory;
 
 namespace API.Controllers
 {
@@ -44,22 +45,29 @@ namespace API.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]API.Models.Question value)
+        public async Task Post([FromBody]API.Models.Question value)
         {
-            _commandBus.Send(new QuestionCreateCommand(value.QuestionText));
+            await _commandBus.Send(new QuestionCreateCommand(value.QuestionText));
         }
 
         // PUT: api/<controller>/5
-        public void Put(int id, [FromBody]API.Models.Question value)
+        public async Task Put(int id, [FromBody]API.Models.Question value)
         {
-            _commandBus.Send(new QuestionTextChangeCommand(value.Id, value.QuestionText, value.Version));
+            await _commandBus.Send(new QuestionTextChangeCommand(value.Id, value.QuestionText, value.Version));
         }
 
         // DELETE: api/<controller>/5
         [HttpPost]
-        public void Delete(int id, [FromBody]API.Models.Category value)
+        public async Task Delete(int id, [FromBody]API.Models.Question value)
         {
-            _commandBus.Send(new QuestionDeleteCommand(id, value.Version));
+            await _commandBus.Send(new QuestionDeleteCommand(id, value.Version));
         }
+
+        //[HttpPost]
+        //public async Task Category(int id, int actionId, [FromBody]API.Models.Question question)
+        //{
+        //    await _commandBus.Send(new AddQuestionToCategoryCommand(id, actionId, question.Version));
+        //}
+        //}
     }
 }

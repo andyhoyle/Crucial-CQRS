@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Crucial.Framework.DesignPatterns.Repository.Async.Extensions;
 using Crucial.Framework.Logging;
+using Crucial.Providers.Questions.Entities;
 
 namespace Crucial.Services.Managers
 {
@@ -42,6 +43,11 @@ namespace Crucial.Services.Managers
         {
             var providerEntity = await _categoryRepo.FindByAsync(x => x.Id == categoryId).ConfigureAwait(false);
             return _categoryMapper.ToServiceEntity(providerEntity.FirstOrDefault());
+        }
+        public async Task<IEnumerable<ServiceEntities.Question>> GetQuestionsInCategory(int id)
+        {
+            var providerEntities = await _categoryRepo.GetAsync(x => x.Where( o => o.Id == id).Select(o => o.Questions).FirstOrDefault()).ConfigureAwait(false);
+            return providerEntities.ToList().Select(_questionMapper.ToServiceEntity);
         }
 
         #endregion

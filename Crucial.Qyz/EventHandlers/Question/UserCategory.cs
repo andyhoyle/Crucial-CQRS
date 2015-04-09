@@ -16,21 +16,24 @@ namespace Crucial.Qyz.Domain
        IHandle<UserCategoryCreatedEvent>,
        IHandle<UserCategoryNameChangedEvent>,
        IHandle<UserCategoryDeletedEvent>,
+       IHandle<QuestionAddedToCategoryEvent>,
        IOriginator
     {
         #region Public Parameterless Constructor
 
         public UserCategory()
         {
-
+            Questions = new List<int>();
         }
 
         #endregion
 
         #region Public properties
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
         public DateTime CreatedDate { get; private set; }
+
+        public List<int> Questions { get; private set; } 
 
         #endregion
 
@@ -49,6 +52,11 @@ namespace Crucial.Qyz.Domain
         internal void Delete()
         {
             ApplyChange(new UserCategoryDeletedEvent(Id, Version, DateTime.UtcNow));
+        }
+
+        internal void AddQuestionToCategory(int questionId)
+        {
+            ApplyChange(new QuestionAddedToCategoryEvent(questionId, Id, Version, DateTime.UtcNow));
         }
 
         #endregion
@@ -89,6 +97,13 @@ namespace Crucial.Qyz.Domain
         {
             Id = e.AggregateId;
             Version = e.Version;
+        }
+
+        public void Handle(QuestionAddedToCategoryEvent e)
+        {
+            Id = e.AggregateId;
+            Version = e.Version;
+            Questions.Add(e.QuestionId);
         }
 
         #endregion

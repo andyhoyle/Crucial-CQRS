@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Crucial.Framework.Data.EntityFramework;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Remoting.Contexts;
 using Crucial.Framework.Logging;
 
 namespace Crucial.Framework.Data.EntityFramework.Async
@@ -27,93 +28,113 @@ namespace Crucial.Framework.Data.EntityFramework.Async
         where TEntity : Crucial.Framework.BaseEntities.ProviderEntityBase
         where TKey : Crucial.Framework.BaseEntities.ProviderEntityBase
     {
-        protected TContext Context;
         private ILogger _logger;
+        private readonly IContextProvider<TContext> _contextProvider;
 
         protected BaseRepository(IContextProvider<TContext> contextProvider, ILogger logger)
         {
+            _contextProvider = contextProvider;
             _logger = logger;
-            Context = contextProvider.DbContext;
         }
 
         public async Task<IEnumerable<TEntity>> GetAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryShaper, CancellationToken cancellationToken)
         {
-            var query = queryShaper(Context.Set<TEntity>());
-            return await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+            using (var context = _contextProvider.DbContext)
+            {
+                var query = queryShaper(context.Set<TEntity>());
+                return await query.ToListAsync(cancellationToken).ConfigureAwait(false);   
+            }
         }
 
 
         public async Task<TResult> GetAsync<TResult>(Func<IQueryable<TEntity>, TResult> queryShaper, CancellationToken cancellationToken)
         {
             var factory = Task<TResult>.Factory;
-            return await factory.StartNew(() => queryShaper(Context.Set<TEntity>()), cancellationToken).ConfigureAwait(false);
+
+            using (var context = _contextProvider.DbContext)
+            {
+                return
+                    await
+                        factory.StartNew(() => queryShaper(context.Set<TEntity>()), cancellationToken)
+                            .ConfigureAwait(false);
+            }
         }
 
         public async Task<TKey> Create(TEntity entity)
         {
-            var output = Context.Set<TEntity>();
-            TEntity result = output.Add(entity);
-            
-            try
+            using (var context = _contextProvider.DbContext)
             {
-                await Context.SaveChangesAsync().ConfigureAwait(false);
-            }
-            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
-            {
-                _logger.LogException(ex);
-                throw;
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                StringBuilder sb = new StringBuilder();
-                
-                foreach (var er in ex.EntityValidationErrors)
+                var output = context.Set<TEntity>();
+                TEntity result = output.Add(entity);
+
+                try
                 {
-                    sb.Append(er.ToString());
+                    await context.SaveChangesAsync().ConfigureAwait(false);
                 }
-                
-                _logger.Fatal(sb.ToString());
-                _logger.LogException(ex);
-                throw;
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                {
+                    _logger.LogException(ex);
+                    throw;
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var er in ex.EntityValidationErrors)
+                    {
+                        sb.Append(er.ToString());
+                    }
+
+                    _logger.Fatal(sb.ToString());
+                    _logger.LogException(ex);
+                    throw;
+                }
+
+                return result as TKey;
             }
-            
-            return result as TKey;
         }
 
         public async Task<bool> Delete(TKey entity)
         {
-            Context.Set<TKey>().Remove(entity);
-
-            try
+            using (var context = _contextProvider.DbContext)
             {
-                await Context.SaveChangesAsync().ConfigureAwait(false);
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                _logger.LogException(ex);
-                throw new Exception("EF Validation failed, see inner exception for details", ex);
-            }
+                context.Set<TKey>().Attach(entity);
+                context.Entry(entity).State = EntityState.Deleted;
 
-            return true;
+                try
+                {
+                    await context.SaveChangesAsync().ConfigureAwait(false);
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    _logger.LogException(ex);
+                    throw new Exception("EF Validation failed, see inner exception for details", ex);
+                }
+
+                return true;
+            }
         }
 
         public async Task<bool> Update(TEntity entity)
         {
-            Context.Entry(entity).State = EntityState.Modified;
-
-            try
+            using (var context = _contextProvider.DbContext)
             {
-                await Context.SaveChangesAsync().ConfigureAwait(false);
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                _logger.LogException(ex);
+                context.Entry(entity).State = EntityState.Modified;
 
-                Context.Entry(entity).State = EntityState.Unchanged;
-                throw;
-            }
+                try
+                {
+                    await context.SaveChangesAsync().ConfigureAwait(false);
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    _logger.LogException(ex);
 
-            return true;
+                    context.Entry(entity).State = EntityState.Unchanged;
+                    throw;
+                }
+
+                return true;
+            }
         }
     }
 }

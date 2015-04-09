@@ -15,6 +15,7 @@ using Crucial.Providers.EventStore.Data;
 using Crucial.Framework.IoC.StructureMapProvider;
 using Crucial.Framework.Logging;
 using Crucial.Providers.Questions.Data;
+using StructureMap.Pipeline;
 
 namespace API
 {
@@ -25,8 +26,8 @@ namespace API
             DependencyResolver.Register(x =>
             {
                 x.For(typeof(IContextProvider<>)).Use(typeof(ContextProvider<>));
-                x.For(typeof(IRepository<>)).Singleton().Use(typeof(Repository<>));
-                x.For<IEventStorage>().Singleton().Use<DatabaseEventStorage>();
+                x.For(typeof(IRepository<>)).Use(typeof(Repository<>));
+                x.For<IEventStorage>().Use<DatabaseEventStorage>();
                 x.For<IEventBus>().Use<EventBus>();
                 x.For<ICommandHandlerFactory>().Use<StructureMapCommandHandlerFactory>();
                 x.For<IEventHandlerFactory>().Use<StructureMapEventHandlerFactory>();
@@ -38,7 +39,7 @@ namespace API
                 x.For<ICategoryManager>().Use<QuestionManager>();
                 x.For<IStateHelper>().Use<StateHelper>();
                 x.For<ILogger>().Use<CrucialLogger>();
-                
+
                 x.Scan(scanner =>
                 {
                     scanner.AssemblyContainingType(typeof(CategoryRepositoryAsync));

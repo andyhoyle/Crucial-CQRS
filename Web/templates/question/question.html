@@ -9,7 +9,7 @@
                 </div>
                 <div class="md-tile-content">
                     <h3 ng-click="edit(question)" style="cursor: pointer;">{{question.QuestionText}}</h3>
-                    <h4>Created {{question.CreatedDate | fromNow}}</h4>
+                    <h4 ng-click="addToCategory(question)" style="cursor: pointer;">Created {{question.CreatedDate | fromNow}}</h4>
                     <h4 ng-show="question.ModifiedDate">Modified {{question.ModifiedDate | fromNow}}</h4>
                     <p>
                         Questions about x, y and z

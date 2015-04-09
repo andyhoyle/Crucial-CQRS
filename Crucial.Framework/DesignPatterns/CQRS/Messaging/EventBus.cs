@@ -32,16 +32,20 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
             await Task.WhenAll(eventHandlers);
         }
 
-        public void Replay(IEnumerable<Event> eventList)
+        public async Task Replay(IEnumerable<Event> eventList)
         {
             foreach (dynamic ev in eventList)
             {
                 var handlers = _eventHandlerFactory.GetHandlers(ev);
 
+                List<Task> tasks = new List<Task>();
+
                 foreach (var eventHandler in handlers)
                 {
-                    eventHandler.Handle(ev);
+                    tasks.Add(eventHandler.Handle(ev));
                 }
+
+                await Task.WhenAll(tasks);
             }
         }
     }

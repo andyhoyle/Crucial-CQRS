@@ -21,7 +21,9 @@
     CollectionTypeNamespace = "Crucial.Framework.Data.EntityFramework"; // "System.Collections.ObjectModel" is required if setting the CollectionType = "ObservableCollection"
     AddUnitTestingDbContext = false; // Will add a FakeDbContext and FakeDbSet for easy unit testing
     CreateDatabaseIfNotExist = true;
-	
+	AllowDropDatabase = false;
+	LazyLoading = false;
+
     // Pluralization **********************************************************************************************************************
     // To turn off pluralization, use:
     //      Inflector.PluralizationService = null;

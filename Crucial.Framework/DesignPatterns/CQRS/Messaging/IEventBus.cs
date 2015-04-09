@@ -8,6 +8,6 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Messaging
     public interface IEventBus
     {
         Task Publish<T>(T @event) where T : Event;
-        void Replay(IEnumerable<Event> eventList);
+        Task Replay(IEnumerable<Event> eventList);
     }
 }

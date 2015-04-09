@@ -11,5 +11,7 @@ namespace Crucial.Services.Managers.Interfaces
         Task<IEnumerable<ServiceEntities.Category>> GetUserCategories();
 
         Task<ServiceEntities.Category> GetUserCategory(int categoryId);
+        
+        Task<IEnumerable<ServiceEntities.Question>> GetQuestionsInCategory(int id);
     }
 }

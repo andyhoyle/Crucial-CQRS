@@ -17,7 +17,7 @@ using System.Data.Common;
 namespace Crucial.Providers.Questions.Data
 {
     // Questions
-    internal partial class QuestionConfiguration : EntityTypeConfiguration<Question>
+    internal class QuestionConfiguration : EntityTypeConfiguration<Question>
     {
         public QuestionConfiguration(string schema = "dbo")
         {
@@ -33,9 +33,7 @@ namespace Crucial.Providers.Questions.Data
             Property(x => x.Version).HasColumnName("Version").IsRequired();
             Property(x => x.CreatedDate).HasColumnName("CreatedDate").IsRequired();
             Property(x => x.ModifiedDate).HasColumnName("ModifiedDate").IsOptional();
-            InitializePartial();
         }
-        partial void InitializePartial();
     }
 
 }

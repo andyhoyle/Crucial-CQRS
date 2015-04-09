@@ -17,7 +17,7 @@ using System.Data.Common;
 namespace Crucial.Providers.Questions.Data
 {
     // QuestionAnswers
-    internal partial class QuestionAnswerConfiguration : EntityTypeConfiguration<QuestionAnswer>
+    internal class QuestionAnswerConfiguration : EntityTypeConfiguration<QuestionAnswer>
     {
         public QuestionAnswerConfiguration(string schema = "dbo")
         {
@@ -32,9 +32,7 @@ namespace Crucial.Providers.Questions.Data
 
             // Foreign keys
             HasRequired(a => a.Question).WithMany(b => b.QuestionAnswers).HasForeignKey(c => c.QuestionId); // FK_dbo.QuestionAnswers_dbo.Questions_QuestionId
-            InitializePartial();
         }
-        partial void InitializePartial();
     }
 
 }

@@ -98,6 +98,7 @@ namespace Crucial.EventStore
                     }
 
                     aggregateRoot.Version = version;
+                    await _aggregateRepository.Update(aggregateRoot).ConfigureAwait(false);
                 }
 
                 await _eventRepository.Create(_eventMapper.ToProviderEntity(@event)).ConfigureAwait(false);

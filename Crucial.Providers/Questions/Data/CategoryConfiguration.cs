@@ -17,7 +17,7 @@ using System.Data.Common;
 namespace Crucial.Providers.Questions.Data
 {
     // Category
-    internal partial class CategoryConfiguration : EntityTypeConfiguration<Category>
+    internal class CategoryConfiguration : EntityTypeConfiguration<Category>
     {
         public CategoryConfiguration(string schema = "dbo")
         {
@@ -36,9 +36,7 @@ namespace Crucial.Providers.Questions.Data
                 m.MapLeftKey("Category_Id");
                 m.MapRightKey("Question_Id");
             });
-            InitializePartial();
         }
-        partial void InitializePartial();
     }
 
 }

@@ -16,7 +16,7 @@
         }
     }
 
-    module.controller('QuestionController', ['$scope', 'Question', 'signalRHubProxy', 'UtilsService', '$mdDialog', function ($scope, Question, signalRHubProxy, utils, $mdDialog) {
+    module.controller('QuestionController', ['$scope', 'Question', 'QuestionActions', 'signalRHubProxy', 'UtilsService', '$mdDialog', function ($scope, Question, QuestionActions, signalRHubProxy, utils, $mdDialog) {
         /////////////////////////////
 
         $scope.question = {};
@@ -28,6 +28,8 @@
         $scope.toggle = toggle;
         $scope.addIcon = "add";
         $scope.getDeleteIcon = getDeleteIcon;
+
+        $scope.addToCategory = addToCategory;
 
         /////////////////////////////
 
@@ -75,6 +77,12 @@
             $scope.addIcon = "add";
             Question.update(ques);
             $scope.question = {};
+        }
+
+        function addToCategory(ques) {
+            ques.action = 'category';
+            ques.actionId = 1;
+            QuestionActions.save(ques);
         }
 
         function deleteQuestion(question) {

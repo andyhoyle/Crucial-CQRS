@@ -6,24 +6,12 @@ using Crucial.Framework.IoC.StructureMapProvider;
 using Crucial.Providers.EventStore.Data;
 using Crucial.Providers.Questions;
 using Crucial.Providers.Questions.Data;
-using Crucial.Qyz.Domain;
 using Crucial.Services.Managers;
 using Crucial.Services.Managers.Interfaces;
-using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StructureMap.Graph;
-using StructureMap.Configuration.DSL;
-using Crucial.Framework.DesignPatterns.CQRS.Commands;
-using Crucial.Qyz.CommandHandlers;
-using Crucial.Qyz.Commands;
 using Crucial.Providers.EventStore;
-using System.Data.Common;
 using Crucial.Framework.Data.EntityFramework;
 using Crucial.Framework.Logging;
+using StructureMap.Pipeline;
 
 namespace Crucial.Tests.Bootstrap
 {
@@ -35,7 +23,7 @@ namespace Crucial.Tests.Bootstrap
             {
                 // Actual implementation tested by these tests
                 x.For(typeof(IContextProvider<>)).Use(typeof(ContextProvider<>));
-                x.For(typeof(IRepository<>)).Singleton().Use(typeof(Repository<>));
+                x.For(typeof(IRepository<>)).Use(typeof(Repository<>));
                 x.For<IEventBus>().Use<EventBus>();
                 x.For<ICommandHandlerFactory>().Use<StructureMapCommandHandlerFactory>();
                 x.For<IEventHandlerFactory>().Use<StructureMapEventHandlerFactory>();
@@ -47,7 +35,7 @@ namespace Crucial.Tests.Bootstrap
                 x.For<IEventRepositoryAsync>().Use<EventRepositoryAsync>();
                 x.For<IAggregateRepositoryAsync>().Use<AggregateRepositoryAsync>();
                 x.For<IMementoRepositoryAsync>().Use<MementoRepositoryAsync>();
-                x.For<IEventStorage>().Singleton().Use<DatabaseEventStorage>();
+                x.For<IEventStorage>().Use<DatabaseEventStorage>();
                 x.For<IStateHelper>().Use<StateHelper>();
                 x.For<ILogger>().Use<CrucialLogger>();
 
@@ -62,8 +50,8 @@ namespace Crucial.Tests.Bootstrap
                 var testEventStore = Effort.DbConnectionFactory.CreateTransient();
                 var testQuestionsDb = Effort.DbConnectionFactory.CreateTransient();
 
-                x.For<IEventStoreContext>().Singleton().Use(() => new EventStoreContext(testEventStore));
-                x.For<IQuestionsDbContext>().Singleton().Use(() => new QuestionsDbContext(testQuestionsDb));
+                x.For<IEventStoreContext>().Singleton().Use(() => new EventStoreContext(testEventStore,true));
+                x.For<IQuestionsDbContext>().Singleton().Use(() => new QuestionsDbContext(testQuestionsDb,true));
             });
         }
     }

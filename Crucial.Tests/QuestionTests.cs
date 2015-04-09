@@ -94,10 +94,9 @@ namespace Crucial.Tests
             Assert.IsNotNull(question);
 
             var command2 = new QuestionDeleteCommand(1, 0);
-            await _commandBus.Send(command2);
+            await _commandBus.Send(command2).ConfigureAwait(false);
 
-            var questionsAfterDelete = await _questionRepo.FindByAsync(q => q.Id == 1).ConfigureAwait(false);
-            var questionAfterDelete = questionsAfterDelete.FirstOrDefault();
+            var questionAfterDelete = (await _questionRepo.FindByAsync(q => q.Id == 1).ConfigureAwait(false)).FirstOrDefault();
 
             //Act
             Assert.IsNull(questionAfterDelete);

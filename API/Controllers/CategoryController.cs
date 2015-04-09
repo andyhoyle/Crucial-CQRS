@@ -15,27 +15,35 @@ using Crucial.Framework.Logging;
 
 namespace Api.Controllers
 {
-    [EnableCors(origins: "http://localhost:8000,http://localhost:6307", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://localhost:6307,http://localhost:8000", headers: "*", methods: "*")]
     public class CategoriesController : ApiController
     {
         private readonly ILogger _logger;
         private readonly ICategoryManager _categoryManager;
         private readonly CategoryToCategoryMapper _categoryMapper;
+        private readonly QuestionToQuestionMapper _questionMapper;
         private readonly ICommandBus _commandBus;
 
         public CategoriesController(ICategoryManager categoryManager, ICommandBus commandBus, ILogger logger)
         {
             _categoryManager = categoryManager;
             _categoryMapper = new CategoryToCategoryMapper();
+            _questionMapper = new QuestionToQuestionMapper();
             _commandBus = commandBus;
             _logger = logger;
         }
+
+        //public async Task<IEnumerable<Question>> Questions(int id)
+        //{
+        //    var categories = await _categoryManager.GetQuestionsInCategory(id).ConfigureAwait(false);
+        //    return categories.Select(_questionMapper.ToAnyEntity);
+        //}
 
         // GET: api/User
         public async Task<IEnumerable<API.Models.Category>> Get()
         {
             var categories = await _categoryManager.GetUserCategories().ConfigureAwait(false);
-            return categories.Select(c => _categoryMapper.ToAnyEntity(c)).ToList();
+            return categories.Select(_categoryMapper.ToAnyEntity);
         }
 
         // GET: api/User/5
@@ -69,7 +77,6 @@ namespace Api.Controllers
             {
                 _logger.Error("Category name is not set");
             }
-            
         }
 
         // DELETE: api/User/5
