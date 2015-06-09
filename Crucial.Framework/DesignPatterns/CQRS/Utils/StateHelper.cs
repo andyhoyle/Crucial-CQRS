@@ -19,9 +19,14 @@ namespace Crucial.Framework.DesignPatterns.CQRS.Utils
             _eventBus = eventBus;
         }
 
+        /// <summary>
+        /// Takes all events from history and replays them to re-generate Query DB
+        /// </summary>
+        /// <returns></returns>
         public async Task RestoreState()
         {
             var events = await _eventStore.GetAllEvents().ConfigureAwait(false);
+
             _eventBus.Replay(events);
         }
     }

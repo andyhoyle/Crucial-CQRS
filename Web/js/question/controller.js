@@ -31,9 +31,16 @@
 
         $scope.addToCategory = addToCategory;
 
+        $scope.$on("$routeChangeSuccess", bindEvents);
+        $scope.$on("$destroy", unbindEvents);
+
         /////////////////////////////
 
         $scope.questions = Question.query();
+
+        var questionEventHub = null;
+
+        /////////////////////////////
 
         function getDeleteIcon(ques) {
             if (ques.isDeleted) {
@@ -100,24 +107,30 @@
             $scope.questions[idx].enabled = !$scope.questions[idx].enabled;
         }
 
-        var questionEventHub = signalRHubProxy(signalRHubProxy.defaultServer, 'questionEventHub', { logging: true });
+        function bindEvents() {
+            questionEventHub = signalRHubProxy(signalRHubProxy.defaultServer, 'questionEventHub', { logging: false });
 
-        questionEventHub.on('questionCreated', function (question) {
-            question.deleteIcon = "delete";
-            $scope.questions.push(question);
-        });
+            questionEventHub.on('questionCreated', function (question) {
+                question.deleteIcon = "delete";
+                $scope.questions.push(question);
+            });
 
-        questionEventHub.on('questionTextChangedCreated', function (question) {
-            question.CreatedDate = $scope.questions[utils.indexOf($scope.questions, question)].CreatedDate;
-            $scope.questions[utils.indexOf($scope.questions, question)] = question;
-        });
+            questionEventHub.on('questionTextChangedCreated', function (question) {
+                question.CreatedDate = $scope.questions[utils.indexOf($scope.questions, question)].CreatedDate;
+                $scope.questions[utils.indexOf($scope.questions, question)] = question;
+            });
 
-        questionEventHub.on('questionDeleted', function (id) {
-            var idx = utils.indexOf($scope.questions, { Id: id });
-            $scope.questions.splice(idx, 1);
-        });
-        
-        questionEventHub.start();
+            questionEventHub.on('questionDeleted', function (id) {
+                var idx = utils.indexOf($scope.questions, { Id: id });
+                $scope.questions.splice(idx, 1);
+            });
+
+            questionEventHub.start();
+        }
+
+        function unbindEvents() {
+            questionEventHub.stop();
+        }
     }]);
 
 })(window.angular);

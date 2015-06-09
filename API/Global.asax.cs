@@ -3,6 +3,7 @@ using Crucial.Providers.Questions.Data;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -19,11 +20,13 @@ namespace API
             Bootstrapper.BootstrapStructureMap();
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            //Force drop db
-            QuestionsDbContext.Drop();            
+            if(ConfigurationManager.AppSettings["RestoreStateOnAppStart"] != null && ConfigurationManager.AppSettings["RestoreStateOnAppStart"].ToUpper() == "TRUE") {
+                //Force drop db
+                QuestionsDbContext.Drop();
 
-            IStateHelper sh = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IStateHelper>();
-            sh.RestoreState();
+                IStateHelper sh = Crucial.Framework.IoC.StructureMapProvider.DependencyResolver.Container.GetInstance<IStateHelper>();
+                sh.RestoreState();
+            }
         }
     }
 }

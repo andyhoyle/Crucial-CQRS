@@ -2,13 +2,21 @@
 
 var module = angular.module('Qyz.SignalR', []);
 
-module.factory('signalRHubProxy', ['$rootScope', 'signalRServer',
+module.service('signalRHubProxy', ['$rootScope', 'signalRServer',
     function ($rootScope, signalRServer) {
         function signalRHubProxyFactory(serverUrl, hubName, startOptions) {
             var connection = $.hubConnection(signalRServer);
             var proxy = connection.createHubProxy(hubName);
-            
+
+            connection.logging = startOptions.logging;
+
             return {
+                running: function () {
+                    return connection;
+                },
+                stop: function () {
+                    connection.stop(true, true);
+                },
                 start: function () {
                     connection.start(startOptions)
                         .done(function () {

@@ -29,9 +29,16 @@
         $scope.addIcon = "add";
         $scope.getDeleteIcon = getDeleteIcon;
 
+        $scope.$on("$routeChangeSuccess", bindEvents);
+        $scope.$on("$destroy", unbindEvents);
+
         /////////////////////////////
 
         $scope.categories = Category.query();
+
+        var categoryEventHub = null;
+
+        /////////////////////////////
 
         function getDeleteIcon(cat) {
             if (cat.isDeleted) {
@@ -92,24 +99,40 @@
             $scope.categories[idx].enabled = !$scope.categories[idx].enabled;
         }
 
-        var categoryEventHub = signalRHubProxy(signalRHubProxy.defaultServer, 'categoryEventHub', { logging: true });
+        function unbindEvents() {
+            categoryEventHub.off('userCategoryCreated', categoryCreated);
+            categoryEventHub.off('userCategoryNameChanged', categoryNameChanged);
+            categoryEventHub.off('userCategoryDeleted', categoryDeleted);
+            categoryEventHub.stop();
+        }
 
-        categoryEventHub.on('userCategoryCreated', function (category) {
+        /// Event Handlers
+
+        function categoryCreated(category) {
             category.deleteIcon="delete";
             $scope.categories.push(category);
-        });
+        };
 
-        categoryEventHub.on('userCategoryNameChanged', function (category) {
+        function categoryNameChanged(category) {
             category.CreatedDate = $scope.categories[utils.indexOf($scope.categories, category)].CreatedDate
             $scope.categories[utils.indexOf($scope.categories, category)] = category;
-        });
+        }
 
-        categoryEventHub.on('userCategoryDeleted', function (id) {
+        function categoryDeleted(id) {
             var idx = utils.indexOf($scope.categories, { Id: id });
             $scope.categories.splice(idx, 1);
-        });
-        
-        categoryEventHub.start();
+        }
+
+        /// Hook up Event Handlers
+        function bindEvents() {
+            categoryEventHub = signalRHubProxy(signalRHubProxy.defaultServer, 'categoryEventHub', { logging: false });
+
+            categoryEventHub.on('userCategoryCreated', categoryCreated);
+            categoryEventHub.on('userCategoryNameChanged', categoryNameChanged);
+            categoryEventHub.on('userCategoryDeleted', categoryDeleted);
+
+            categoryEventHub.start();
+        }
     }]);
 
 })(window.angular);

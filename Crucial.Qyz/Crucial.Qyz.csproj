@@ -71,7 +71,7 @@
     <Compile Include="EventHandlers\UserCategory\QuestionAddedToCategoryEventHandler.cs" />
     <Compile Include="Events\Question\QuestionTextChangedEvent.cs" />
     <Compile Include="Domain\QuestionType.cs" />
-    <Compile Include="EventHandlers\Question\UserCategory.cs" />
+    <Compile Include="Domain\UserCategory.cs" />
     <Compile Include="EventHandlers\Question\QuestionCreatedEventHandler.cs" />
     <Compile Include="EventHandlers\UserCategory\UserCategoryCreatedEventHandler.cs" />
     <Compile Include="EventHandlers\UserCategory\UserCategoryDeletedEventHandler.cs" />
